@@ -5,33 +5,29 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ruprocon="http://ruprocon.com/jsp/jsfapp/runtimeJsf_2_2"
-	lang="${controller.htmlLanguage}">
-<f:view locale="en">
+	xmlns:p="http://primefaces.org/ui" lang="${controller.htmlLanguage}">
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="Content-Style-Type" content="text/css" />
 		<meta http-equiv="Content-Script-Type" content="text/javascript" />
 		<title>
-		  <h:outputText value="#{controller.questionaryTitle} - #{controller.screenTitle}" />
+			<h:outputText value="#{controller.title1} - " />
+			<ui:insert name="title" />
 		</title>
-		
+	
 		<!-- Scripts base para jsfapp -->
-        <ruprocon:scripts />
+	
+		<!-- Cargar estilos -->
+		<h:outputStylesheet name="style.css" library="css" />
 	</h:head>
-
+	
 	<h:body>
-		<f:view transient="false">
+		<f:view transient="false" locale="${controller.htmlLanguage}">
 			<ui:insert name="header" />
 			<ui:insert name="menu" />
 			<ui:insert name="breadcrumb" />
 			<ui:insert name="content" />
 			<ui:insert name="footer" />
-		
-			<!-- Cargar estilos -->
-	        <ruprocon:stylesheets />
 		</f:view>
 	</h:body>
-</f:view>
 </html>
