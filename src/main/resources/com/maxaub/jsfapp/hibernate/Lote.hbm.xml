@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22-abr-2016 1:08:12 by Hibernate Tools 5.1.0.Alpha1 -->
+<hibernate-mapping>
+    <class name="Lote" table="lote" catalog="tfg" optimistic-lock="version">
+        <composite-id name="id" class="LoteId">
+            <key-property name="prestamoIdPrestamo" type="int">
+                <column name="`prestamo_id prestamo`" />
+            </key-property>
+            <key-property name="prestamoAlumnoSocioDni" type="string">
+                <column name="prestamo_alumno_socio_DNI" length="9" />
+            </key-property>
+            <key-property name="libroIsbn" type="int">
+                <column name="libro_ISBN" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="libro" class="Libro" update="false" insert="false" fetch="select">
+            <column name="libro_ISBN" not-null="true" />
+        </many-to-one>
+        <many-to-one name="prestamo" class="Prestamo" update="false" insert="false" fetch="select">
+            <column name="`prestamo_id prestamo`" not-null="true" />
+            <column name="prestamo_alumno_socio_DNI" length="9" not-null="true" />
+        </many-to-one>
+        <property name="estado" type="string">
+            <column name="estado" length="45" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

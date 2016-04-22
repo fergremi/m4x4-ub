@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22-abr-2016 1:08:12 by Hibernate Tools 5.1.0.Alpha1 -->
+<hibernate-mapping>
+    <class name="Socio" table="socio" catalog="tfg" optimistic-lock="version">
+        <id name="dni" type="string">
+            <column name="DNI" length="9" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="16" not-null="true" />
+        </property>
+        <property name="apellidos" type="string">
+            <column name="apellidos" length="25" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="50" />
+        </property>
+        <property name="telefono" type="int">
+            <column name="telefono" not-null="true" unique="true" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="50" not-null="true" />
+        </property>
+        <property name="contrase&#241;a" type="string">
+            <column name="contrase&#241;a" length="45" not-null="true" />
+        </property>
+        <one-to-one name="alumno" class="Alumno"></one-to-one>
+    </class>
+</hibernate-mapping>
