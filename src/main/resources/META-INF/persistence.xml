@@ -4,21 +4,41 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
+	<!-- Unidad de persistencia definida en modo JPA 2.1 -->
 	<persistence-unit name="openjpa" transaction-type="JTA">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		
+		<jta-data-source>java:comp/env/jdbc/maxuab</jta-data-source>
 		
 		<class>model.Alumno</class>
 		<class>model.Libro</class>
 		<class>model.Lote</class>
 		<class>model.Prestamo</class>
 		<class>model.Socio</class>
-
+		
+		<exclude-unlisted-classes />
+		
 		<properties>
-			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
-			<property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/tfg"/>
-			<property name="openjpa.ConnectionUserName" value="root"/>
-			<property name="openjpa.ConnectionPassword" value="root"/>
-			<property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO"/>
+			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
+			<property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/tfg" />
+			<property name="openjpa.ConnectionUserName" value="root" />
+			<property name="openjpa.ConnectionPassword" value="root" />
+			<!-- <property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO"/> -->
+			
+			<!-- Workaround para que se pueda utilizar un nombre JNDI local en jta-data-source con OpenJPA -->
+			<property name="jboss.as.jpa.classtransformer" value="false"/>
+
+			<property name="jboss.as.jpa.providerModule" value="org.apache.openjpa" />
+
+			<property name="openjpa.DynamicEnhancementAgent" value="false" />
+			<property name="openjpa.TransactionMode" value="managed" />
+			<property name="openjpa.ManagedRuntime" value="jndi(TransactionManagerName=java:/TransactionManager)" />
+
+			<!-- Necesario en JBoss EAP 6.1+ y Wildfly 8+ para que no utilice JBossPersistenceMetaDataFactory -->
+			<property name="openjpa.MetaDataFactory" value="jpa" />
+
+			<!-- Utilizar log4j -->
+			<property name="openjpa.Log" value="log4j" />
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -1,4 +1,4 @@
-package controller;
+package maxaub.controller;
 
 
 import java.io.Serializable;
@@ -9,7 +9,7 @@ import javax.faces.bean.SessionScoped;
 
 import org.apache.log4j.Logger;
 
-import ejb.jpa.SocioFacade;
+import maxaub.ejb.jpa.SocioFacade;
 
 @ManagedBean
 @SessionScoped

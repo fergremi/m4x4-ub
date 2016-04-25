@@ -1,4 +1,4 @@
-package ejb.jpa;
+package maxaub.ejb.jpa;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;

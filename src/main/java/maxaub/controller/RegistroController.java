@@ -1,4 +1,4 @@
-package controller;
+package maxaub.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;

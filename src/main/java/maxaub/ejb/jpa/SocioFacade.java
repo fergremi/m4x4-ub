@@ -1,4 +1,4 @@
-package ejb.jpa;
+package maxaub.ejb.jpa;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 
-import ejb.interfaz.SocioDAO;
+import maxaub.ejb.interfaz.SocioDAO;
 import model.Socio;
 
 @Stateless

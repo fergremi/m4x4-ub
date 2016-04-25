@@ -1,4 +1,4 @@
-package ejb.interfaz;
+package maxaub.ejb.interfaz;
 
 import java.util.List;
 
