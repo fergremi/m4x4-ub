@@ -1,8 +1,6 @@
 package model;
 
-// default package
-// Generated 22-abr-2016 1:08:12 by Hibernate Tools 5.1.0.Alpha1
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="factura")
-public class Libro implements java.io.Serializable {
+public class Libro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer libroId;
@@ -120,7 +117,7 @@ public class Libro implements java.io.Serializable {
 		this.estado = estado;
 	}
 	
-    @Column(name="año edicion", columnDefinition="DATE", nullable=false)
+    @Column(name="año_edicion", columnDefinition="DATE", nullable=false)
 	public Date getAñoEdicion() {
         return this.añoEdicion;
     }
@@ -128,7 +125,7 @@ public class Libro implements java.io.Serializable {
         this.añoEdicion = añoEdicion;
     }
 	
-    @Column(name="año compra", columnDefinition="DATE", nullable=false)
+    @Column(name="año_compra", columnDefinition="DATE", nullable=false)
 	public Date getAñoCompra() {
         return this.añoCompra;
     }
@@ -136,9 +133,8 @@ public class Libro implements java.io.Serializable {
         this.añoCompra = añoCompra;
     }
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="lotes", nullable=false, insertable=true, updatable=true)
-	//TODO
+	//bi-directional one-to-many association to Lote
+	@OneToMany(mappedBy="libro", fetch=FetchType.LAZY)
 	public List<Lote> getLotes() {
 		return this.lotes;
 	}

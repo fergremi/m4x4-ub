@@ -1,8 +1,6 @@
 package model;
 
-// default package
-// Generated 22-abr-2016 1:08:12 by Hibernate Tools 5.1.0.Alpha1
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="prestamo")
-public class Prestamo implements java.io.Serializable {
+public class Prestamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private PrestamoId id;
@@ -57,9 +56,9 @@ public class Prestamo implements java.io.Serializable {
 		this.id = id;
 	}
 	
+	//bi-directional many-to-one association to Alumno
 	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="alumno", nullable=false, insertable=true, updatable=true)
-	//TODO
+    @JoinColumn(name="alumno", nullable=false)
 	public Alumno getAlumno() {
 		return this.alumno;
 	}
@@ -75,7 +74,7 @@ public class Prestamo implements java.io.Serializable {
 		this.fecha = fecha;
 	}
 	
-	@Column(name="tipo lote", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
+	@Column(name="tipo_lote", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
 	public String getTipoLote() {
 		return this.tipoLote;
 	}
@@ -91,9 +90,8 @@ public class Prestamo implements java.io.Serializable {
 		this.pagado = pagado;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="lotes", nullable=false, insertable=true, updatable=true)
-	//TODO
+	//bi-directional one-to-many association to Lote
+	@OneToMany(mappedBy="prestamo", fetch=FetchType.LAZY)
 	public List<Lote> getLotes() {
 		return this.lotes;
 	}

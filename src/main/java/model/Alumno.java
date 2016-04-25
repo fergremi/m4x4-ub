@@ -1,8 +1,6 @@
 package model;
 
-// default package
-// Generated 22-abr-2016 1:08:12 by Hibernate Tools 5.1.0.Alpha1
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="alumno")
-public class Alumno implements java.io.Serializable {
+public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idAlumno;
@@ -115,7 +114,7 @@ public class Alumno implements java.io.Serializable {
 		this.edad = edad;
 	}
 	
-    @Column(name="curso actual", columnDefinition="DATE", nullable=false)
+    @Column(name="curso_actual", columnDefinition="DATE", nullable=false)
 	public Date getCursoActual() {
 		return this.cursoActual;
 	}
@@ -123,7 +122,7 @@ public class Alumno implements java.io.Serializable {
 		this.cursoActual = cursoActual;
 	}
 	
-    @Column(name="curso futuro", columnDefinition="DATE", nullable=false)
+    @Column(name="curso_futuro", columnDefinition="DATE", nullable=false)
 	public Date getCursoFuturo() {
 		return this.cursoFuturo;
 	}
@@ -147,17 +146,8 @@ public class Alumno implements java.io.Serializable {
 		this.optativas = optativas;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="prestamos", nullable=false, insertable=true, updatable=true)
-	//@JoinColumn(name = "ECWI_ENCW_ID", columnDefinition = "NUMBER(19)",
-    //referencedColumnName = "ENCW_ID", nullable = false, updatable = true,
-    //insertable = true)
-	
-	//@OneToMany(mappedBy="prestamo", fetch=FetchType.LAZY)
-//	@ManyToOne(fetch = FetchType.EAGER)
-	//@JoinColumn(name = "HACC_ENCU_ID", nullable = true, insertable = true, updatable = false, columnDefinition = "NUMBER(19)")
-
-	//TODO
+	//bi-directional one-to-many association to Prestamo
+	@OneToMany(mappedBy="alumno", fetch=FetchType.LAZY)
 	public List<Prestamo> getPrestamos() {
 		return this.prestamos;
 	}

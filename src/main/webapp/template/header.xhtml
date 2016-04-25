@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition>
+		<div class="hidden-xs">
+			<div class="headerContainer">
+				<div class="headerLogoIne">
+				<h:graphicImage
+					alt="#{res['logo_INE'.concat(usuarioController.domnCod)]}"
+					title="#{res['logo_INE'.concat(usuarioController.domnCod)]}"
+					name="logo#{usuarioController.domnCod}.jpg"
+					library="images/logo"
+					styleClass="img-responsive" />
+				</div>
+				<div class="headerLogoIria">
+				<h:graphicImage
+					alt="#{res.logo_IRIA}"
+					title="#{res.logo_IRIA}"
+					name="iria.gif"
+					library="images/logo"
+					styleClass="img-responsive logoIria" />
+				</div>
+			</div>
+		</div>
+	</ui:composition>
+</html>

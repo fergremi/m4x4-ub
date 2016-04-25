@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<!-- INTERFACE -->
+<cc:interface displayName="Bootstrap alerts">
+	<cc:attribute name="type" default="danger"
+		shortDescription="Tipo de alerta: danger, warning, info, success"
+		type="java.lang.String" />
+	<cc:attribute name="message" required="false"
+		shortDescription="Mensaje a mostrar" type="java.lang.String" />
+	<cc:attribute name="styleClass" required="false"
+		shortDescription="Clase CSS" type="java.lang.String" />
+	<cc:attribute name="showIcon" required="false" default="true"
+		shortDescription="Si se tiene que mostrar un icono"
+		type="java.lang.Boolean" />
+	<cc:attribute name="showClose" required="false" default="false"
+		shortDescription="Si se tiene que mostrar un icono para cerrar la alerta"
+		type="java.lang.Boolean" />
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+	<c:choose>
+		<c:when test="#{cc.attrs.type eq 'danger'}">
+			<c:set var="alertStyleClass" value="alert-danger" />
+			<c:set var="alertGlyphicon" value="glyphicon-exclamation-sign" />
+		</c:when>
+		<c:when test="#{cc.attrs.type eq 'warning'}">
+			<c:set var="alertStyleClass" value="alert-warning" />
+			<c:set var="alertGlyphicon" value="glyphicon-warning-sign" />
+		</c:when>
+		<c:when test="#{cc.attrs.type eq 'info'}">
+			<c:set var="alertStyleClass" value="alert-info" />
+			<c:set var="alertGlyphicon" value="glyphicon-info-sign" />
+		</c:when>
+		<c:when test="#{cc.attrs.type eq 'success'}">
+			<c:set var="alertStyleClass" value="alert-success" />
+			<c:set var="alertGlyphicon" value="glyphicon-ok-sign" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="alertStyleClass" value="alert-danger" />
+			<c:set var="alertGlyphicon" value="glyphicon-exclamation-sign" />
+		</c:otherwise>
+	</c:choose>
+	<c:if test="#{cc.attrs.showClose}">
+		<c:set var="alertStyleClass"
+			value="#{alertStyleClass} alert-dismissible" />
+	</c:if>
+	<div class="alert #{alertStyleClass} #{cc.attrs.styleClass}"
+		role="alert">
+		<c:if test="#{cc.attrs.showClose}">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&#215;</span>
+			</button>
+		</c:if>
+		<c:if test="#{cc.attrs.showIcon}">
+			<span class="glyphicon #{alertGlyphicon}" aria-hidden="true" />
+			<h:outputText value=" " />
+		</c:if>
+		<h:outputText value="#{cc.attrs.message}" />
+		<cc:insertChildren />
+	</div>
+</cc:implementation>
+</html>

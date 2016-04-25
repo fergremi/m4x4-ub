@@ -15,6 +15,9 @@ import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
+import model.Alumno;
+import model.Socio;
+
 @ManagedBean
 @SessionScoped
 public class RegistroController implements Serializable {
@@ -29,11 +32,11 @@ public class RegistroController implements Serializable {
 	/**
 	 * Cursos
 	 */
-	private String cursoActual;//TODO es posible q pete -> pasar a Map
+	private String cursoActual;
 	private static Map<String, String> cursosActuales;
 	private List<SelectItem> cursosActualesListItems;
 
-	private String cursoFuturo;//TODO es posible q pete -> pasar a Map
+	private String cursoFuturo;
 	private static Map<String, String> cursosFuturos;
 	private List<SelectItem> cursosFuturosListItems;
 	
@@ -52,6 +55,8 @@ public class RegistroController implements Serializable {
 	private Boolean envioWhatsapp;
 	private Boolean colaborar;
 	
+	private Alumno alumno;
+	private Socio socio;
 
 	public RegistroController() {
 		showErrorRegistroAlumno = false;
@@ -84,6 +89,9 @@ public class RegistroController implements Serializable {
 		participar = true;
 		envioWhatsapp = true;
 		colaborar = true;
+		
+		alumno = null;
+		socio = null;
 	}
 
 	/**
@@ -172,13 +180,13 @@ public class RegistroController implements Serializable {
 			try {
 				for (String subgrupo : subgrupos) {
 					log.info("Subgrupo: " + subgrupo);
-					cursosFuturosListItems.add(new SelectItem(subgrupo, subgrupo));
+					subgruposListItems.add(new SelectItem(subgrupo, subgrupo));
 				}
 			} catch (Exception e) {
 				log.error(e);
 			}
 		}
-		return cursosFuturosListItems;
+		return subgruposListItems;
 	}
 
 	/**
@@ -249,7 +257,7 @@ public class RegistroController implements Serializable {
 		this.colaborar = colaborar;
 	}
 	
-	public void colaborar(ValueChangeEvent event) {
+	public void colaborarChange(ValueChangeEvent event) {
 		colaborar = null;
     }
 
@@ -293,5 +301,42 @@ public class RegistroController implements Serializable {
 	 */
 	public void setShowErrorRegistroColaborar(Boolean showErrorRegistroColaborar) {
 		this.showErrorRegistroColaborar = showErrorRegistroColaborar;
+	}
+
+	/**
+	 * @return the alumno
+	 */
+	public Alumno getAlumno() {
+		return alumno;
+	}
+
+	/**
+	 * @param alumno the alumno to set
+	 */
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
+	}
+
+	/**
+	 * @return the socio
+	 */
+	public Socio getSocio() {
+		return socio;
+	}
+
+	/**
+	 * @param socio the socio to set
+	 */
+	public void setSocio(Socio socio) {
+		this.socio = socio;
+	}
+	
+	public void doRegistroAlumno() {
+	}
+	
+	public void doRegistroTutor() {
+	}
+	
+	public void doRegistroColaborar() {
 	}
 }
