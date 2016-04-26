@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import model.Libro;
+import maxaub.model.Libro;
 
 @Local
 public interface LibroDAO {

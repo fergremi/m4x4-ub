@@ -20,6 +20,9 @@ public class LoginController implements Serializable {
 
     private String usuario;
     private String clave;
+    
+    private String nombre = "";
+    private Boolean loggedOn = false;
 
     private boolean showErrorLogin;
 
@@ -37,7 +40,6 @@ public class LoginController implements Serializable {
 	public String getUsuario() {
 		return usuario;
 	}
-
 	/**
 	 * @param usuario the usuario to set
 	 */
@@ -51,7 +53,6 @@ public class LoginController implements Serializable {
 	public String getClave() {
 		return clave;
 	}
-
 	/**
 	 * @param clave the clave to set
 	 */
@@ -64,11 +65,39 @@ public class LoginController implements Serializable {
 	
 	public void doLogin() {
 		//TODO comprobar usuario y clave en BD
-		if(socioFacade.comprobarSocio(usuario, clave)==null){
-			log.info("va a ser q no");
+		if (socioFacade.comprobarSocio(usuario, clave) == null){
+			log.info("Usuario y/o contraseña incorrecto/s");
 		}
 		else {
-		log.info(socioFacade.comprobarSocio(usuario, clave).getNombre());
+			nombre = socioFacade.comprobarSocio(usuario, clave).getNombre();
+			loggedOn = true;
+			log.info(nombre);
 		}
+	}
+
+	/**
+	 * @return the nombre
+	 */
+	public String getNombre() {
+		return nombre;
+	}
+	/**
+	 * @param nombre the nombre to set
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	/**
+	 * @return the loggedOn
+	 */
+	public Boolean getLoggedOn() {
+		return loggedOn;
+	}
+	/**
+	 * @param loggedOn the loggedOn to set
+	 */
+	public void setLoggedOn(Boolean loggedOn) {
+		this.loggedOn = loggedOn;
 	}
 }

@@ -3,25 +3,12 @@ package maxaub.ejb.jpa;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-import org.apache.log4j.Logger;
-
-import maxaub.ejb.interfaz.SocioDAO;
-import model.Socio;
+import maxaub.model.Socio;
 
 @Stateless
-public class SocioFacade {
-	@PersistenceContext(unitName = "openjpa")
-    private EntityManager entityManager;
-
-    protected final Logger log = Logger.getLogger(this.getClass().getName());
-
-    protected EntityManager getEntityManager() {
-        return entityManager;
-    }
-	
+public class SocioFacade extends BaseFacade {
 	@SuppressWarnings("unchecked")
 	public List<Socio> getSocios() {
 		return getEntityManager().createQuery("select s from socio s where s.activo=1 order by s.idSocio").getResultList();
@@ -43,6 +30,15 @@ public class SocioFacade {
 		}
 
 		// Consulta: buscamos una correspondencia usuario/clave          
-		return (Socio) getEntityManager().createQuery("SELECT s FROM Socio s WHERE s.dni='" + usuario + "' and s.clave='" + clave + "'").getResultList();
+		TypedQuery<Socio> query = getEntityManager().createQuery(
+				"SELECT s FROM Socio s WHERE s.dni= :usuario and s.clave= :clave",
+				Socio.class);
+		query.setParameter("usuario", usuario);
+		query.setParameter("clave", clave);
+		List<Socio> list = query.getResultList();
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+		return null;
 	}
 }

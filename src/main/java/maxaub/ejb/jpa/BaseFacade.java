@@ -8,25 +8,37 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
 public class BaseFacade {
+	protected final Logger log = Logger.getLogger(this.getClass().getName());
+
 	public final String PERSISTENCE_UNIT_NAME = "openjpa";
 	
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
+    
+    /**
+	 * @return the entityManagerFactory
+	 */
+	public EntityManagerFactory getEntityManagerFactory() {
+		return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+	}
 
-    protected final Logger LOG = Logger.getLogger(this.getClass().getName());
-
-    protected EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    protected <E> List<E> getNativeList(String select, Object... parameters) {
+	/**
+	 * @return the entityManager
+	 */
+	public EntityManager getEntityManager() {
+		return getEntityManagerFactory().createEntityManager();
+	}
+	
+	protected <E> List<E> getNativeList(String select, Object... parameters) {
         return getNativeList(select, null, parameters);
     }
 
@@ -34,7 +46,6 @@ public class BaseFacade {
             Object... parameters) {
         return getNativeList(select, clazz, getEntityManager(), parameters);
     }
-
     
     @SuppressWarnings("unchecked")
 	protected <E> List<E> getNativeList(String select, Class<E> clazz,
@@ -132,7 +143,7 @@ public class BaseFacade {
             return query.getSingleResult();
 
         } catch (NoResultException e) {
-            LOG.debug("getGenericSafeSingleResult: " + e);
+            log.debug("getGenericSafeSingleResult: " + e);
         }
 
         return null;

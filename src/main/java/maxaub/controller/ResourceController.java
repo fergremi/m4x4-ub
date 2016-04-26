@@ -49,7 +49,7 @@ public class ResourceController implements Map<String, String>, Serializable {
 
     public ResourceController() {
     }
-
+/*
     public static ResourceController getInstance() {
         return ControllerUtility.findController(ResourceController.class);
     }
@@ -157,7 +157,7 @@ public class ResourceController implements Map<String, String>, Serializable {
             }
         }
     }
-
+*/
 	@Override
 	public void clear() {
 	}
@@ -203,6 +203,16 @@ public class ResourceController implements Map<String, String>, Serializable {
 
 	@Override
 	public Collection<String> values() {
+		return null;
+	}
+	@Override
+	public boolean containsKey(Object key) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public String get(Object key) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

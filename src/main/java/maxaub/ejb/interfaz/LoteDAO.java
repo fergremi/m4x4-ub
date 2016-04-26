@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import model.Lote;
+import maxaub.model.Lote;
 
 @Local
 public interface LoteDAO {

@@ -15,8 +15,8 @@ import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
-import model.Alumno;
-import model.Socio;
+import maxaub.model.Alumno;
+import maxaub.model.Socio;
 
 @ManagedBean
 @SessionScoped
@@ -33,11 +33,11 @@ public class RegistroController implements Serializable {
 	 * Cursos
 	 */
 	private String cursoActual;
-	private static Map<String, String> cursosActuales;
+	private Map<String, String> cursosActuales;
 	private List<SelectItem> cursosActualesListItems;
 
 	private String cursoFuturo;
-	private static Map<String, String> cursosFuturos;
+	private Map<String, String> cursosFuturos;
 	private List<SelectItem> cursosFuturosListItems;
 	
 	/**

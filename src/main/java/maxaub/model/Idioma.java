@@ -1,4 +1,4 @@
-package model;
+package maxaub.model;
 
 import java.io.Serializable;
 
@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Idioma
+ */
 @Entity
-@Table(name="IDIOMAS")
+@Table(name="idioma")
 public class Idioma implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

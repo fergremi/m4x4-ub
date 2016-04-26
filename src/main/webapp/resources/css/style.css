@@ -169,7 +169,8 @@ ul {list-style-type:none}
 #rightPan form.form2 select {width:41px;height:20px;float:left;display:block;background:#fff;color:#000;font-size:14px;margin:0 0 0 4px} 
 #rightPan form.form2 input.search {width:60px;height:20px;float:right;display:block;background:url(images/botton2.gif) 100% 6px no-repeat #2F0000;border:none;color:#fff;font-size:12px;line-height:20px;padding:0 25px 0 0;position:absolute;top:78px;right:8px} 
 /* BOTTOM BODY PANEL */
-#bodyBottomPan {
+/* #bodyBottomPan { */
+.footer {
 	width:1000px;
 	height:150px;
 	background:url(images/imagen3.jpg) no-repeat center center;
