@@ -331,12 +331,15 @@ public class RegistroController implements Serializable {
 		this.socio = socio;
 	}
 	
-	public void doRegistroAlumno() {
+	public String doRegistroAlumno() {
+		return "success";
 	}
 	
-	public void doRegistroTutor() {
+	public String doRegistroTutor() {
+		return "success";
 	}
 	
-	public void doRegistroColaborar() {
+	public String doRegistroColaborar() {
+		return "success";
 	}
 }

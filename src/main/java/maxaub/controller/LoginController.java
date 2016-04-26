@@ -63,7 +63,7 @@ public class LoginController implements Serializable {
 	@EJB
 	private SocioFacade socioFacade;
 	
-	public void doLogin() {
+	public String doLogin() {
 		//TODO comprobar usuario y clave en BD
 		if (socioFacade.comprobarSocio(usuario, clave) == null){
 			log.info("Usuario y/o contraseña incorrecto/s");
@@ -73,6 +73,7 @@ public class LoginController implements Serializable {
 			loggedOn = true;
 			log.info(nombre);
 		}
+		return "path/success";
 	}
 
 	/**

@@ -1,29 +1,14 @@
 package maxaub.controller;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Id;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-
-import maxaub.UserContext;
 
 
 /**
@@ -37,10 +22,7 @@ import maxaub.UserContext;
 public class ResourceController implements Map<String, String>, Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/**
-     * Acceso al log.
-     */
-    private static final Logger LOG = Logger.getLogger(ResourceController.class);
+    private static final Logger log = Logger.getLogger(ResourceController.class);
     
     /**
      * Nombre del controlador con el que se publica en el contexto de JSF.
@@ -109,7 +91,7 @@ public class ResourceController implements Map<String, String>, Serializable {
         } catch (MissingResourceException e) {
             throw e;
         } catch (Exception e) {
-            LOG.error(e);
+            log.error(e);
         }
         return null;
     }
