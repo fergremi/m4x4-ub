@@ -1,4 +1,4 @@
-package maxaub.model;
+package maxaub.modelo;
 
 import java.io.Serializable;
 

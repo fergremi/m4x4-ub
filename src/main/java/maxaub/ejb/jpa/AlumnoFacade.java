@@ -3,24 +3,11 @@ package maxaub.ejb.jpa;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import org.apache.log4j.Logger;
-
-import maxaub.model.Alumno;
+import maxaub.modelo.Alumno;
 
 @Stateless
-public class AlumnoFacade {
-	@PersistenceContext(unitName = "openjpa")
-    private EntityManager entityManager;
-
-    protected final Logger log = Logger.getLogger(this.getClass().getName());
-
-    protected EntityManager getEntityManager() {
-        return entityManager;
-    }
-	
+public class AlumnoFacade extends BaseFacade {
 	@SuppressWarnings("unchecked")
 	public List<Alumno> getAlumnos() {
         return getEntityManager().createQuery("select f from alumno f order by f.idAlumno").getResultList();

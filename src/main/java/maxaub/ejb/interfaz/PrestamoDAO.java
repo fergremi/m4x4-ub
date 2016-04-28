@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import maxaub.model.Prestamo;
+import maxaub.modelo.Prestamo;
 
 @Local
 public interface PrestamoDAO {

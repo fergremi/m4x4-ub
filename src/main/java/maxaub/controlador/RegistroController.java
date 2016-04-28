@@ -1,4 +1,4 @@
-package maxaub.controller;
+package maxaub.controlador;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,15 +8,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.FlowEvent;
 
-import maxaub.model.Alumno;
-import maxaub.model.Socio;
+import maxaub.modelo.Alumno;
+import maxaub.modelo.Socio;
 
 @ManagedBean
 @SessionScoped
@@ -25,9 +28,7 @@ public class RegistroController implements Serializable {
 
 	private static final Logger log = Logger.getLogger(RegistroController.class);
 
-	private Boolean showErrorRegistroAlumno;
-	private Boolean showErrorRegistroTutor;
-	private Boolean showErrorRegistroColaborar;
+	private Boolean showErrorRegistro;
 	
 	/**
 	 * Cursos
@@ -57,11 +58,13 @@ public class RegistroController implements Serializable {
 	
 	private Alumno alumno;
 	private Socio socio;
+	
+	private Boolean saltar;
+	
+	private String clave2;
 
 	public RegistroController() {
-		showErrorRegistroAlumno = false;
-		showErrorRegistroTutor = false;
-		showErrorRegistroColaborar = false;
+		showErrorRegistro = false;
 		
 		cursoActual = null;
 		cursoFuturo = null;
@@ -90,34 +93,24 @@ public class RegistroController implements Serializable {
 		envioWhatsapp = true;
 		colaborar = true;
 		
-		alumno = null;
-		socio = null;
+		alumno = new Alumno();
+		socio = new Socio();
+		
+		saltar = false;
+		
+		clave2 = null;
 	}
 
-	/**
-	 * @return the cursoActual
-	 */
 	public String getCursoActual() {
 		return cursoActual;
 	}
-
-	/**
-	 * @param cursoActual the cursoActual to set
-	 */
 	public void setCursoActual(String cursoActual) {
 		this.cursoActual = cursoActual;
 	}
 	
-	/**
-	 * @return the cursoFuturo
-	 */
 	public String getCursoFuturo() {
 		return cursoFuturo;
 	}
-
-	/**
-	 * @param cursoFuturo the cursoFuturo to set
-	 */
 	public void setCursoFuturo(String cursoFuturo) {
 		this.cursoFuturo = cursoFuturo;
 	}
@@ -156,16 +149,9 @@ public class RegistroController implements Serializable {
 		return cursosFuturosListItems;
 	}
 
-	/**
-	 * @return the subgrupo
-	 */
 	public String getSubgrupo() {
 		return subgrupo;
 	}
-
-	/**
-	 * @param subgrupo the subgrupo to set
-	 */
 	public void setSubgrupo(String subgrupo) {
 		this.subgrupo = subgrupo;
 	}
@@ -189,16 +175,9 @@ public class RegistroController implements Serializable {
 		return subgruposListItems;
 	}
 
-	/**
-	 * @return the optativas
-	 */
 	public Boolean getOptativas() {
 		return optativas;
 	}
-
-	/**
-	 * @param optativas the optativas to set
-	 */
 	public void setOptativas(Boolean optativas) {
 		this.optativas = optativas;
 	}
@@ -207,16 +186,9 @@ public class RegistroController implements Serializable {
         optativas = null;
     }
 	
-	/**
-	 * @return the participar
-	 */
 	public Boolean getParticipar() {
 		return participar;
 	}
-
-	/**
-	 * @param participar the participar to set
-	 */
 	public void setParticipar(Boolean participar) {
 		this.participar = participar;
 	}
@@ -225,16 +197,9 @@ public class RegistroController implements Serializable {
 		participar = null;
     }
 	
-	/**
-	 * @return the envioWhatsapp
-	 */
 	public Boolean getEnvioWhatsapp() {
 		return envioWhatsapp;
 	}
-
-	/**
-	 * @param envioWhatsapp the envioWhatsapp to set
-	 */
 	public void setEnvioWhatsapp(Boolean envioWhatsapp) {
 		this.envioWhatsapp = envioWhatsapp;
 	}
@@ -243,16 +208,9 @@ public class RegistroController implements Serializable {
 		envioWhatsapp = null;
     }
 	
-	/**
-	 * @return the colaborar
-	 */
 	public Boolean getColaborar() {
 		return colaborar;
 	}
-
-	/**
-	 * @param colaborar the colaborar to set
-	 */
 	public void setColaborar(Boolean colaborar) {
 		this.colaborar = colaborar;
 	}
@@ -261,85 +219,54 @@ public class RegistroController implements Serializable {
 		colaborar = null;
     }
 
-	/**
-	 * @return the showErrorRegistroAlumno
-	 */
-	public Boolean getShowErrorRegistroAlumno() {
-		return showErrorRegistroAlumno;
+	public Boolean getShowErrorRegistro() {
+		return showErrorRegistro;
 	}
-
-	/**
-	 * @param showErrorRegistroAlumno the showErrorRegistroAlumno to set
-	 */
-	public void setShowErrorRegistroAlumno(Boolean showErrorRegistroAlumno) {
-		this.showErrorRegistroAlumno = showErrorRegistroAlumno;
+	public void setShowErrorRegistro(Boolean showErrorRegistro) {
+		this.showErrorRegistro = showErrorRegistro;
 	}
 	
-	/**
-	 * @return the showErrorRegistroTutor
-	 */
-	public Boolean getShowErrorRegistroTutor() {
-		return showErrorRegistroTutor;
-	}
-
-	/**
-	 * @param showErrorRegistroTutor the showErrorRegistroTutor to set
-	 */
-	public void setShowErrorRegistroTutor(Boolean showErrorRegistroTutor) {
-		this.showErrorRegistroTutor = showErrorRegistroTutor;
-	}
-	
-	/**
-	 * @return the showErrorColaborar
-	 */
-	public Boolean getShowErrorRegistroColaborar() {
-		return showErrorRegistroColaborar;
-	}
-
-	/**
-	 * @param showErrorColaborar the showErrorColaborar to set
-	 */
-	public void setShowErrorRegistroColaborar(Boolean showErrorRegistroColaborar) {
-		this.showErrorRegistroColaborar = showErrorRegistroColaborar;
-	}
-
-	/**
-	 * @return the alumno
-	 */
 	public Alumno getAlumno() {
 		return alumno;
 	}
-
-	/**
-	 * @param alumno the alumno to set
-	 */
 	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
 	}
 
-	/**
-	 * @return the socio
-	 */
 	public Socio getSocio() {
 		return socio;
 	}
-
-	/**
-	 * @param socio the socio to set
-	 */
 	public void setSocio(Socio socio) {
 		this.socio = socio;
 	}
 	
-	public String doRegistroAlumno() {
-		return "success";
+	public Boolean isSaltar() {
+        return saltar;
+    }
+ 
+    public void Saltar(Boolean saltar) {
+        this.saltar = saltar;
+    }
+    
+    public String getClave2() {
+		return clave2;
 	}
-	
-	public String doRegistroTutor() {
-		return "success";
+	public void setClave2(String clave2) {
+		this.clave2 = clave2;
 	}
+
+	public String onFlowProcess(FlowEvent event) {
+        if(saltar) {
+        	saltar = false;
+            return "confirm";
+        }
+        else {
+            return event.getNewStep();
+        }
+    }
 	
-	public String doRegistroColaborar() {
+	public String doRegistro() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
 		return "success";
 	}
 }

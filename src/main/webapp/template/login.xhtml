@@ -15,6 +15,8 @@
 			<p:messages id="formLoginMsg" globalOnly="true"
 				rendered="#{loginController.showErrorLogin}" />
 			<h:form id="formLogin" class="form1">
+				<p:growl id="growlLogin" showDetail="true" /> 
+			
 				<div class="form-group">
 					<h:outputLabel for="usuario" styleClass="titleFieldRequired"
 						value="#{res['login.usuario']}" />
@@ -46,8 +48,8 @@
 						class="linkAcceso" title="#{res['registrarse']}">#{res['Registrarse']}</a>
 				</div>
 	
-				<h:commandButton id="login" styleClass="btn btn-default"
-					action="#{loginController.doLogin}" value="#{res['login.submit']}" />
+				<p:commandButton id="login" styleClass="btn btn-default"
+					action="#{loginController.doLogin}" value="#{res['login.submit']}" update="growlLogin"/>
 			</h:form>
 	
 			<p>

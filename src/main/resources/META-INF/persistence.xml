@@ -8,13 +8,13 @@
 	<persistence-unit name="openjpa" transaction-type="JTA">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 		
-		<class>maxaub.model.Alumno</class>
-		<class>maxaub.model.Libro</class>
-		<class>maxaub.model.Lote</class>
-		<class>maxaub.model.LoteId</class>
-		<class>maxaub.model.Prestamo</class>
-		<class>maxaub.model.PrestamoId</class>
-		<class>maxaub.model.Socio</class>
+		<class>maxaub.modelo.Alumno</class>
+		<class>maxaub.modelo.Libro</class>
+		<class>maxaub.modelo.Lote</class>
+		<class>maxaub.modelo.LoteId</class>
+		<class>maxaub.modelo.Prestamo</class>
+		<class>maxaub.modelo.PrestamoId</class>
+		<class>maxaub.modelo.Socio</class>
 		
 		<exclude-unlisted-classes />
 		

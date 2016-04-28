@@ -1,15 +1,16 @@
-package maxaub.controller;
+package maxaub.controlador;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-
 
 /**
  * Controlador a nivel aplicación que contiene y resuelve los recursos
@@ -56,31 +57,8 @@ public class ResourceController implements Map<String, String>, Serializable {
             return false;
         }
     }
-
-    public static Locale getLocale() {
-        // Parche, para pillar bien el idioma seleccionado
-        try {
-            if (UserContext.getInstance().getSelectedIdioma() != null) {
-                String cod = UserContext.getInstance().getSelectedIdioma().getCod();
-                FacesContext.getCurrentInstance().getViewRoot()
-                        .setLocale(new Locale(cod, ""));
-            }
-        } catch (NullPointerException npe) {
-            // No hay user context
-        }
-        Locale locale = FacesContext.getCurrentInstance().getViewRoot()
-                .getLocale();
-
-        if (locale == null) {
-            locale = FacesContext.getCurrentInstance().getApplication()
-                    .getDefaultLocale();
-        }
-        if (locale == null) {
-            locale = new Locale("es", "");
-        }
-        return locale;
-    }
-
+*/
+/*
     private String innerGetTraduccion(Locale locale, String claveParaTraducir)
             throws MissingResourceException {
         try {

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/default.xhtml">
+	<ui:define name="title">
+		<h:outputText value="#{res['admin.titulo']}" />
+	</ui:define>
+	<ui:define name="leftPanel">
+		<h1>
+			<h:outputText value="#{res['admin.header']}" />
+		</h1>
+
+		<p>
+			<h:outputFormat value="#{res['admin.texto']}" />
+		</p>
+		
+		<p:tabView dynamic="true" cache="true">
+	        <p:tab title="Lotes">
+	            <h:panelGrid columns="2" cellpadding="10">
+	                <h:graphicImage library="images" name="logo.gif" />
+	                <h:outputText
+	                    value="The story begins as Don Vito Corleone..." />
+	            </h:panelGrid>
+	        </p:tab>
+	        <p:tab title="Socios/Alumnos">
+	            <h:panelGrid columns="2" cellpadding="10">
+	                <h:graphicImage library="images" name="logo.gif" />
+	                <h:outputText value="Francis Ford Coppola's legendary..." />
+	            </h:panelGrid>
+	        </p:tab>
+	        <p:tab title="Libros">
+	            <p:tabView dynamic="true" cache="true" orientation="left">
+			        <p:tab title="Consultar libros">
+			            <h:panelGrid columns="2" cellpadding="10">
+			                <h:graphicImage library="images" name="logo.gif" />
+			                <h:outputText value="After a break of more than 15 years..." />
+			            </h:panelGrid>
+			        </p:tab>
+			        <p:tab title="Depositar libros (manualmente)">
+			            <h:panelGrid columns="2" cellpadding="10">
+			                <h:graphicImage library="images" name="logo.gif" />
+			                <h:outputText
+			                    value="The story begins as Don Vito Corleone..." />
+			            </h:panelGrid>
+			        </p:tab>
+			        <p:tab title="Depositar libros (lector de código de barras)">
+			            <h:panelGrid columns="2" cellpadding="10">
+			                <h:graphicImage library="images" name="logo.gif" />
+			                <h:outputText value="Francis Ford Coppola's legendary..." />
+			            </h:panelGrid>
+			        </p:tab>
+			    </p:tabView>
+	        </p:tab>
+	    </p:tabView>
+	</ui:define>
+</ui:composition>

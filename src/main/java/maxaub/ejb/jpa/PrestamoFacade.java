@@ -3,24 +3,11 @@ package maxaub.ejb.jpa;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import org.apache.log4j.Logger;
-
-import maxaub.model.Prestamo;
+import maxaub.modelo.Prestamo;
 
 @Stateless
-public class PrestamoFacade {
-	@PersistenceContext(unitName = "openjpa")
-    private EntityManager entityManager;
-
-    protected final Logger log = Logger.getLogger(this.getClass().getName());
-
-    protected EntityManager getEntityManager() {
-        return entityManager;
-    }
-	
+public class PrestamoFacade extends BaseFacade {
 	@SuppressWarnings("unchecked")
 	public List<Prestamo> getPrestamos() {
         return getEntityManager().createQuery("select p from Prestamo p where order by p.idPrestamo").getResultList();

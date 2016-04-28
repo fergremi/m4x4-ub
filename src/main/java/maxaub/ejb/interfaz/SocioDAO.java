@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import maxaub.model.Socio;
+import maxaub.modelo.Socio;
 
 @Local
 public interface SocioDAO {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import maxaub.model.Alumno;
+import maxaub.modelo.Alumno;
 
 @Local
 public interface AlumnoDAO {
