@@ -6,9 +6,10 @@
 	<application>
 		<locale-config>
 			<default-locale>es</default-locale>
+			<supported-locale>va</supported-locale>
 		</locale-config>
 		<resource-bundle>
-    		<base-name>maxaub.controlador.ResourceController</base-name>
+    		<base-name>traduccion.maxaub</base-name>
 			<var>res</var>
 		</resource-bundle>
 	</application>

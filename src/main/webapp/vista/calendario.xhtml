@@ -13,12 +13,14 @@
 
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['calendario.header']}" />
+			<h:outputText value="#{res['calendario.header']}" escape="false" />
 		</h1>
-
-		<h:graphicImage library="images"
-			value="Calendari Escolar València ciutat 2015 - 2016.jpg"
+				
+		<h:graphicImage
 			alt="Calendari Escolar València ciutat 2015 - 2016.jpg"
+			title="Calendari Escolar València ciutat 2015 - 2016.jpg"
+			name="Calendari Escolar Valencia ciutat 2015 - 2016.jpg"
+			library="images"
 			style="width: 25%; text-align: center;" />
 	</ui:define>
 </ui:composition>

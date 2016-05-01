@@ -12,11 +12,11 @@
 	</ui:define>
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['inicio.header']}" />
+			<h:outputText value="#{res['inicio.header']}" escape="false" />
 		</h1>
 
 		<p>
-			<h:outputFormat value="#{res['inicio.texto']}" />
+			<h:outputFormat value="#{res['inicio.texto']}" escape="false" />
 		</p>
 	</ui:define>
 </ui:composition>

@@ -13,7 +13,7 @@
 
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['directiva.header']}" />
+			<h:outputText value="#{res['directiva.header']}" escape="false" />
 		</h1>
 
 		<p:dataTable var="directivo" value="#{directivaController.directivos}"
@@ -22,26 +22,26 @@
 				<f:facet name="header">
 					<h:outputText value="#{res['directiva.nombre']}" />
 				</f:facet>
-				<h:outputText value="#{directivo.nombre}" />
+				<h:outputText value="#{directivo.nombre}" escape="false" />
 			</p:column>
 
 			<p:column>
 				<f:facet name="header">
 					<h:outputText value="#{res['directiva.cargo']}" />
 				</f:facet>
-				<h:outputText value="#{directivo.cargo}" />
+				<h:outputText value="#{directivo.cargo}" escape="false" />
 			</p:column>
 
 			<p:column>
 				<f:facet name="header">
 					<h:outputText value="#{res['directiva.responsabilidad']}" />
 				</f:facet>
-				<h:outputText value="#{directivo.responsabilidad}" />
+				<h:outputText value="#{directivo.responsabilidad}" escape="false" />
 			</p:column>
 		</p:dataTable>
 
 		<p>
-			<h:outputFormat value="#{res['directiva.texto']}" />
+			<h:outputFormat value="#{res['directiva.texto']}" escape="false" />
 		</p>
 	</ui:define>
 </ui:composition>

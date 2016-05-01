@@ -11,9 +11,7 @@
 		<class>maxaub.modelo.Admin</class>
 		<class>maxaub.modelo.Alumno</class>
 		<class>maxaub.modelo.Estado</class>
-		<class>maxaub.modelo.Idioma</class>
 		<class>maxaub.modelo.Libro</class>
-		<class>maxaub.modelo.Literal</class>
 		<class>maxaub.modelo.Lote</class>
 		<class>maxaub.modelo.Prestamo</class>
 		<class>maxaub.modelo.Socio</class>

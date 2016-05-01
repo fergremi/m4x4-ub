@@ -12,11 +12,11 @@
 	</ui:define>
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['admin.header']}" />
+			<h:outputText value="#{res['admin.header']}" escape="false" />
 		</h1>
 
 		<p>
-			<h:outputFormat value="#{res['admin.texto']}" />
+			<h:outputFormat value="#{res['admin.texto']}" escape="false" />
 		</p>
 		
 		<p:tabView dynamic="true" cache="true">

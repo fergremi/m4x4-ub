@@ -6,13 +6,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
-	lang="${loginController.htmlLanguage.language}">
+	lang="${loginController.idioma.language}">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<title>
-		<!-- <h:outputText value="#{loginController.title1} - " /> --><ui:insert name="title" />
+		<h:outputText value="MAX AUB - " /><ui:insert name="title" />
 	</title>
 </h:head>
 <h:body>
@@ -25,7 +25,7 @@
 		rendered="#{themeController.theme == 'bootstrap/css'}" />
 	<h:outputStylesheet name="style.css" library="css" />
 
-	<f:view transient="false" locale="${loginController.htmlLanguage.language}">
+	<f:view transient="false" locale="${loginController.idioma}">
 		<div class="container-fluid">
 			<div class="header clearfix">
 				<ui:insert name="header">
@@ -41,6 +41,7 @@
 				<ui:insert name="breadcrumb" />
 			</div>
 			<div class="row-fluid">
+				<p:growl id="growl" showDetail="true" />
 				<div class="col-sm-10">
 					<ui:insert name="leftPanel" />
 				</div>

@@ -7,19 +7,17 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition>
-		<div class="">
+		<h:panelGroup layout="block" rendered="#{!loginController.socioLogged and !loginController.adminLogged}">
 			<h2>
-				<h:outputText value="#{res['login.header']}" />
+				<h:outputText value="#{res['login.header']}" escape="false" />
 			</h2>
 		
 			<p:messages id="formLoginMsg" globalOnly="true"
 				rendered="#{loginController.showErrorLogin}" />
 			<h:form id="formLogin" class="form1">
-				<p:growl id="growlLogin" showDetail="true" /> 
-			
 				<div class="form-group">
 					<h:outputLabel for="usuario" styleClass="titleFieldRequired"
-						value="#{res['login.usuario']}" />
+						value="#{res['login.usuario']}" escape="false" />
 					<h:panelGroup layout="block">
 						<h:inputText autocomplete="off"
 							styleClass="form-control fieldInputRequired" id="usuario"
@@ -32,7 +30,7 @@
 	
 				<div class="form-group">
 					<h:outputLabel for="clave" styleClass="titleFieldRequired"
-						value="#{res['login.clave']}" />
+						value="#{res['login.clave']}" escape="false" />
 					<h:panelGroup layout="block">
 						<h:inputSecret autocomplete="off"
 							styleClass="form-control fieldInputRequired" id="clave"
@@ -43,19 +41,18 @@
 					</h:panelGroup>
 				</div>
 	
-	
 				<p:commandButton id="login" styleClass="btn btn-default"
-					action="#{loginController.doLogin}" value="#{res['login.submit']}" update="growlLogin"/>
+					action="#{loginController.login}" value="#{res['login.submit']}" escape="false" update="growl"/>
 			</h:form>
 	
 			<div class="linksAccesoRegistrado">
 				<a href="${request.contextPath}/vista/registro.jsf"
-					class="linkAcceso" title="#{res['registrarse']}">#{res['Registrarse']}</a>
+					class="linkAcceso" title="#{res['login.registro']}">#{res['login.registro']}</a>
 			</div>
 
 			<p>
-				<h:outputFormat value="#{res['login.enlaces']}" />
+				<h:outputFormat value="#{res['login.enlaces']}" escape="false" />
 			</p>
-		</div>
+		</h:panelGroup>
 	</ui:composition>
 </html>

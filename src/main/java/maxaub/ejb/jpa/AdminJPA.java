@@ -32,8 +32,7 @@ public class AdminJPA extends BaseJPA implements AdminDAO {
             return null;
         }
 		
-		String sql = "SELECT a FROM Admin a WHERE a.usuario = :usuario and a.clave = :clave"
-				+ " AND s.activo = '1'";
+		String sql = "SELECT a FROM Admin a WHERE a.usuario = :usuario and a.clave = :clave";
 		TypedQuery<Admin> query = getEntityManager().createQuery(sql, Admin.class);
 		query.setParameter("usuario", usuario);
 		query.setParameter("clave", clave);

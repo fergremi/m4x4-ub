@@ -12,11 +12,11 @@
 	</ui:define>
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['contacto.header']}" />
+			<h:outputText value="#{res['contacto.header']}" escape="false" />
 		</h1>
 
 		<p>
-			<h:outputFormat value="#{res['contacto.texto']}" />
+			<h:outputFormat value="#{res['contacto.texto']}" escape="false" />
 		</p>
 
 		<iframe

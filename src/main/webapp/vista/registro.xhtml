@@ -13,28 +13,28 @@
 
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['registro.header']}" />
+			<h:outputText value="#{res['registro.header']}" escape="false" />
 		</h1>
 
 		<p>
-			<h:outputFormat value="#{res['registro.texto']}" />
+			<h:outputFormat value="#{res['registro.texto']}" escape="false" />
 		</p>
 
-
+<style>
+#form label {
+color: black;}
+</style>
 		
 		<h:form id="form" style="text-align: center;">
-			<p:growl id="growlRegistro" showDetail="true" />
-			
 			<p:wizard flowListener="#{registroController.onFlowProcess}">
 		        <p:tab id="alumnoTab" title="Alumno/s">
 		            <p:panel header="Información del alumno">
 		                <p>
-							<h:outputFormat value="#{res['registro.texto.inscripcion.alumno']}" />
+							<h:outputFormat value="#{res['registro.texto.inscripcion.alumno']}" escape="false" />
 						</p>
-						<p:messages />
 		                <h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputLabel for="alumno_nombre" styleClass="titleFieldRequired"
-								value="#{res['registro.alumno.nombre']}" />
+								value="#{res['registro.alumno.nombre']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="alumno_nombre"
@@ -46,7 +46,7 @@
 			
 							<h:outputLabel for="alumno_apellidos"
 								styleClass="titleFieldRequired"
-								value="#{res['registro.alumno.apellidos']}" />
+								value="#{res['registro.alumno.apellidos']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="alumno_apellidos"
@@ -57,7 +57,7 @@
 							</h:panelGroup>
 
 							<h:outputLabel for="alumno_edad" styleClass="titleFieldRequired"
-								value="#{res['registro.alumno.edad']}" />
+								value="#{res['registro.alumno.edad']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="alumno_edad"
@@ -69,7 +69,7 @@
 			
 							<h:outputLabel for="alumno_curso_actual"
 								styleClass="titleFieldRequired"
-								value="#{res['registro.alumno.curso.actual']}" />
+								value="#{res['registro.alumno.curso.actual']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:selectOneMenu id="alumno_curso_actual"
 									styleClass="form-control fieldInputRequired"
@@ -84,7 +84,7 @@
 			
 							<h:outputLabel for="alumno_curso_futuro"
 								styleClass="titleFieldRequired"
-								value="#{res['registro.alumno.curso.futuro']}" />
+								value="#{res['registro.alumno.curso.futuro']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:selectOneMenu id="alumno_curso_futuro"
 									styleClass="form-control fieldInputRequired"
@@ -98,7 +98,7 @@
 							</h:panelGroup>
 			
 							<h:outputLabel for="alumno_subgrupo" styleClass="titleFieldRequired"
-								value="#{res['registro.alumno.subgrupo']}" />
+								value="#{res['registro.alumno.subgrupo']}" escape="false" />
 							<h:panelGroup layout="block">
 								<p:selectOneButton id="alumno_subgrupo"
 									styleClass="fieldInputRequired"
@@ -113,16 +113,16 @@
 			
 							<h:outputLabel for="alumno_optativas"
 								styleClass="titleFieldRequired"
-								value="#{res['registro.alumno.optativas']}" />
+								value="#{res['registro.alumno.optativas']}" escape="false" />
 							<h:panelGroup layout="block">
 								<p:selectOneButton id="alumno_optativas"
 									styleClass="fieldInputRequired"
 									value="#{registroController.optativas}"
 									valueChangeListener="#{registroController.optativasChange}"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-									<f:selectItem itemLabel="#{res['registro.optativas.si']}"
+									<f:selectItem itemLabel="#{res['registro.si']}"
 										itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.optativas.no']}"
+									<f:selectItem itemLabel="#{res['registro.no']}"
 										itemValue="false" />
 								</p:selectOneButton>
 								<p:message for="alumno_optativas" />
@@ -134,12 +134,11 @@
 		        <p:tab id="tutorTab" title="Tutor">
 		            <p:panel header="Información del tutor">
 		                <p>
-							<h:outputFormat value="#{res['registro.texto.inscripcion.padre']}" />
+							<h:outputFormat value="#{res['registro.texto.inscripcion.tutor']}" escape="false" />
 						</p>
-						<p:messages />
 		                <h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputLabel for="tutor_nombre" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.nombre']}" />
+								value="#{res['registro.tutor.nombre']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_nombre"
@@ -150,7 +149,7 @@
 							</h:panelGroup>
 			
 							<h:outputLabel for="tutor_apellidos" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.apellidos']}" />
+								value="#{res['registro.tutor.apellidos']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_apellidos"
@@ -161,7 +160,7 @@
 							</h:panelGroup>
 			
 							<h:outputLabel for="tutor_dni" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.dni']}" />
+								value="#{res['registro.tutor.dni']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_dni"
@@ -172,31 +171,31 @@
 							</h:panelGroup>
 			
 							<h:outputLabel for="tutor_clave1" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.clave1']}" />
+								value="#{res['registro.tutor.clave1']}" escape="false" />
 							<h:panelGroup layout="block">
 								<p:password autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_clave1"
 									size="11" maxlength="11" feedback="true"
 									value="#{registroController.socio.clave}" required="true"
-									match="tutor_clave2" label="#{res['registroController.socio.clave']}"
+									match="tutor_clave2" label="#{res['registro.tutor.clave1']}"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
 								<p:message for="tutor_clave1" />
 							</h:panelGroup>
 							
 							<h:outputLabel for="tutor_clave2" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.clave2']}" />
+								value="#{res['registro.tutor.clave2']}" escape="false" />
 							<h:panelGroup layout="block">
 								<p:password autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_clave2"
 									size="11" maxlength="11" feedback="true"
 									value="#{registroController.clave2}" required="true"
-									label="#{res['registroController.socio.clave2']}"
+									label="#{res['registro.tutor.clave2']}"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
 								<p:message for="tutor_clave2" />
 							</h:panelGroup>
 			
 							<h:outputLabel for="tutor_direccion" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.direccion']}" />
+								value="#{res['registro.tutor.direccion']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_direccion"
@@ -207,7 +206,7 @@
 							</h:panelGroup>
 			
 							<h:outputLabel for="tutor_telefono" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.telefono']}" />
+								value="#{res['registro.tutor.telefono']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_telefono"
@@ -218,7 +217,7 @@
 							</h:panelGroup>
 			
 							<h:outputLabel for="tutor_email" styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.email']}" />
+								value="#{res['registro.tutor.email']}" escape="false" />
 							<h:panelGroup layout="block">
 								<h:inputText autocomplete="off"
 									styleClass="form-control fieldInputRequired" id="tutor_email"
@@ -228,9 +227,8 @@
 								<p:message for="tutor_email" />
 							</h:panelGroup>
 			
-							<h:outputLabel for="tutor_participar"
-								styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.participar']}" />
+							<h:outputLabel for="tutor_participar" styleClass="titleFieldRequired"
+								value="#{res['registro.tutor.participar']}" escape="false" />
 							<h:panelGroup layout="block">
 								<p:selectOneButton id="tutor_participar"
 									styleClass="fieldInputRequired"
@@ -243,9 +241,8 @@
 								<p:message for="tutor_participar" />
 							</h:panelGroup>
 			
-							<h:outputLabel for="tutor_envio_whatsapp"
-								styleClass="titleFieldRequired"
-								value="#{res['registro.tutor.envio.whatsapp']}" />
+							<h:outputLabel for="tutor_envio_whatsapp" styleClass="titleFieldRequired"
+								value="#{res['registro.tutor.envio.whatsapp']}" escape="false" />
 							<h:panelGroup layout="block">
 								<p:selectOneButton id="tutor_envio_whatsapp"
 									styleClass="fieldInputRequired"
@@ -264,12 +261,11 @@
 		        <p:tab id="colaborarTab" title="Colaborar">
 		            <p:panel header="Colabora con nosotros">
 		                <p>
-							<h:outputFormat value="#{res['registro.texto.colaborar']}" />
+							<h:outputFormat value="#{res['registro.texto.colaborar']}" escape="false" />
 						</p>
-						<p:messages />
 		                <h:panelGrid columns="2" columnClasses="label, value">
 		                    <h:outputLabel for="colaborar" styleClass="titleFieldRequired"
-								value="#{res['registro.colaborar']}" />
+								value="#{res['registro.colaborar']}" escape="false" />
 							<h:panelGroup layout="block">
 								<p:selectOneButton id="colaborar"
 									styleClass="fieldInputRequired"
@@ -290,22 +286,22 @@
 		                <h:panelGrid id="confirmacion" columns="3" columnClasses="grid,grid,grid">
 		                    <h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputLabel for="alumno_nombre_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.alumno.nombre']}" />
+									value="#{res['registro.alumno.nombre']}" escape="false" />
 								<h:outputText styleClass="form-control" id="alumno_nombre_Confirm"
 									value="#{registroController.alumno.nombre}" />
 				
 								<h:outputLabel for="alumno_apellidos_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.alumno.apellidos']}" />
+									value="#{res['registro.alumno.apellidos']}" escape="false" />
 								<h:inputText styleClass="form-control" id="alumno_apellidos_Confirm"
 									value="#{registroController.alumno.apellidos}" />
 	
 								<h:outputLabel for="alumno_edad_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.alumno.edad']}" />
+									value="#{res['registro.alumno.edad']}" escape="false" />
 								<h:inputText styleClass="form-control" id="alumno_edad_Confirm"
 									value="#{registroController.alumno.edad}" />
 				
 								<h:outputLabel for="alumno_curso_actual_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.alumno.curso.actual']}" />
+									value="#{res['registro.alumno.curso.actual']}" escape="false" />
 								<h:selectOneMenu id="alumno_curso_actual_Confirm"
 									styleClass="form-control"
 									value="#{registroController.cursoActual}"
@@ -314,9 +310,8 @@
 										value="#{registroController.cursosActualesListItems}" />
 								</h:selectOneMenu>
 				
-								<h:outputLabel for="alumno_curso_futuro_Confirm"
-									styleClass="titleFieldRequired"
-									value="#{res['registro.alumno.curso.futuro']}" />
+								<h:outputLabel for="alumno_curso_futuro_Confirm" styleClass="titleFieldRequired"
+									value="#{res['registro.alumno.curso.futuro']}" escape="false" />
 								<h:selectOneMenu id="alumno_curso_futuro_Confirm"
 									styleClass="form-control"
 									value="#{registroController.cursoFuturo}"
@@ -326,7 +321,7 @@
 								</h:selectOneMenu>
 				
 								<h:outputLabel for="alumno_subgrupo_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.alumno.subgrupo']}" />
+									value="#{res['registro.alumno.subgrupo']}" escape="false" />
 								<p:selectOneButton id="alumno_subgrupo_Confirm"
 									value="#{registroController.subgrupo}"
 									disabled="true">
@@ -334,59 +329,58 @@
 								</p:selectOneButton>
 				
 								<h:outputLabel for="alumno_optativas_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.alumno.optativas']}" />
+									value="#{res['registro.alumno.optativas']}" escape="false" />
 								<p:selectOneButton id="alumno_optativas_Confirm"
 									value="#{registroController.optativas}"
 									disabled="true">
-									<f:selectItem itemLabel="#{res['registro.optativas.si']}"
+									<f:selectItem itemLabel="#{res['registro.si']}"
 										itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.optativas.no']}"
+									<f:selectItem itemLabel="#{res['registro.no']}"
 										itemValue="false" />
 								</p:selectOneButton>
 			                </h:panelGrid>
 		 
 		                    <h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputLabel for="tutor_nombre_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.nombre']}" />
+									value="#{res['registro.tutor.nombre']}" escape="false" />
 								<h:outputText styleClass="form-control" id="tutor_nombre_Confirm"
 									value="#{registroController.socio.nombre}" />
 				
 								<h:outputLabel for="tutor_apellidos_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.apellidos']}" />
+									value="#{res['registro.tutor.apellidos']}" escape="false" />
 								<h:outputText styleClass="form-control" id="tutor_apellidos_Confirm"
 									value="#{registroController.socio.apellidos}" />
 				
 								<h:outputLabel for="tutor_dni_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.dni']}" />
+									value="#{res['registro.tutor.dni']}" escape="false" />
 								<h:outputText styleClass="form-control fieldInputRequired" id="tutor_dni_Confirm"
 									value="#{registroController.socio.dni}" />
 				
 								<h:outputLabel for="tutor_clave_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.clave']}" />
+									value="#{res['registro.tutor.clave1']}" escape="false" />
 								<p:password id="tutor_clave_Confirm"
 									styleClass="form-control"
 									size="11" maxlength="11" disabled="true"
 									value="#{registroController.socio.clave}"
-									label="#{res['registroController.socio.clave']}" />
+									label="#{res['registro.tutor.clave1']}" />
 								
 								<h:outputLabel for="tutor_direccion_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.direccion']}" />
+									value="#{res['registro.tutor.direccion']}" escape="false" />
 								<h:outputText styleClass="form-control" id="tutor_direccion_Confirm"
 									value="#{registroController.socio.direccion}" />
 				
 								<h:outputLabel for="tutor_telefono_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.telefono']}" />
+									value="#{res['registro.tutor.telefono']}" escape="false" />
 								<h:outputText styleClass="form-control" id="tutor_telefono_Confirm"
 									value="#{registroController.socio.telefono}" />
 				
 								<h:outputLabel for="tutor_email_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.email']}" />
+									value="#{res['registro.tutor.email']}" escape="false" />
 								<h:inputText styleClass="form-control" id="tutor_email_Confirm"
 									value="#{registroController.socio.email}" />
 				
-								<h:outputLabel for="tutor_participar_Confirm"
-									styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.participar']}" />
+								<h:outputLabel for="tutor_participar_Confirm" styleClass="titleFieldRequired"
+									value="#{res['registro.tutor.participar']}" escape="false" />
 								<p:selectOneButton id="tutor_participar_Confirm"
 									value="#{registroController.participar}"
 									disabled="true">
@@ -394,9 +388,8 @@
 									<f:selectItem itemLabel="#{res['registro.no']}" itemValue="false" />
 								</p:selectOneButton>
 				
-								<h:outputLabel for="tutor_envio_whatsapp_Confirm"
-									styleClass="titleFieldRequired"
-									value="#{res['registro.tutor.envio.whatsapp']}" />
+								<h:outputLabel for="tutor_envio_whatsapp_Confirm" styleClass="titleFieldRequired"
+									value="#{res['registro.tutor.envio.whatsapp']}" escape="false" />
 								<p:selectOneButton id="tutor_envio_whatsapp_Confirm"
 									value="#{registroController.envioWhatsapp}"
 									disabled="true">
@@ -407,7 +400,7 @@
 		 
 		                    <h:panelGrid columns="2" columnClasses="label, value">
 			                    <h:outputLabel for="colaborar_Confirm" styleClass="titleFieldRequired"
-									value="#{res['registro.colaborar']}" />
+									value="#{res['registro.colaborar']}" escape="false" />
 								<p:selectOneButton id="colaborar_Confirm"
 									value="#{registroController.colaborar}"
 									disabled="true">
@@ -417,9 +410,8 @@
 		                    </h:panelGrid>
 		                </h:panelGrid>
 
-						<!-- value="#{res['registro.alumno.submit']}" -->
-						<p:commandButton value="Submit"
-							actionListener="#{registroController.doRegistro}" update="growlRegistro"
+						<p:commandButton value="#{res['registro.submit']}"
+							actionListener="#{registroController.doRegistro}" escape="false" update="growl"
 							process="@this" />
 					</p:panel>
 		        </p:tab>

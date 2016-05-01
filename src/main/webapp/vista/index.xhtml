@@ -12,23 +12,14 @@
 	</ui:define>
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['index.header']}" />
+			<h:outputText value="#{res['index.header']}" escape="false" />
 		</h1>
 
 		<p>
-			<h:outputFormat value="#{res['index.texto']}" />
+			<h:outputFormat value="#{res['index.texto']}" escape="false" />
 		</p>
 	</ui:define>
 	<ui:define name="rightPanel">
 		<ui:include src="/template/login.xhtml" />			
-		
-		<!-- <label class="label1">Estas registrado?</label> -->
-
-		<h3>Enlaces de interes</h3>
-		<ul>
-			<li><a href="http://www.cece.gva.es/" target="_blank">www.cece.gva.es</a></li>
-			<li><a href="http://mestreacasa.gva.es/web/ceipmaxaub/1" target="_blank">www.mestreacasa.gva.es</a></li>
-			<li><a href="https://ampamaxaub.wordpress.com/" target="_blank">www.ampamaxaub.wordpress.com</a></li>
-		</ul>
 	</ui:define>
 </ui:composition>
