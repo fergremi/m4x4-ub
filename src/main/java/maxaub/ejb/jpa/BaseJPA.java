@@ -8,9 +8,9 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 
 /**
- *  Clase Facade base que obtiene el entityManager
+ *  Clase base que obtiene el entityManager
  */
-public class BaseFacade {
+public class BaseJPA {
 	protected final Logger log = Logger.getLogger(this.getClass().getName());
 
 	public final String PERSISTENCE_UNIT_NAME = "openjpa";

@@ -8,7 +8,7 @@
 			<default-locale>es</default-locale>
 		</locale-config>
 		<resource-bundle>
-			<base-name />
+    		<base-name>maxaub.controlador.ResourceController</base-name>
 			<var>res</var>
 		</resource-bundle>
 	</application>

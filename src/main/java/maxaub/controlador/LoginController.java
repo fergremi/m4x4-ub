@@ -18,7 +18,8 @@ import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
-import maxaub.ejb.jpa.SocioFacade;
+import maxaub.ejb.interfaz.LiteralDAO;
+import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Idioma;
 import maxaub.modelo.Socio;
 
@@ -38,11 +39,22 @@ public class LoginController implements Serializable {
 	private String usuario;
     private String clave;
     
+    private Locale htmlLanguage = new Locale("es", "Español");
+    
     private Idioma selectedIdioma;
     private String idioma;//XXX temp
 	private Map<String, String> idiomas;
 	private List<SelectItem> idiomasListItems;
     
+	public Locale getHtmlLanguage() {
+		//FacesContext.getCurrentInstance().getViewRoot().setLocale(htmlLanguage);
+		return htmlLanguage;
+	}
+	public void setHtmlLanguage(Locale htmlLanguage) {
+		//FacesContext.getCurrentInstance().getViewRoot().setLocale(htmlLanguage);
+		this.htmlLanguage = htmlLanguage;
+	}
+
 	public LoginController() {
 		idioma = null;
 
@@ -129,11 +141,14 @@ public class LoginController implements Serializable {
 	}
 
 	@EJB
-	private SocioFacade socioFacade;
+	private SocioDAO socioDAO;
+	
+	@EJB
+	private LiteralDAO literalDAO;
 	
 	public String doLogin() {
 		//TODO comprobar usuario y clave en BD
-		socio = socioFacade.comprobarSocio(usuario, clave);
+		socio = socioDAO.comprobarSocio(usuario, clave);
 		if (socio == null){
 			log.info("Usuario y/o contraseña incorrecto/s");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login incorrecto", "Usuario y/o contraseña incorrecto/s"));

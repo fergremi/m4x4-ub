@@ -1,9 +1,7 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,62 +20,85 @@ import javax.persistence.Table;
 public class Libro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer libroId;
-	private Integer isbn;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
+	private long id;
+	
+	@Column(name="isbn", columnDefinition="INT(11)", nullable=false, precision=11)
+	private long isbn;
+	
+	@Column(name="titulo", columnDefinition="VARCHAR(100)", nullable=false, length=100)
 	private String titulo;
+	
+	@Column(name="asignatura", columnDefinition="VARCHAR(45)", nullable=false, length=45)
 	private String asignatura;
-	private Integer curso;
+	
+	@Column(name="curso", columnDefinition="VARCHAR(10)", nullable=false, length=10)
+	private String curso;
+	
+	@Column(name="editorial", columnDefinition="VARCHAR(45)", nullable=false, length=45)
 	private String editorial;
-	private Integer estado;
-	private Date añoEdicion;
-	private Date añoCompra;
-	private List<Lote> lotes = new ArrayList<Lote>();
+	
+	@Column(name="fecha_edicion", columnDefinition="DATE", nullable=false)
+	private Date fechaEdicion;
+	
+	@Column(name="fecha_compra", columnDefinition="DATE", nullable=false)
+	private Date fechaCompra;
+	
+	@Column(name="cantidad", columnDefinition="INT(5)", nullable=false, precision=5)
+	private int cantidad = 0;
+	
+	@Column(name="idioma", columnDefinition="VARCHAR(45)", nullable=false, length=45)
+	private String idioma;
+	
+	@Column(name="imagen", columnDefinition="VARCHAR(100)", nullable=true, length=100)
+	private String imagen;
+	
+	@Column(name="activo", columnDefinition="TINYINT(1)", nullable=false, precision=1)
+	private boolean activo = true;
+	
+	/*
+	 * bi-directional
+	 */
+	
+	//one-to-one association to Estado
+	@OneToOne(mappedBy="libro", fetch=FetchType.LAZY)
+	private Estado estado = new Estado();
 	
 	public Libro() {
 	}
 	
-	public Libro(Integer isbn, String titulo, String asignatura, Integer curso, String editorial, Integer estado, Date añoEdicion, Date añoCompra) {
-        this.isbn = isbn;
-        this.titulo = titulo;
-        this.asignatura = asignatura;
-        this.curso = curso;
-        this.editorial = editorial;
-        this.estado = estado;
-        this.añoEdicion = añoEdicion;
-        this.añoCompra = añoCompra;
-    }
-	
-	public Libro(Integer isbn, String titulo, String asignatura, Integer curso, String editorial, Integer estado, Date añoEdicion, Date añoCompra, List<Lote> lotes) {
-       this.isbn = isbn;
-       this.titulo = titulo;
-       this.asignatura = asignatura;
-       this.curso = curso;
-       this.editorial = editorial;
-       this.estado = estado;
-       this.añoEdicion = añoEdicion;
-       this.añoCompra = añoCompra;
-       this.lotes = lotes;
-    }
-	
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id", columnDefinition="NUMBER(19)", unique=true, nullable=false, precision=19)
-	public Integer getLibroId() {
-		return libroId;
-	}
-	public void setLibroId(Integer libroId) {
-		this.libroId = libroId;
+	public Libro(long isbn, String titulo, String asignatura, String curso, String editorial,
+			Date fechaEdicion, Date fechaCompra, int cantidad, String idioma, String imagen,
+			boolean activo) {
+		this.isbn = isbn;
+		this.titulo = titulo;
+		this.asignatura = asignatura;
+		this.curso = curso;
+		this.editorial = editorial;
+		this.fechaEdicion = fechaEdicion;
+		this.fechaCompra = fechaCompra;
+		this.cantidad =  cantidad;
+		this.idioma = idioma;
+		this.imagen = imagen;
+		this.activo = activo;
 	}
 	
-	@Column(name="ISBN", columnDefinition="NUMBER(11)", nullable=false, precision=11)
-	public Integer getIsbn() {
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public long getIsbn() {
 		return this.isbn;
 	}
-	public void setIsbn(Integer isbn) {
+	public void setIsbn(long isbn) {
 		this.isbn = isbn;
 	}
 	
-	@Column(name="titulo", columnDefinition="VARCHAR2(100 CHAR)", nullable=false, length=100)
 	public String getTitulo() {
 		return this.titulo;
 	}
@@ -85,7 +106,6 @@ public class Libro implements Serializable {
 		this.titulo = titulo;
 	}
 	
-	@Column(name="asignatura", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
 	public String getAsignatura() {
 		return this.asignatura;
 	}
@@ -93,52 +113,70 @@ public class Libro implements Serializable {
 		this.asignatura = asignatura;
 	}
 	
-	@Column(name="curso", columnDefinition="NUMBER(11)", nullable=false, precision=11)
-	public Integer getCurso() {
+	public String getCurso() {
 		return this.curso;
 	}
-	public void setCurso(Integer curso) {
+	public void setCurso(String curso) {
 		this.curso = curso;
 	}
 	
-	@Column(name="editorial", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
 	public String getEditorial() {
 		return this.editorial;
 	}
 	public void setEditorial(String editorial) {
 		this.editorial = editorial;
 	}
+		
+	public Date getFechaEdicion() {
+        return this.fechaEdicion;
+    }
+	public void setFechaEdicion(Date fechaEdicion) {
+        this.fechaEdicion = fechaEdicion;
+    }
 	
-	@Column(name="estado", columnDefinition="NUMBER(11)", nullable=false, precision=11)
-	public Integer getEstado() {
+	public Date getFechaCompra() {
+        return this.fechaCompra;
+    }
+	public void setFechaCompra(Date fechaCompra) {
+        this.fechaCompra = fechaCompra;
+    }
+	
+	public int getCantidad() {
+		return this.cantidad;
+	}
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+	
+	public String getIdioma() {
+		return this.idioma;
+	}
+	public void setIdioma(String idioma) {
+		this.idioma = idioma;
+	}
+	
+	public String getImagen() {
+		return this.imagen;
+	}
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+	
+	public boolean getActivo() {
+		return this.activo;
+	}
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+	/*
+	 * bi-directional
+	 */
+	
+	public Estado getEstado() {
 		return this.estado;
 	}
-	public void setEstado(Integer estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
-	}
-	
-    @Column(name="año_edicion", columnDefinition="DATE", nullable=false)
-	public Date getAñoEdicion() {
-        return this.añoEdicion;
-    }
-	public void setAñoEdicion(Date añoEdicion) {
-        this.añoEdicion = añoEdicion;
-    }
-	
-    @Column(name="año_compra", columnDefinition="DATE", nullable=false)
-	public Date getAñoCompra() {
-        return this.añoCompra;
-    }
-	public void setAñoCompra(Date añoCompra) {
-        this.añoCompra = añoCompra;
-    }
-	
-	//bi-directional one-to-many association to Lote
-	@OneToMany(mappedBy="libro", fetch=FetchType.LAZY)
-	public List<Lote> getLotes() {
-		return this.lotes;
-	}
-	public void setLotes(List<Lote> lotes) {
-		this.lotes = lotes;
 	}
 }

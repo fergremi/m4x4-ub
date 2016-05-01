@@ -1,10 +1,13 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -15,66 +18,47 @@ import javax.persistence.Table;
 public class Idioma implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@Column(name="cod", columnDefinition="VARCHAR(8)", unique=true, nullable=false, length=8)
 	private String cod;
+	
+	@Column(name="descripcion", columnDefinition="VARCHAR(50)", nullable=false, length=50)
 	private String descripcion;
 	
+	/*
+	 * bi-directional
+	 */
+	
+	//one-to-many association to Literal
+	@OneToMany(mappedBy="idioma", fetch=FetchType.LAZY)
+	private List<Literal> literales;
+	
     public Idioma() {
-    	super();
     }
     
     public Idioma(String cod, String descripcion) {
     	this.cod = cod;
     	this.descripcion = descripcion;
     }
-
-	@Id
-	@Column(name="IDIO_COD", columnDefinition="VARCHAR2(8 CHAR)", unique=true, nullable=false, length=8)
+    
 	public String getCod() {
 		return this.cod;
 	}
-
 	public void setCod(String cod) {
 		this.cod = cod;
 	}
-
-	@Column(name="IDIO_DESC", columnDefinition="VARCHAR2(50 CHAR)", nullable=false, length=50)
+	
 	public String getDescripcion() {
 		return this.descripcion;
 	}
-
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getCod() == null) ? 0 : getCod().hashCode());
-		return result;
-	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Idioma other = (Idioma) obj;
-		if (getCod() == null) {
-			if (other.getCod() != null)
-				return false;
-		} else if (!getCod().equals(other.getCod()))
-			return false;
-		return true;
+	public List<Literal> getLiterales() {
+		return this.literales;
 	}
-	
-	public String toString(){
-		if (getDescripcion() != null){
-			return getDescripcion();
-		}
-		return super.toString();
+	public void setLiterales(List<Literal> literales) {
+		this.literales = literales;
 	}
 }

@@ -8,8 +8,41 @@ import maxaub.modelo.Socio;
 
 @Local
 public interface SocioDAO {
-    public List<Socio> getSocios();
-    public void guardarSocio(Socio socio);
-    public void eliminarSocio(Socio socio);
-    public Socio comprobarSocio(String usuario, String clave);
+    
+	/**
+	 * Obtener todos los socios.
+	 * 
+	 * @return List<Socio>
+	 */
+	public List<Socio> getSocios();
+    
+	/**
+	 * Obtener todos los socios activos.
+	 * 
+	 * @return List<Socio>
+	 */
+	public List<Socio> getSociosActivos();
+    
+	/**
+	 * Almacenar socio.
+	 * 
+	 * @param Socio
+	 */
+	public void guardarSocio(Socio socio);
+    
+	/**
+	 * Eliminar socio.
+	 * 
+	 * @param Socio
+	 */
+	public void eliminarSocio(Socio socio);
+    
+	/**
+	 * Comprobar si el usuario y la clave entregados son válidos.
+	 * 
+	 * @param usuario
+	 * @param clave
+	 * @return Socio
+	 */
+	public Socio comprobarSocio(String usuario, String clave);
 }

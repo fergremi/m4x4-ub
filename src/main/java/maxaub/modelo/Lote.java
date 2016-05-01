@@ -1,14 +1,15 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -19,57 +20,45 @@ import javax.persistence.Table;
 public class Lote implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private LoteId id;
-	private Libro libro;
-	private Prestamo prestamo;
-	private String estado;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
+	private long id;
+	
+	@Column(name="cod", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
+	private long cod;
+	
+	//uni-directional one-to-many association to Libro
+	@OneToMany(fetch=FetchType.LAZY)
+	@Column(name="libro_id", columnDefinition="INT(11)", nullable=false, precision=11)
+	private List<Libro> libros;
 	
 	public Lote() {
 	}
 	
-	public Lote(LoteId id, Libro libro, Prestamo prestamo, String estado) {
-		this.id = id;
-		this.libro = libro;
-		this.prestamo = prestamo;
-		this.estado = estado;
+	public Lote(long cod, List<Libro> libros) {
+		this.cod = cod;
+		this.libros = libros;
 	}
 	
-	@EmbeddedId
-	public LoteId getId() {
+	public long getId() {
 		return this.id;
 	}
-	public void setId(LoteId id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
-	//bi-directional many-to-one association to Libro
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="libro", nullable=false)
-	public Libro getLibro() {
-		return this.libro;
+	public long getCod() {
+		return this.cod;
 	}
-	public void setLibro(Libro libro) {
-		this.libro = libro;
+	public void setCod(long cod) {
+		this.cod = cod;
 	}
 	
-	//bi-directional many-to-one association to Prestamo
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumns({
-		@JoinColumn(name = "prestamo_id", referencedColumnName = "id", nullable = false),
-		@JoinColumn(name = "prestamo_alumno_socio_DNI", referencedColumnName = "alumno_socio_DNI", nullable = false)
-	})
-	public Prestamo getPrestamo() {
-		return this.prestamo;
+	public List<Libro> getLibros() {
+		return this.libros;
 	}
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
-	}
-	
-	@Column(name="estado", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
-	public String getEstado() {
-		return this.estado;
-	}
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setLibros(List<Libro> libros) {
+		this.libros = libros;
 	}
 }

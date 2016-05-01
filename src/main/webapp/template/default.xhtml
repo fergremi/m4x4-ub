@@ -6,13 +6,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
-	lang="${controller.htmlLanguage}">
+	lang="${loginController.htmlLanguage.language}">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<title>
-		<h:outputText value="#{controller.title1} - " /><ui:insert name="title" />
+		<!-- <h:outputText value="#{loginController.title1} - " /> --><ui:insert name="title" />
 	</title>
 </h:head>
 <h:body>
@@ -25,7 +25,7 @@
 		rendered="#{themeController.theme == 'bootstrap/css'}" />
 	<h:outputStylesheet name="style.css" library="css" />
 
-	<f:view transient="false" locale="${controller.htmlLanguage}">
+	<f:view transient="false" locale="${loginController.htmlLanguage.language}">
 		<div class="container-fluid">
 			<div class="header clearfix">
 				<ui:insert name="header">

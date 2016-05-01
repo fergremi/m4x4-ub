@@ -1,12 +1,15 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -17,29 +20,48 @@ import javax.persistence.Table;
 public class Socio implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer socioId;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
+	private long id;
+	
+	@Column(name="dni", columnDefinition="VARCHAR(9)", nullable=false, length=9)
 	private String dni;
+	
+	@Column(name="nombre", columnDefinition="VARCHAR(16)", nullable=false, length=16)
 	private String nombre;
+	
+	@Column(name="apellidos", columnDefinition="VARCHAR(25)", nullable=false, length=25)
 	private String apellidos;
+	
+	@Column(name="email", columnDefinition="VARCHAR(50)", nullable=false, length=50)
 	private String email;
-	private Integer telefono;
+	
+	@Column(name="telefono", columnDefinition="INT(12)", nullable=false, precision=12)
+	private long telefono;
+	
+	@Column(name="direccion", columnDefinition="VARCHAR(50)", nullable=false, length=50)
 	private String direccion;
+	
+	@Column(name="clave", columnDefinition="VARCHAR(15)", nullable=false, length=15)
 	private String clave;
-	//private Alumno alumno;
+	
+	@Column(name="activo", columnDefinition="TINYINT(1)", nullable=false, precision=1)
+	private boolean activo = true;
+	
+	/*
+	 * bi-directional
+	 */
+	
+	//one-to-many association to Alumno
+	@OneToMany(mappedBy="socio", fetch=FetchType.LAZY)
+	private List<Alumno> alumnos;
 	
 	public Socio() {
 	}
 	
-	public Socio(String dni, String nombre, String apellidos, Integer telefono, String direccion, String clave) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.telefono = telefono;
-        this.direccion = direccion;
-        this.clave = clave;
-    }
-	
-	public Socio(String dni, String nombre, String apellidos, String email, Integer telefono, String direccion, String clave, Alumno alumno) {
+	public Socio(String dni, String nombre, String apellidos, String email,
+			long telefono, String direccion, String clave, boolean activo) {
        this.dni = dni;
        this.nombre = nombre;
        this.apellidos = apellidos;
@@ -47,20 +69,16 @@ public class Socio implements Serializable {
        this.telefono = telefono;
        this.direccion = direccion;
        this.clave = clave;
-       //this.alumno = alumno;
+       this.activo = activo;
     }
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id", columnDefinition="NUMBER(19)", unique=true, nullable=false, precision=19)
-	public Integer getSocioId() {
-		return socioId;
+	public long getId() {
+		return id;
 	}
-	public void setSocioId(Integer socioId) {
-		this.socioId = socioId;
+	public void setId(long id) {
+		this.id = id;
 	}
 	
-	@Column(name="DNI", columnDefinition="VARCHAR2(9 CHAR)", nullable=false, length=9)
 	public String getDni() {
 		return this.dni;
 	}
@@ -68,7 +86,6 @@ public class Socio implements Serializable {
 		this.dni = dni;
 	}
 	
-	@Column(name="nombre", columnDefinition="VARCHAR2(16 CHAR)", nullable=false, length=16)
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -76,7 +93,6 @@ public class Socio implements Serializable {
 		this.nombre = nombre;
 	}
 	
-	@Column(name="apellidos", columnDefinition="VARCHAR2(25 CHAR)", nullable=false, length=25)
 	public String getApellidos() {
 		return this.apellidos;
 	}
@@ -84,7 +100,6 @@ public class Socio implements Serializable {
 		this.apellidos = apellidos;
 	}
 	
-	@Column(name="email", columnDefinition="VARCHAR2(50 CHAR)", nullable=false, length=50)
 	public String getEmail() {
 		return this.email;
 	}
@@ -92,15 +107,13 @@ public class Socio implements Serializable {
 		this.email = email;
 	}
 	
-	@Column(name="telefono", columnDefinition="NUMBER(11)", nullable=false, precision=11)
-	public Integer getTelefono() {
+	public long getTelefono() {
 		return this.telefono;
 	}
-	public void setTelefono(Integer telefono) {
+	public void setTelefono(long telefono) {
 		this.telefono = telefono;
 	}
 	
-	@Column(name="direccion", columnDefinition="VARCHAR2(50 CHAR)", nullable=false, length=50)
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -108,7 +121,6 @@ public class Socio implements Serializable {
 		this.direccion = direccion;
 	}
 	
-	@Column(name="clave", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
 	public String getClave() {
         return this.clave;
     }
@@ -116,12 +128,14 @@ public class Socio implements Serializable {
         this.clave = clave;
     }
 	
-//	@ManyToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name="alumno", nullable=false, insertable=true, updatable=true)
-//	public Alumno getAlumno() {
-//		return this.alumno;
-//	}
-//	public void setAlumno(Alumno alumno) {
-//		this.alumno = alumno;
-//	}
+	/*
+	 * bi-directional
+	 */
+	
+	public List<Alumno> getAlumnos() {
+		return this.alumnos;
+	}
+	public void setAlumnos(List<Alumno> alumnos) {
+		this.alumnos = alumnos;
+	}
 }

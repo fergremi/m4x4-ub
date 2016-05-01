@@ -1,17 +1,15 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,43 +20,58 @@ import javax.persistence.Table;
 public class Prestamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private PrestamoId id;
-	private Alumno alumno;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
+	private long id;
+	
+	@Column(name="fecha", columnDefinition="DATE", nullable=false)
 	private Date fecha;
-	private String tipoLote;
-	private String pagado;
-	private List<Lote> lotes = new ArrayList<Lote>(0);
+	
+	@Column(name="pagado", columnDefinition="TINYINT(1)", nullable=false, precision=1)
+	private boolean pagado;
+	
+	//bi-directional one-to-one association to Alumno
+	@OneToOne(fetch=FetchType.LAZY)
+	@Column(name="alumno_id", columnDefinition="INT(11)", nullable=false, precision=11)
+	private Alumno alumno;
+	
+	//bi-directional one-to-one association to Lote
+	@OneToOne(fetch=FetchType.LAZY)
+	@Column(name="lote_cod", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
+	private Lote lote;
 	
 	public Prestamo() {
 	}
 	
-	public Prestamo(PrestamoId id, Alumno alumno, Date fecha, String tipoLote) {
-		this.id = id;
-		this.alumno = alumno;
+	public Prestamo(Date fecha, boolean pagado, Alumno alumno, Lote lote) {
 		this.fecha = fecha;
-		this.tipoLote = tipoLote;
-	}
-	
-	public Prestamo(PrestamoId id, Alumno alumno, Date fecha, String tipoLote, String pagado, List<Lote> lotes) {
-		this.id = id;
-		this.alumno = alumno;
-		this.fecha = fecha;
-		this.tipoLote = tipoLote;
 		this.pagado = pagado;
-		this.lotes = lotes;
+		this.alumno = alumno;
+		this.lote = lote;
 	}
 	
-	@EmbeddedId
-	public PrestamoId getId() {
+	public long getId() {
 		return this.id;
 	}
-	public void setId(PrestamoId id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
-	//bi-directional many-to-one association to Alumno
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="alumno", nullable=false)
+	public Date getFecha() {
+		return this.fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public boolean getPagado() {
+		return this.pagado;
+	}
+	public void setPagado(boolean pagado) {
+		this.pagado = pagado;
+	}
+
 	public Alumno getAlumno() {
 		return this.alumno;
 	}
@@ -66,36 +79,10 @@ public class Prestamo implements Serializable {
 		this.alumno = alumno;
 	}
 	
-    @Column(name="fecha", columnDefinition="DATE", nullable=false)
-	public Date getFecha() {
-		return this.fecha;
+	public Lote getLote() {
+		return this.lote;
 	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-	
-	@Column(name="tipo_lote", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
-	public String getTipoLote() {
-		return this.tipoLote;
-	}
-	public void setTipoLote(String tipoLote) {
-		this.tipoLote = tipoLote;
-	}
-	
-	@Column(name="pagado", columnDefinition="VARCHAR2(45 CHAR)", nullable=false, length=45)
-	public String getPagado() {
-		return this.pagado;
-	}
-	public void setPagado(String pagado) {
-		this.pagado = pagado;
-	}
-	
-	//bi-directional one-to-many association to Lote
-	@OneToMany(mappedBy="prestamo", fetch=FetchType.LAZY)
-	public List<Lote> getLotes() {
-		return this.lotes;
-	}
-	public void setLotes(List<Lote> lotes) {
-		this.lotes = lotes;
+	public void setLote(Lote lote) {
+		this.lote = lote;
 	}
 }

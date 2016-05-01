@@ -43,15 +43,16 @@
 					</h:panelGroup>
 				</div>
 	
-				<div class="linksAccesoRegistrado">
-					<a href="${request.contextPath}/vista/registro.jsf"
-						class="linkAcceso" title="#{res['registrarse']}">#{res['Registrarse']}</a>
-				</div>
 	
 				<p:commandButton id="login" styleClass="btn btn-default"
 					action="#{loginController.doLogin}" value="#{res['login.submit']}" update="growlLogin"/>
 			</h:form>
 	
+			<div class="linksAccesoRegistrado">
+				<a href="${request.contextPath}/vista/registro.jsf"
+					class="linkAcceso" title="#{res['registrarse']}">#{res['Registrarse']}</a>
+			</div>
+
 			<p>
 				<h:outputFormat value="#{res['login.enlaces']}" />
 			</p>
