@@ -119,9 +119,9 @@
 									value="#{registroController.optativas}"
 									valueChangeListener="#{registroController.optativasChange}"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-									<f:selectItem itemLabel="#{res['registro.si']}"
+									<f:selectItem itemLabel="#{res['si']}"
 										itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}"
+									<f:selectItem itemLabel="#{res['no']}"
 										itemValue="false" />
 								</p:selectOneButton>
 								<p:message for="alumno_optativas" />
@@ -234,8 +234,8 @@
 									value="#{registroController.participar}"
 									valueChangeListener="#{registroController.participarChange}"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-									<f:selectItem itemLabel="#{res['registro.si']}" itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}" itemValue="false" />
+									<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+									<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
 								</p:selectOneButton>
 								<p:message for="tutor_participar" />
 							</h:panelGroup>
@@ -248,8 +248,8 @@
 									value="#{registroController.envioWhatsapp}"
 									valueChangeListener="#{registroController.envioWhatsappChange}"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-									<f:selectItem itemLabel="#{res['registro.si']}" itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}" itemValue="false" />
+									<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+									<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
 								</p:selectOneButton>
 								<p:message for="tutor_envio_whatsapp" />
 							</h:panelGroup>
@@ -271,8 +271,8 @@
 									value="#{registroController.colaborar}"
 									valueChangeListener="#{registroController.colaborarChange}"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-									<f:selectItem itemLabel="#{res['registro.si']}" itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}" itemValue="false" />
+									<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+									<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
 								</p:selectOneButton>
 								<p:message for="colaborar" />
 							</h:panelGroup>
@@ -332,9 +332,9 @@
 								<p:selectOneButton id="alumno_optativas_Confirm"
 									value="#{registroController.optativas}"
 									disabled="true">
-									<f:selectItem itemLabel="#{res['registro.si']}"
+									<f:selectItem itemLabel="#{res['si']}"
 										itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}"
+									<f:selectItem itemLabel="#{res['no']}"
 										itemValue="false" />
 								</p:selectOneButton>
 			                </h:panelGrid>
@@ -383,8 +383,8 @@
 								<p:selectOneButton id="tutor_participar_Confirm"
 									value="#{registroController.participar}"
 									disabled="true">
-									<f:selectItem itemLabel="#{res['registro.si']}" itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}" itemValue="false" />
+									<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+									<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
 								</p:selectOneButton>
 				
 								<h:outputLabel for="tutor_envio_whatsapp_Confirm" styleClass="titleFieldRequired"
@@ -392,8 +392,8 @@
 								<p:selectOneButton id="tutor_envio_whatsapp_Confirm"
 									value="#{registroController.envioWhatsapp}"
 									disabled="true">
-									<f:selectItem itemLabel="#{res['registro.si']}" itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}" itemValue="false" />
+									<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+									<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
 								</p:selectOneButton>
 		                    </h:panelGrid>
 		 
@@ -403,8 +403,8 @@
 								<p:selectOneButton id="colaborar_Confirm"
 									value="#{registroController.colaborar}"
 									disabled="true">
-									<f:selectItem itemLabel="#{res['registro.si']}" itemValue="true" />
-									<f:selectItem itemLabel="#{res['registro.no']}" itemValue="false" />
+									<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+									<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
 								</p:selectOneButton>
 		                    </h:panelGrid>
 		                </h:panelGrid>

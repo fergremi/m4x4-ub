@@ -215,11 +215,11 @@ public class LoginController extends BaseInfoController implements Serializable 
 	
 	public String editarDatosSocio() {
 		log.info("editar datos socio");
-		return "datos_personales"; /* vista por defecto */
+		return "datos_socios"; /* vista por defecto */
 	}
 	
 	public String editarDatosAdmin() {
 		log.info("editar datos admin");
-		return "index"; /* vista por defecto */
+		return "datos_admin"; /* vista por defecto */
 	}
 }
