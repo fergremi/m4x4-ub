@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/vista/template/default.xhtml">
+	<ui:define name="title">
+		<h:outputText value="#{res['datos_admin.titulo']}" />
+	</ui:define>
+
+	<ui:define name="leftPanel">
+		<h1>
+			<h:outputText value="#{res['datos_admin.header']}" escape="false" />
+		</h1>
+
+		<p>
+			<h:outputFormat value="#{res['datos_admin.texto']}" escape="false" />
+		</p>
+
+		<style>
+		#form label {
+			color: black;
+		}
+		</style>
+
+		<h:form id="form" style="text-align: center;">
+			<p:panel header="Información del administrador">
+				<h:panelGrid columns="2" columnClasses="label, value">
+					<h:outputLabel for="admin_usuario" styleClass="titleFieldRequired"
+						value="#{res['datos_admin.usuario']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="admin_usuario"
+							size="16" maxlength="16"
+							value="#{loginController.admin.usuario}" required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="admin_usuario" />
+					</h:panelGroup>
+					
+					<h:outputLabel for="admin_clave1" styleClass="titleFieldRequired"
+						value="#{res['datos_admin.clave1']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:password autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="admin_clave1"
+							size="11" maxlength="11" feedback="true"
+							value="#{loginController.admin.contraseña}" required="true"
+							match="admin_clave2" label="#{res['datos_admin.clave1']}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="admin_clave1" />
+					</h:panelGroup>
+
+					<h:outputLabel for="admin_clave2" styleClass="titleFieldRequired"
+						value="#{res['datos_admin.clave2']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:password autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="admin_clave2"
+							size="11" maxlength="11" feedback="true"
+							value="#{loginController.admin.contraseña}" required="true"
+							label="#{res['datos_admin.clave2']}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="admin_clave2" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:panel>
+
+			<p:commandButton value="#{res['datos_admin.submit']}"
+				actionListener="#{loginController.editarDatosAdmin()}" escape="false"
+				update="growl" process="@this" />
+		</h:form>
+	</ui:define>
+</ui:composition>

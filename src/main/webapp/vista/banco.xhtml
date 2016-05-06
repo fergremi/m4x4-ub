@@ -57,7 +57,12 @@
 						<h:outputText value="#{libro.cantidad}" style="font-weight: bold" />
 						
 						<h:outputText value="#{res['banco.libro.optativo']}" />
-						<h:outputText value="#{libro.optativo}" style="font-weight: bold" />
+						<c:if test="#{libro.optativo}">
+							<h:outputText value="#{res['si']}" style="font-weight: bold" />
+						</c:if>
+						<c:if test="#{!libro.optativo}">
+							<h:outputText value="#{res['no']}" style="font-weight: bold" />
+						</c:if>
 					</h:panelGrid>
 				</p:outputPanel>
 			</h:panelGrid>
