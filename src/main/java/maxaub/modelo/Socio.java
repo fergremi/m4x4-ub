@@ -1,15 +1,12 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -43,34 +40,33 @@ public class Socio implements Serializable {
 	@Column(name="direccion", columnDefinition="VARCHAR(50)", nullable=false, length=50)
 	private String direccion;
 	
-	@Column(name="clave", columnDefinition="VARCHAR(15)", nullable=false, length=15)
-	private String clave;
+	@Column(name="contraseña", columnDefinition="VARCHAR(15)", nullable=false, length=15)
+	private String contraseña;
+	
+	@Column(name="whatsapp", columnDefinition="TINYINT(1)", nullable=false, precision=1)
+	private boolean whatsapp = false;
 	
 	@Column(name="activo", columnDefinition="TINYINT(1)", nullable=false, precision=1)
 	private boolean activo = true;
 	
-	/*
-	 * bi-directional
-	 */
-	
-	//one-to-many association to Alumno
-	@OneToMany(mappedBy="socio", fetch=FetchType.LAZY)
-	private List<Alumno> alumnos;
-	
 	public Socio() {
+		super();
 	}
 	
-	public Socio(String dni, String nombre, String apellidos, String email,
-			long telefono, String direccion, String clave, boolean activo) {
-       this.dni = dni;
-       this.nombre = nombre;
-       this.apellidos = apellidos;
-       this.email = email;
-       this.telefono = telefono;
-       this.direccion = direccion;
-       this.clave = clave;
-       this.activo = activo;
-    }
+	public Socio(long id, String dni, String nombre, String apellidos, String email, long telefono, String direccion,
+			String contraseña, boolean whatsapp, boolean activo) {
+		super();
+		this.id = id;
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.telefono = telefono;
+		this.direccion = direccion;
+		this.contraseña = contraseña;
+		this.whatsapp = whatsapp;
+		this.activo = activo;
+	}
 	
 	public long getId() {
 		return id;
@@ -121,21 +117,24 @@ public class Socio implements Serializable {
 		this.direccion = direccion;
 	}
 	
-	public String getClave() {
-        return this.clave;
+	public String getContraseña() {
+        return this.contraseña;
     }
-	public void setClave(String clave) {
-        this.clave = clave;
+	public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 	
-	/*
-	 * bi-directional
-	 */
-	
-	public List<Alumno> getAlumnos() {
-		return this.alumnos;
+	public boolean isWhatsapp() {
+		return whatsapp;
 	}
-	public void setAlumnos(List<Alumno> alumnos) {
-		this.alumnos = alumnos;
+	public void setWhatsapp(boolean whatsapp) {
+		this.whatsapp = whatsapp;
+	}
+	
+	public boolean isActivo() {
+		return activo;
+	}
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 }

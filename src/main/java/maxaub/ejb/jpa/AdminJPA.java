@@ -12,7 +12,7 @@ import maxaub.modelo.Admin;
 public class AdminJPA extends BaseJPA implements AdminDAO {
 	@Override
 	public List<Admin> getAdmins() {
-		String sql = "SELECT a FROM Admin a ORDER BY a.idAdmin";
+		String sql = "SELECT a FROM Admin AS a ORDER BY a.id";
 		TypedQuery<Admin> query = getEntityManager().createQuery(sql, Admin.class);
 		List<Admin> list = query.getResultList();
 		if (!list.isEmpty()) {
@@ -22,20 +22,20 @@ public class AdminJPA extends BaseJPA implements AdminDAO {
 	}
 	
 	@Override
-	public Admin comprobarAdmin(String usuario, String clave) {
-		if ((usuario == "") || (clave == "")) {
+	public Admin comprobarAdmin(String usuario, String contraseña) {
+		if ((usuario == "") || (contraseña == "")) {
 			log.warn("No se ha completado la petición: comprobarAdmin -> campo/s vacío/s");
 			return null;
 		}
-		if ((comprobarComentariosSQL(usuario)) || (comprobarComentariosSQL(clave))) {
+		if ((comprobarComentariosSQL(usuario)) || (comprobarComentariosSQL(contraseña))) {
     		log.warn("No se ha completado la petición: comprobarAdmin -> comentarios SQL bloqueados");
             return null;
         }
 		
-		String sql = "SELECT a FROM Admin a WHERE a.usuario = :usuario and a.clave = :clave";
+		String sql = "SELECT a FROM Admin AS a WHERE a.usuario = :usuario and a.contraseña = :contraseña";
 		TypedQuery<Admin> query = getEntityManager().createQuery(sql, Admin.class);
 		query.setParameter("usuario", usuario);
-		query.setParameter("clave", clave);
+		query.setParameter("contraseña", contraseña);
 		
 		try {
 			return query.getSingleResult();

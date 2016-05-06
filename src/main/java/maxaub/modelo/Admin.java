@@ -25,15 +25,17 @@ public class Admin implements Serializable {
 	@Column(name="usuario", columnDefinition="VARCHAR(15)", nullable=false, length=50)
 	private String usuario;
 	
-	@Column(name="clave", columnDefinition="VARCHAR(15)", nullable=false, length=45)
-	private String clave;
+	@Column(name="contraseña", columnDefinition="VARCHAR(15)", nullable=false, length=45)
+	private String contraseña;
 	
 	public Admin() {
+		super();
 	}
 	
-	public Admin(String usuario, String clave) {
+	public Admin(String usuario, String contraseña) {
+		super();
        this.usuario = usuario;
-       this.clave = clave;
+       this.contraseña = contraseña;
     }
 	
 	public long getId() {
@@ -50,10 +52,10 @@ public class Admin implements Serializable {
 		this.usuario = usuario;
 	}
 	
-	public String getClave() {
-        return this.clave;
+	public String getContraseña() {
+        return this.contraseña;
     }
-	public void setClave(String clave) {
-        this.clave = clave;
+	public void ontraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 }

@@ -6,7 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	template="/template/default.xhtml">
+	template="/vista/template/default.xhtml">
 	<ui:define name="title">
 		<h:outputText value="#{res['banco.titulo']}" />
 	</ui:define>
@@ -16,7 +16,53 @@
 		</h1>
 
 		<p>
-			<h:outputFormat value="#{res['banco.texto']}" escape="false" />
+			<h:outputFormat value="#{res['banco.texto']}" escape="false"
+				rendered="#{!loginController.socioLogged and !loginController.adminLogged}" />
 		</p>
+
+		<p:dataScroller value="#{bancoController.libros}" var="libro"
+			chunkSize="10" rendered="#{loginController.socioLogged or loginController.adminLogged}">
+	        <f:facet name="loader">
+	            <p:commandButton type="button" value="#{res['banco.cargar.libros']}" icon="ui-icon-circle-triangle-s"/>
+	        </f:facet>
+			
+			<h:panelGrid columns="2" style="width:100%"
+				columnClasses="logo,detail">
+				<h:graphicImage library="libro" name="#{libro.imagen}" />
+				
+				<p:outputPanel>
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="#{res['banco.libro.isbn']}" />
+						<h:outputText value="#{libro.isbn}" style="font-weight: bold" />
+						
+						<h:outputText value="#{res['banco.libro.titulo']}" />
+						<h:outputText value="#{libro.titulo}" style="font-weight: bold" />
+						
+						<h:outputText value="#{res['banco.libro.asignatura']}" />
+						<h:outputText value="#{libro.asignatura}" style="font-weight: bold" />
+						
+						<h:outputText value="#{res['banco.libro.curso']}" />
+						<h:outputText value="#{libro.curso}" style="font-weight: bold" />
+						
+						<h:outputText value="#{res['banco.libro.editorial']}" />
+						<h:outputText value="#{libro.editorial}" style="font-weight: bold" />
+						
+						<h:outputText value="#{res['banco.libro.idioma']}" />
+						<h:outputText value="#{libro.idioma}" style="font-weight: bold" />
+
+						<h:outputText value="#{res['banco.libro.añoEdicion']}" />
+						<h:outputText value="#{libro.añoEdicion}" style="font-weight: bold" />
+						
+						<h:outputText value="#{res['banco.libro.cantidad']}" />
+						<h:outputText value="#{libro.cantidad}" style="font-weight: bold" />
+						
+						<h:outputText value="#{res['banco.libro.optativo']}" />
+						<h:outputText value="#{libro.optativo}" style="font-weight: bold" />
+					</h:panelGrid>
+				</p:outputPanel>
+			</h:panelGrid>
+			
+			<p:separator />
+		</p:dataScroller>
 	</ui:define>
 </ui:composition>

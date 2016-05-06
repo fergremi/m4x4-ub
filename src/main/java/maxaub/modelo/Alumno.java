@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,9 +49,9 @@ public class Alumno implements Serializable {
 	@Column(name="activo", columnDefinition="TINYINT(1)", nullable=false, precision=1)
 	private boolean activo;
 	
-	//many-to-one association to Socio
+	//uni-directional many-to-one association to Socio
 	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="socio", nullable=false)
+	@Column(name="socio_id", columnDefinition="INT(11)", nullable=false, precision=11)
 	private Socio socio;
 	
 	/*
@@ -64,10 +63,12 @@ public class Alumno implements Serializable {
 	private Prestamo prestamo = new Prestamo();
 	
 	public Alumno() {
+		super();
 	}
 	
 	public Alumno(String nombre, String apellidos, int edad, int cursoActual, int cursoFuturo, String subgrupo,
 			boolean optativas, boolean activo, Socio socio) {
+		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.edad = edad;

@@ -16,11 +16,11 @@ public interface AdminDAO {
 	public List<Admin> getAdmins();
     
 	/**
-	 * Comprobar si el usuario y la clave entregados son válidos.
+	 * Comprobar si el usuario y la contraseña entregados son válidos.
 	 * 
 	 * @param usuario
-	 * @param clave
+	 * @param contraseña
 	 * @return Admin
 	 */
-	public Admin comprobarAdmin(String usuario, String clave);
+	public Admin comprobarAdmin(String usuario, String contraseña);
 }

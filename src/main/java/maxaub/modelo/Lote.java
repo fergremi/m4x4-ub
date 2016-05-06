@@ -28,16 +28,27 @@ public class Lote implements Serializable {
 	@Column(name="cod", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
 	private long cod;
 	
+	@Column(name="curso", columnDefinition="INT(1)", nullable=false, precision=1)
+	private int curso;
+	
+	@Column(name="subgrupo", columnDefinition="VARCHAR(10)", nullable=false, length=10)
+	private String subgrupo;
+	
 	//uni-directional one-to-many association to Libro
 	@OneToMany(fetch=FetchType.LAZY)
 	@Column(name="libro_id", columnDefinition="INT(11)", nullable=false, precision=11)
 	private List<Libro> libros;
 	
 	public Lote() {
+		super();
 	}
 	
-	public Lote(long cod, List<Libro> libros) {
+	public Lote(long id, long cod, int curso, String subgrupo, List<Libro> libros) {
+		super();
+		this.id = id;
 		this.cod = cod;
+		this.curso = curso;
+		this.subgrupo = subgrupo;
 		this.libros = libros;
 	}
 	

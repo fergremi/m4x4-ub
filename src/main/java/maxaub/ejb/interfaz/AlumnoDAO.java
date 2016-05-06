@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import maxaub.modelo.Alumno;
+import maxaub.modelo.Socio;
 
 @Local
 public interface AlumnoDAO {
@@ -51,4 +52,12 @@ public interface AlumnoDAO {
 	 * @param Alumno
 	 */
 	public void eliminarAlumno(Alumno alumno);
+	
+	/**
+	 * Obtiene todos los alumnos relacionados con el socio. <br />
+	 * <code><strong>&ltEAGER FETCHING&gt</strong></code>
+	 * 
+	 * @param Socio
+	 */
+	List<Alumno> getAlumnosSocioActivo(Socio socio);
 }

@@ -19,13 +19,15 @@ import javax.faces.model.SelectItem;
 import org.apache.log4j.Logger;
 
 import maxaub.ejb.interfaz.AdminDAO;
+import maxaub.ejb.interfaz.AlumnoDAO;
 import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Admin;
+import maxaub.modelo.Alumno;
 import maxaub.modelo.Socio;
 
 @ManagedBean
 @SessionScoped
-public class LoginController implements Serializable {
+public class LoginController extends BaseInfoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = Logger.getLogger(LoginController.class.getName());
@@ -35,6 +37,9 @@ public class LoginController implements Serializable {
 	
 	@EJB
 	private AdminDAO adminDAO;
+	
+	@EJB
+	private AlumnoDAO alumnoDAO;
 	
 	private Boolean socioLogged = false;
 	private Boolean adminLogged = false;
@@ -169,7 +174,7 @@ public class LoginController implements Serializable {
 				socioLogged = true;
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login correcto", socio.getNombre() + " " + socio.getApellidos()));
-				return "index?faces-redirect=true";
+				return "banco?faces-redirect=true";
 			}
 		}
 		/* Si no se introduce un DNI, se considera un administrador */
@@ -204,9 +209,13 @@ public class LoginController implements Serializable {
 		return "index"; /* vista por defecto */
 	}
 	
+	public List<Alumno> getAlumnnos() {
+		return alumnoDAO.getAlumnosSocioActivo(socio);
+	}
+	
 	public String editarDatosSocio() {
 		log.info("editar datos socio");
-		return "index"; /* vista por defecto */
+		return "datos_personales"; /* vista por defecto */
 	}
 	
 	public String editarDatosAdmin() {

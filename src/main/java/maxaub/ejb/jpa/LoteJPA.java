@@ -12,7 +12,7 @@ import maxaub.modelo.Lote;
 public class LoteJPA extends BaseJPA implements LoteDAO {
 	@Override
 	public List<Lote> getLotes() {
-		String sql = "SELECT l FROM Lote l ORDER BY l.idLote";
+		String sql = "SELECT l FROM Lote AS l ORDER BY l.id";
 		TypedQuery<Lote> query = getEntityManager().createQuery(sql, Lote.class);
 		List<Lote> list = query.getResultList();
 		if (!list.isEmpty()) {

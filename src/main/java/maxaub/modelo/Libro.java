@@ -1,7 +1,6 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,14 +39,14 @@ public class Libro implements Serializable {
 	@Column(name="editorial", columnDefinition="VARCHAR(45)", nullable=false, length=45)
 	private String editorial;
 	
-	@Column(name="fecha_edicion", columnDefinition="DATE", nullable=false)
-	private Date fechaEdicion;
-	
-	@Column(name="fecha_compra", columnDefinition="DATE", nullable=false)
-	private Date fechaCompra;
+	@Column(name="año_edicion", columnDefinition="INT(4)", nullable=false)
+	private int añoEdicion;
 	
 	@Column(name="cantidad", columnDefinition="INT(5)", nullable=false, precision=5)
 	private int cantidad = 0;
+	
+	@Column(name="optativo", columnDefinition="TINYINT(1)", nullable=false, precision=1)
+	private boolean optativo = false;
 	
 	@Column(name="idioma", columnDefinition="VARCHAR(45)", nullable=false, length=45)
 	private String idioma;
@@ -67,19 +66,21 @@ public class Libro implements Serializable {
 	private Estado estado = new Estado();
 	
 	public Libro() {
+		super();
 	}
 	
 	public Libro(long isbn, String titulo, String asignatura, String curso, String editorial,
-			Date fechaEdicion, Date fechaCompra, int cantidad, String idioma, String imagen,
+			int añoEdicion, int cantidad, boolean optativo, String idioma, String imagen,
 			boolean activo) {
+		super();
 		this.isbn = isbn;
 		this.titulo = titulo;
 		this.asignatura = asignatura;
 		this.curso = curso;
 		this.editorial = editorial;
-		this.fechaEdicion = fechaEdicion;
-		this.fechaCompra = fechaCompra;
+		this.añoEdicion = añoEdicion;
 		this.cantidad =  cantidad;
+		this.optativo = optativo;
 		this.idioma = idioma;
 		this.imagen = imagen;
 		this.activo = activo;
@@ -127,18 +128,11 @@ public class Libro implements Serializable {
 		this.editorial = editorial;
 	}
 		
-	public Date getFechaEdicion() {
-        return this.fechaEdicion;
+	public int getAñoEdicion() {
+        return this.añoEdicion;
     }
-	public void setFechaEdicion(Date fechaEdicion) {
-        this.fechaEdicion = fechaEdicion;
-    }
-	
-	public Date getFechaCompra() {
-        return this.fechaCompra;
-    }
-	public void setFechaCompra(Date fechaCompra) {
-        this.fechaCompra = fechaCompra;
+	public void setAñoEdicion(int añoEdicion) {
+        this.añoEdicion = añoEdicion;
     }
 	
 	public int getCantidad() {
@@ -148,6 +142,13 @@ public class Libro implements Serializable {
 		this.cantidad = cantidad;
 	}
 	
+	public boolean isOptativo() {
+		return optativo;
+	}
+	public void setOptativo(boolean optativo) {
+		this.optativo = optativo;
+	}
+
 	public String getIdioma() {
 		return this.idioma;
 	}

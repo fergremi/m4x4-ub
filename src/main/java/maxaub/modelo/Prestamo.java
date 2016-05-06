@@ -42,9 +42,11 @@ public class Prestamo implements Serializable {
 	private Lote lote;
 	
 	public Prestamo() {
+		super();
 	}
 	
 	public Prestamo(Date fecha, boolean pagado, Alumno alumno, Lote lote) {
+		super();
 		this.fecha = fecha;
 		this.pagado = pagado;
 		this.alumno = alumno;

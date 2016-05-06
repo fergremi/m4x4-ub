@@ -1,2 +1,4 @@
 * {margin:0;padding:0}
-body {padding:0;margin:18px 0 0;background:#590000;color:#CD7A7A;font:12px/14px Arial,Helvetica,sans-serif}
+body {background:#590000;color:#CD7A7A;font:12px/14px Arial,Helvetica,sans-serif;margin-bottom:55px;}
+.footerContainer {text-align: center;}
+.imageFooter{display: inline;}

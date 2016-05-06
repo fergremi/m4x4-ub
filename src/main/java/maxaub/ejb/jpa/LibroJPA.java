@@ -12,7 +12,7 @@ import maxaub.modelo.Libro;
 public class LibroJPA extends BaseJPA implements LibroDAO {
 	@Override
 	public List<Libro> getLibros() {
-		String sql = "SELECT l FROM Libro l ORDER BY l.idLibro";
+		String sql = "SELECT l FROM Libro AS l ORDER BY l.id";
 		TypedQuery<Libro> query = getEntityManager().createQuery(sql, Libro.class);
 		List<Libro> list = query.getResultList();
 		if (!list.isEmpty()) {
@@ -23,7 +23,7 @@ public class LibroJPA extends BaseJPA implements LibroDAO {
 	
 	@Override
 	public List<Libro> getLibrosActivos() {
-		String sql = "SELECT l FROM Libro l ORDER BY l.idLibro AND l.activo = '1'";
+		String sql = "SELECT l FROM Libro AS l WHERE l.activo = '1' ORDER BY l.id";
 		TypedQuery<Libro> query = getEntityManager().createQuery(sql, Libro.class);
 		List<Libro> list = query.getResultList();
 		if (!list.isEmpty()) {
@@ -48,7 +48,7 @@ public class LibroJPA extends BaseJPA implements LibroDAO {
 			return null;
 		}
 		
-		String sql = "SELECT l FROM Libro l WHERE l.idLibro ='" + idLibro + "'"
+		String sql = "SELECT l FROM Libro AS l WHERE l.id ='" + idLibro + "'"
 				+ " AND l.activo = '1'";
         TypedQuery<Libro> query = getEntityManager().createQuery(sql, Libro.class);
         try {

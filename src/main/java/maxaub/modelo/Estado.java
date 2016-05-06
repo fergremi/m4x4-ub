@@ -34,9 +34,11 @@ public class Estado implements Serializable {
 	private Libro libro;
 	
 	public Estado() {
+		super();
 	}
 	
 	public Estado(int estado, Libro libro) {
+		super();
 		this.estado = estado;
 		this.libro = libro;
 	}

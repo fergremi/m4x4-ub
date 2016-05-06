@@ -12,7 +12,7 @@ import maxaub.modelo.Socio;
 public class SocioJPA extends BaseJPA implements SocioDAO {
 	@Override
 	public List<Socio> getSocios() {
-		String sql = "SELECT s FROM Socio s ORDER BY s.idSocio";
+		String sql = "SELECT s FROM Socio AS s ORDER BY s.id";
 		TypedQuery<Socio> query = getEntityManager().createQuery(sql, Socio.class);
 		List<Socio> list = query.getResultList();
 		if (!list.isEmpty()) {
@@ -23,7 +23,7 @@ public class SocioJPA extends BaseJPA implements SocioDAO {
 	
 	@Override
 	public List<Socio> getSociosActivos() {
-		String sql = "SELECT s FROM Socio s WHERE s.activo = '1' ORDER BY s.idSocio";
+		String sql = "SELECT s FROM Socio AS s WHERE s.activo = '1' ORDER BY s.id";
 		TypedQuery<Socio> query = getEntityManager().createQuery(sql, Socio.class);
 		List<Socio> list = query.getResultList();
 		if (!list.isEmpty()) {
@@ -45,21 +45,21 @@ public class SocioJPA extends BaseJPA implements SocioDAO {
 	}
 	
 	@Override
-	public Socio comprobarSocio(String usuario, String clave) {
-		if ((usuario == "") || (clave == "")) {
+	public Socio comprobarSocio(String usuario, String contraseña) {
+		if ((usuario == "") || (contraseña == "")) {
 			log.warn("No se ha completado la petición: comprobarSocio -> campo/s vacío/s");
 			return null;
 		}
-		if ((comprobarComentariosSQL(usuario)) || (comprobarComentariosSQL(clave))) {
+		if ((comprobarComentariosSQL(usuario)) || (comprobarComentariosSQL(contraseña))) {
     		log.warn("No se ha completado la petición: comprobarSocio -> comentarios SQL bloqueados");
             return null;
         }
 		
-		String sql = "SELECT s FROM Socio s WHERE s.dni = :usuario and s.clave = :clave"
+		String sql = "SELECT s FROM Socio AS s WHERE s.dni = :usuario and s.contraseña = :contraseña"
 				+ " AND s.activo = '1'";
 		TypedQuery<Socio> query = getEntityManager().createQuery(sql, Socio.class);
 		query.setParameter("usuario", usuario);
-		query.setParameter("clave", clave);
+		query.setParameter("contraseña", contraseña);
 		
 		try {
 			return query.getSingleResult();

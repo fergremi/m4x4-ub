@@ -12,7 +12,7 @@ import maxaub.modelo.Prestamo;
 public class PrestamoJPA extends BaseJPA implements PrestamoDAO {
 	@Override
 	public List<Prestamo> getPrestamos() {
-		String sql = "SELECT p FROM Prestamo p ORDER BY p.idPrestamo";
+		String sql = "SELECT p FROM Prestamo AS p ORDER BY p.id";
 		TypedQuery<Prestamo> query = getEntityManager().createQuery(sql, Prestamo.class);
 		List<Prestamo> list = query.getResultList();
 		if (!list.isEmpty()) {

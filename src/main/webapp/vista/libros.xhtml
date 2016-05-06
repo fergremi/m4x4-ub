@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/vista/template/default.xhtml">
+	<ui:define name="title">
+		<h:outputText value="#{res['libros.titulo']}" />
+	</ui:define>
+	<ui:define name="leftPanel">
+		<h1>
+			<h:outputText value="#{res['libros.header']}" escape="false" />
+		</h1>
+		
+		<p>
+			<h:outputFormat value="#{res['libros.texto']}" escape="false" />
+		</p>
+		
+		<h2>
+			<h:outputText value="#{res['libros.ciclo.segundo']}" escape="false" />
+		</h2>
+		
+		<h:panelGrid columns="2" columnClasses="label, value">
+			<h:outputText value="#{res['libros.3A']}" />
+			<h:outputLink value="../docs/libros 3A 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+			
+			<h:outputText value="#{res['libros.3B']}" />
+			<h:outputLink value="../docs/libros 3B 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+			
+			<h:outputText value="#{res['libros.4A']}" />
+			<h:outputLink value="../docs/libros 4A 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+			
+			<h:outputText value="#{res['libros.4B']}" />
+			<h:outputLink value="../docs/libros 4B 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+		</h:panelGrid>
+		
+		<h2>
+			<h:outputText value="#{res['libros.ciclo.tercero']}" escape="false" />
+		</h2>
+		
+		<h:panelGrid columns="2" columnClasses="label, value">
+			<h:outputText value="#{res['libros.5A']}" />
+			<h:outputLink value="../docs/libros 5A 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+			
+			<h:outputText value="#{res['libros.5B']}" />
+			<h:outputLink value="../docs/libros 5B 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+			
+			<h:outputText value="#{res['libros.6A']}" />
+			<h:outputLink value="../docs/libros 6A 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+			
+			<h:outputText value="#{res['libros.4A']}" />
+			<h:outputLink value="../docs/libros 6B 15-16.pdf">
+				<h:graphicImage alt="#{res['libros.descargar.pdf.image']}"
+					title="#{res['libros.descargar.pdf.image']}" name="arrow1.gif"
+					library="images" styleClass="img-responsive" />
+			</h:outputLink>
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>

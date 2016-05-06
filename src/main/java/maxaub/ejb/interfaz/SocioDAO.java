@@ -38,11 +38,11 @@ public interface SocioDAO {
 	public void eliminarSocio(Socio socio);
     
 	/**
-	 * Comprobar si el usuario y la clave entregados son válidos.
+	 * Comprobar si el usuario y la contraseña entregados son válidos.
 	 * 
 	 * @param usuario
-	 * @param clave
+	 * @param contraseña
 	 * @return Socio
 	 */
-	public Socio comprobarSocio(String usuario, String clave);
+	public Socio comprobarSocio(String usuario, String contraseña);
 }

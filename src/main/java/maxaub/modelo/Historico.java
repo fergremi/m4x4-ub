@@ -31,9 +31,11 @@ public class Historico implements Serializable {
 	private Lote lote;
 	
     public Historico() {
+    	super();
     }
     
     public Historico(Date fecha, Lote lote) {
+    	super();
     	this.fecha = fecha;
     	this.lote = lote;
     }

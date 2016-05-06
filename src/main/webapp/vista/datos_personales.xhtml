@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/vista/template/default.xhtml">
+	<ui:define name="title">
+		<h:outputText value="#{res['datos_personales.titulo']}" />
+	</ui:define>
+
+	<ui:define name="leftPanel">
+		<h1>
+			<h:outputText value="#{res['datos_personales.header']}" escape="false" />
+		</h1>
+
+		<p>
+			<h:outputFormat value="#{res['datos_personales.texto']}" escape="false" />
+		</p>
+
+		<style>
+		#form label {
+			color: black;
+		}
+		</style>
+
+		<h:form id="form" style="text-align: center;">
+			<p:panel header="Información del tutor">
+				<h:panelGrid columns="2" columnClasses="label, value">
+					<h:outputLabel for="tutor_nombre" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.nombre']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_nombre"
+							size="16" maxlength="16"
+							value="#{loginController.socio.nombre}" required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_nombre" />
+					</h:panelGroup>
+
+					<h:outputLabel for="tutor_apellidos"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.apellidos']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_apellidos"
+							size="25" maxlength="25"
+							value="#{loginController.socio.apellidos}" required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_apellidos" />
+					</h:panelGroup>
+
+					<h:outputLabel for="tutor_dni" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.dni']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_dni"
+							size="11" maxlength="11" value="#{loginController.socio.dni}"
+							required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_dni" />
+					</h:panelGroup>
+
+					<h:outputLabel for="tutor_clave1" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.clave1']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:password autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_clave1"
+							size="11" maxlength="11" feedback="true"
+							value="#{loginController.socio.clave}" required="true"
+							match="tutor_clave2" label="#{res['datos_personales.tutor.clave1']}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_clave1" />
+					</h:panelGroup>
+
+					<h:outputLabel for="tutor_clave2" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.clave2']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:password autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_clave2"
+							size="11" maxlength="11" feedback="true"
+							value="#{loginController.socio.clave}" required="true"
+							label="#{res['datos_personales.tutor.clave2']}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_clave2" />
+					</h:panelGroup>
+
+					<h:outputLabel for="tutor_direccion"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.direccion']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_direccion"
+							size="11" maxlength="11"
+							value="#{loginController.socio.direccion}" required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_direccion" />
+					</h:panelGroup>
+
+					<h:outputLabel for="tutor_telefono" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.telefono']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_telefono"
+							size="9" maxlength="9"
+							value="#{loginController.socio.telefono}" required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_telefono" />
+					</h:panelGroup>
+
+					<h:outputLabel for="tutor_email" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.email']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="tutor_email"
+							size="9" maxlength="9" value="#{loginController.socio.email}"
+							required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="tutor_email" />
+					</h:panelGroup>
+
+					<!-- <h:outputLabel for="tutor_participar"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.participar']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:selectOneButton id="tutor_participar"
+							styleClass="fieldInputRequired"
+							value="#{loginController.socio.participar}"
+							valueChangeListener="#{loginController.participarChange}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+							<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+						</p:selectOneButton>
+						<p:message for="tutor_participar" />
+					</h:panelGroup> -->
+
+					<!-- <h:outputLabel for="tutor_envio_whatsapp"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.tutor.envio.whatsapp']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:selectOneButton id="tutor_envio_whatsapp"
+							styleClass="fieldInputRequired"
+							value="#{loginController.envioWhatsapp}"
+							valueChangeListener="#{loginController.envioWhatsappChange}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<f:selectItem itemLabel="#{res['datos_personales.si']}" itemValue="true" />
+							<f:selectItem itemLabel="#{res['datos_personales.no']}" itemValue="false" />
+						</p:selectOneButton>
+						<p:message for="tutor_envio_whatsapp" />
+					</h:panelGroup> -->
+
+					<!-- <h:outputLabel for="colaborar" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.colaborar']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:selectOneButton id="colaborar" styleClass="fieldInputRequired"
+							value="#{loginController.colaborar}"
+							valueChangeListener="#{loginController.colaborarChange}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<f:selectItem itemLabel="#{res['datos_personales.si']}" itemValue="true" />
+							<f:selectItem itemLabel="#{res['datos_personales.no']}" itemValue="false" />
+						</p:selectOneButton>
+						<p:message for="colaborar" />
+					</h:panelGroup> -->
+				</h:panelGrid>
+			</p:panel>
+
+			<p:carousel numVisible="1" value="#{loginController.alumnnos}"
+				var="alumno" responsive="true">
+				<f:facet name="header">
+					<h:outputText value="#{res['datos_personales.alumnos']}"
+						escape="false" />
+				</f:facet>
+				
+				<h:panelGrid columns="2" columnClasses="label,value" >
+					<h:outputLabel for="alumno_nombre" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.alumno.nombre']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="alumno_nombre"
+							size="16" maxlength="16" value="#{alumno.nombre}"
+							required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="alumno_nombre" />
+					</h:panelGroup>
+
+					<h:outputLabel for="alumno_apellidos"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.alumno.apellidos']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired"
+							id="alumno_apellidos" size="25" maxlength="25"
+							value="#{alumno.apellidos}" required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="alumno_apellidos" />
+					</h:panelGroup>
+
+					<h:outputLabel for="alumno_edad" styleClass="titleFieldRequired"
+						value="#{res['datos_personales.alumno.edad']}" escape="false" />
+					<h:panelGroup layout="block">
+						<h:inputText autocomplete="off"
+							styleClass="form-control fieldInputRequired" id="alumno_edad"
+							size="11" maxlength="11" value="#{alumno.edad}" required="false"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+						<p:message for="alumno_edad" />
+					</h:panelGroup>
+
+					<h:outputLabel for="alumno_curso_actual"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.alumno.curso.actual']}"
+						escape="false" />
+					<h:panelGroup layout="block">
+						<h:selectOneMenu id="alumno_curso_actual"
+							styleClass="form-control fieldInputRequired"
+							value="#{alumno.cursoActual}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<!-- <f:selectItem itemLabel="..." itemValue="" /> -->
+							<f:selectItems value="#{loginController.cursosActualesListItems}" />
+						</h:selectOneMenu>
+						<p:message for="alumno_curso_actual" />
+					</h:panelGroup>
+
+					<h:outputLabel for="alumno_curso_futuro"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.alumno.curso.futuro']}"
+						escape="false" />
+					<h:panelGroup layout="block">
+						<h:selectOneMenu id="alumno_curso_futuro"
+							styleClass="form-control fieldInputRequired"
+							value="#{alumno.cursoFuturo}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<!-- <f:selectItem itemLabel="..." itemValue="" /> -->
+							<f:selectItems value="#{loginController.cursosFuturosListItems}" />
+						</h:selectOneMenu>
+						<p:message for="alumno_curso_futuro" />
+					</h:panelGroup>
+
+					<!-- 					<h:outputLabel for="alumno_subgrupo"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.alumno.subgrupo']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:selectOneButton id="alumno_subgrupo"
+							styleClass="fieldInputRequired"
+							value="#{alumno.subgrupo}"
+							valueChangeListener="#{loginController.subgrupoChange}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<f:selectItem itemLabel="..." itemValue="" />
+							<f:selectItems value="#{loginController.subgruposListItems}" />
+						</p:selectOneButton>
+						<p:message for="alumno_subgrupo" />
+					</h:panelGroup> -->
+
+					<!-- 					<h:outputLabel for="alumno_optativas"
+						styleClass="titleFieldRequired"
+						value="#{res['datos_personales.alumno.optativas']}" escape="false" />
+					<h:panelGroup layout="block">
+						<p:selectOneButton id="alumno_optativas"
+							styleClass="fieldInputRequired"
+							value="#{alumno.optativas}"
+							valueChangeListener="#{loginController.optativasChange}"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<f:selectItem itemLabel="#{res['datos_personales.si']}" itemValue="true" />
+							<f:selectItem itemLabel="#{res['datos_personales.no']}" itemValue="false" />
+						</p:selectOneButton>
+						<p:message for="alumno_optativas" />
+					</h:panelGroup> -->
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<h:outputText
+						value="#{loginController.alumnnos.size()} #{res['datos_personales.alumnos.encontrados']}"
+						escape="false" />
+				</f:facet>
+			</p:carousel>
+
+			<p:commandButton value="#{res['datos_personales.submit']}"
+				actionListener="#{loginController.editarDatosSocio()}" escape="false"
+				update="growl" process="@this" />
+		</h:form>
+	</ui:define>
+</ui:composition>
