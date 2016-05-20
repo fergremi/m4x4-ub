@@ -21,7 +21,7 @@ public class BaseJPA {
     /**
 	 * @return the entityManagerFactory
 	 */
-	public EntityManagerFactory getEntityManagerFactory() {
+	public EntityManagerFactory createEntityManagerFactory() {
 		return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	}
 
@@ -29,7 +29,10 @@ public class BaseJPA {
 	 * @return the entityManager
 	 */
 	public EntityManager getEntityManager() {
-		return getEntityManagerFactory().createEntityManager();
+		if (entityManager == null) {
+			entityManager = createEntityManagerFactory().createEntityManager();
+		}
+		return entityManager;
 	}
 	
 	/**

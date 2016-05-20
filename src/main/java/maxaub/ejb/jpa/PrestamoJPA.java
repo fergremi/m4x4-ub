@@ -27,8 +27,14 @@ public class PrestamoJPA extends BaseJPA implements PrestamoDAO {
 	}
 	
 	@Override
-	public void guardarPrestamo(Prestamo prestamo) {
+	public void crearPrestamo(Prestamo prestamo) {
         getEntityManager().persist(prestamo);
+        getEntityManager().flush();
+	}
+	
+	@Override
+	public void guardarPrestamo(Prestamo prestamo) {
+        getEntityManager().merge(prestamo);
         getEntityManager().flush();
 	}
 	

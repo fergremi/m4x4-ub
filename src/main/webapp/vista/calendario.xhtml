@@ -15,12 +15,25 @@
 		<h1>
 			<h:outputText value="#{res['calendario.header']}" escape="false" />
 		</h1>
-				
-		<h:graphicImage
-			alt="Calendari Escolar València ciutat 2015 - 2016.jpg"
-			title="Calendari Escolar València ciutat 2015 - 2016.jpg"
-			name="Calendari Escolar Valencia ciutat 2015 - 2016.jpg"
-			library="images"
-			style="width: 25%; text-align: center;" />
+		
+		<p:commandLink onclick="PF('maxImg').show();">
+			<h:graphicImage
+				alt="Calendari Escolar València ciutat 2015 - 2016.jpg"
+				title="Calendari Escolar València ciutat 2015 - 2016.jpg"
+				name="Calendari Escolar Valencia ciutat 2015 - 2016.jpg"
+				library="images" width="25%"
+				style="text-align: center;" />
+		</p:commandLink>
+		
+		<p:dialog modal="true" widgetVar="maxImg"
+			closeOnEscape="true"
+			responsive="true"
+			showHeader="false" fitViewport="true">
+			<h:graphicImage
+				alt="Calendari Escolar València ciutat 2015 - 2016.jpg"
+				title="Calendari Escolar València ciutat 2015 - 2016.jpg"
+				name="Calendari Escolar Valencia ciutat 2015 - 2016.jpg"
+				library="images" />
+		</p:dialog>
 	</ui:define>
 </ui:composition>

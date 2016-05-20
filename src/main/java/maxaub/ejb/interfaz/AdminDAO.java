@@ -23,4 +23,11 @@ public interface AdminDAO {
 	 * @return Admin
 	 */
 	public Admin comprobarAdmin(String usuario, String contraseña);
+	
+	/**
+	 * Almacenar admin.
+	 * 
+	 * @param Admin
+	 */
+	public void guardarAdmin(Admin admin);
 }

@@ -1,5 +1,6 @@
 package maxaub.ejb.interfaz;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -25,19 +26,26 @@ public interface LibroDAO {
 	/**
 	 * Obtener libro.
 	 * 
-	 * @param idLibro
+	 * @param isbn
 	 * @return Libro
 	 */
-	public Libro getLibro(int idLibro);
+	public Libro getLibro(BigInteger isbn);
     
 	/**
 	 * Obtener libro activo.
 	 * 
-	 * @param idLibro
+	 * @param isbn
 	 * @return Libro
 	 */
-	public Libro getLibroActivo(int idLibro);
+	public Libro getLibroActivo(BigInteger isbn);
     
+	/**
+	 * Crear libro.
+	 * 
+	 * @param Libro
+	 */
+	public void crearLibro(Libro libro);
+	
 	/**
 	 * Almacenar libro.
 	 * 
@@ -51,4 +59,32 @@ public interface LibroDAO {
 	 * @param Libro
 	 */
 	public void eliminarLibro(Libro libro);
+	
+	/**
+	 * Obtener todas las asignaturas de todos los libros.
+	 * 
+	 * @return List<String>
+	 */
+	public List<String> getAsignaturasLibros();
+	
+	/**
+	 * Obtener todos los cursos de todos los libros.
+	 * 
+	 * @return List<String>
+	 */
+	public List<String> getCursosLibros();
+	
+	/**
+	 * Obtener todas las editoriales de todos los libros.
+	 * 
+	 * @return List<String>
+	 */
+	public List<String> getEditorialesLibros();
+	
+	/**
+	 * Obtener todos los idiomas de todos los libros.
+	 * 
+	 * @return List<String>
+	 */
+	public List<String> getIdiomasLibros();
 }

@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h:form id="formSocios">
+		<p:dataTable id="sociosTable" widgetVar="sociosConsulta" var="socio"
+			value="#{adminController.socios}" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" sortMode="multiple"
+			filteredValue="#{adminController.sociosFiltrados}"
+			emptyMessage="#{res['noData']}" reflow="true" styleClass="adminTable">
+			<p:ajax event="rowToggle" listener="#{adminController.onRowToggle}" />
+			
+			<f:facet name="header">
+	           	Expand rows to see detailed information
+	   		</f:facet>
+			
+			<p:column style="width:40px">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="#{res['socio.dni']}" sortBy="#{socio.dni}"
+				filterBy="#{socio.dni}" filterMatchMode="contains"
+				filterMaxLength="9">
+				<h:outputText value="#{socio.dni}" />
+			</p:column>
+			<p:column headerText="#{res['socio.nombre']}"
+				sortBy="#{socio.nombre}" filterBy="#{socio.nombre}"
+				filterMatchMode="contains" filterMaxLength="16">
+				<h:outputText value="#{socio.nombre}" />
+			</p:column>
+			<p:column headerText="#{res['socio.apellidos']}"
+				sortBy="#{socio.apellidos}" filterBy="#{socio.apellidos}"
+				filterMatchMode="contains" filterMaxLength="25">
+				<h:outputText value="#{socio.apellidos}" />
+			</p:column>
+			<p:column headerText="#{res['socio.email']}"
+				sortBy="#{socio.email}" filterBy="#{socio.email}"
+				filterMatchMode="contains" filterMaxLength="50">
+				<h:outputText value="#{socio.email}" />
+			</p:column>
+			<p:column headerText="#{res['socio.telefono']}"
+				sortBy="#{socio.telefono}" filterBy="#{socio.telefono}"
+				filterMatchMode="exact" filterMaxLength="12">
+				<f:facet name="filter">
+					<p:spinner onchange="PF('sociosConsulta').filter()"
+						styleClass="spinner" size="12" maxlength="12">
+						<f:converter converterId="javax.faces.Long" />
+					</p:spinner>
+				</f:facet>
+				<h:outputText value="#{socio.telefono}" />
+			</p:column>
+			<p:column headerText="#{res['socio.direccion']}"
+				sortBy="#{socio.direccion}" filterBy="#{socio.direccion}"
+				filterMatchMode="contains" filterMaxLength="50">
+				<h:outputText value="#{socio.direccion}" />
+			</p:column>
+			<p:column headerText="#{res['socio.contraseña']}">
+				<h:outputText value="#{socio.contraseña}" />
+			</p:column>
+			<p:column headerText="#{res['socio.whatsapp']}"
+				filterBy="#{socio.whatsapp}" filterMatchMode="equals">
+				<f:facet name="filter">
+					<p:selectOneButton onchange="PF('sociosConsulta').filter()"
+						value="#{adminController.whatsappDefault}">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
+						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+						<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+					</p:selectOneButton>
+				</f:facet>
+				<h:outputText value="#{socio.whatsapp ? res['si']: res['no']}" />
+			</p:column>
+			<p:column headerText="#{res['socio.activo']}"
+				filterBy="#{socio.activo}" filterMatchMode="equals">
+				<f:facet name="filter">
+					<p:selectOneButton onchange="PF('sociosConsulta').filter()"
+						value="#{adminController.activoDefault}">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
+						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+						<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+					</p:selectOneButton>
+				</f:facet>
+				<h:outputText value="#{socio.activo ? res['si']: res['no']}" />
+			</p:column>
+			
+			<p:rowExpansion>
+				<p:panel toggleable="true" collapsed="true">
+					<f:facet name="header">
+						<h:outputText value="#{res['modo.edicion']}" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:outputLabel for="dni" styleClass="titleFieldRequired"
+							value="#{res['socio.dni']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="dni" maxlength="9" value="#{socio.dni}" required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="dni" />
+						</h:panelGroup>
+
+						<h:outputLabel for="nombre" styleClass="titleFieldRequired"
+							value="#{res['socio.nombre']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="nombre" maxlength="16" value="#{socio.nombre}"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="nombre" />
+						</h:panelGroup>
+
+						<h:outputLabel for="apellidos" styleClass="titleFieldRequired"
+							value="#{res['socio.apellidos']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="apellidos" maxlength="25" value="#{socio.apellidos}"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="apellidos" />
+						</h:panelGroup>
+
+						<h:outputLabel for="email" styleClass="titleFieldRequired"
+							value="#{res['socio.email']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="email" maxlength="50" value="#{socio.email}"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="email" />
+						</h:panelGroup>
+
+						<h:outputLabel for="telefono" styleClass="titleFieldRequired"
+							value="#{res['socio.telefono']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="telefono" maxlength="12" value="#{socio.telefono}"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="telefono" />
+						</h:panelGroup>
+
+						<h:outputLabel for="direccion" styleClass="titleFieldRequired"
+							value="#{res['socio.direccion']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="direccion" maxlength="50" value="#{socio.direccion}"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="direccion" />
+						</h:panelGroup>
+						
+						<h:outputLabel for="contraseña" styleClass="titleFieldRequired"
+							value="#{res['socio.contraseña']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:password autocomplete="off" styleClass="fieldInputRequired"
+									id="contraseña" maxlength="11" feedback="true"
+									value="#{socio.contraseña}" required="true"
+									label="#{res['contraseña']}"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
+									promptLabel="#{res['contraseña.label']}"
+									weakLabel="#{res['contraseña.debil']}"
+									goodLabel="#{res['contraseña.buena']}"
+									strongLabel="#{res['contraseña.fuerte']}" redisplay="true" />
+								</p:inplace>
+								<p:message for="contraseña" />
+						</h:panelGroup>
+
+						<h:outputLabel for="whatsapp" styleClass="titleFieldRequired"
+							value="#{res['socio.whatsapp']}" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<f:facet name="output">
+									<h:outputText value="#{socio.whatsapp ? res['si']: res['no']}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneButton id="whatsapp" styleClass="fieldInputRequired"
+										value="#{socio.whatsapp}" required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:converter converterId="javax.faces.Boolean" />
+										<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+										<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+									</p:selectOneButton>
+								</f:facet>
+							</p:inplace>
+							<p:message for="whatsapp" />
+						</h:panelGroup>
+
+						<h:outputLabel for="activo" styleClass="titleFieldRequired"
+							value="#{res['socio.activo']}" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<f:facet name="output">
+									<h:outputText value="#{socio.activo ? res['si']: res['no']}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneButton id="activo" styleClass="fieldInputRequired"
+										value="#{socio.activo}" required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:converter converterId="javax.faces.Boolean" />
+										<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+										<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+									</p:selectOneButton>
+								</f:facet>
+							</p:inplace>
+							<p:message for="activo" />
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+			
+				<p:panel toggleable="true" collapsed="true"
+					rendered="#{not empty adminController.alumnos}">
+					<f:facet name="header">
+						<h:outputText value="#{res['alumnos']}"
+							escape="false" />
+					</f:facet>
+					<p:carousel id="carouselAlumnos" numVisible="1" responsive="true"
+						value="#{adminController.alumnos}" var="alumno">
+						<f:facet name="header">
+							<h:outputText value="#{res['datos_socio.alumnos']}"
+								escape="false" />
+						</f:facet>
+						<p:panel>
+							<f:facet name="footer">
+								<h:outputFormat
+									value="#{res['alumno.actual']} #{adminController.alumnos.indexOf(alumno)+1}"
+									escape="false" style="font-weight: bold" />
+							</f:facet>
+							<h:panelGrid columns="2" >
+								<h:outputLabel for="alumno_nombre" styleClass="titleFieldRequired"
+									value="#{res['alumno.nombre']}:" escape="false" />
+								<h:panelGroup layout="block">
+									<p:inputText autocomplete="off"
+										styleClass="fieldInputRequired" id="alumno_nombre"
+										maxlength="16" value="#{alumno.nombre}"
+										required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									<p:message for="alumno_nombre" />
+								</h:panelGroup>
+			
+								<h:outputLabel for="alumno_apellidos"
+									styleClass="titleFieldRequired"
+									value="#{res['alumno.apellidos']}:" escape="false" />
+								<h:panelGroup layout="block">
+									<p:inputText autocomplete="off"
+										styleClass="fieldInputRequired"
+										id="alumno_apellidos" maxlength="25"
+										value="#{alumno.apellidos}" required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									<p:message for="alumno_apellidos" />
+								</h:panelGroup>
+			
+								<h:outputLabel for="alumno_edad" styleClass="titleFieldRequired"
+									value="#{res['alumno.edad']}:" escape="false" />
+								<h:panelGroup layout="block">
+									<p:inputText autocomplete="off"
+										styleClass="fieldInputRequired" id="alumno_edad"
+										maxlength="11" value="#{alumno.edad}" required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									<p:message for="alumno_edad" />
+								</h:panelGroup>
+			
+								<h:outputLabel for="alumno_curso_actual"
+									styleClass="titleFieldRequired"
+									value="#{res['alumno.curso.actual']}:"
+									escape="false" />
+								<h:panelGroup layout="block">
+									<p:selectOneMenu id="alumno_curso_actual"
+										styleClass="fieldInputRequired"
+										value="#{alumno.cursoActual}"
+										converter="genericConverter"
+										required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:selectItems
+											value="#{registroController.cursos}" var="cursoActual"
+											itemLabel="#{cursoActual.nombre}" itemValue="#{cursoActual.id}" />
+									</p:selectOneMenu>
+									<p:message for="alumno_curso_actual" />
+								</h:panelGroup>
+			
+								<h:outputLabel for="alumno_curso_futuro"
+									styleClass="titleFieldRequired"
+									value="#{res['alumno.curso.futuro']}:"
+									escape="false" />
+								<h:panelGroup layout="block">
+									<p:selectOneMenu id="alumno_curso_futuro"
+										styleClass="fieldInputRequired"
+										value="#{alumno.cursoFuturo}"
+										converter="genericConverter"
+										required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:selectItems
+											value="#{registroController.cursos}" var="cursoActual"
+											itemLabel="#{cursoActual.nombre}" itemValue="#{cursoActual.id}" />
+									</p:selectOneMenu>
+									<p:message for="alumno_curso_futuro" />
+								</h:panelGroup>
+			
+								<h:outputLabel for="alumno_subgrupo"
+									styleClass="titleFieldRequired"
+									value="#{res['alumno.subgrupo']}:" escape="false" />
+								<h:panelGrid columns="2">
+									<p:selectOneButton id="alumno_subgrupo"
+										styleClass="fieldInputRequired"
+										value="#{alumno.subgrupo}"
+										converter="genericConverter"
+										required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:selectItems value="#{registroController.subgrupos}" var="subgrupo"
+											itemLabel="#{subgrupo.nombre}" itemValue="#{subgrupo.cod}" />
+									</p:selectOneButton>
+									<p:message for="alumno_subgrupo" />
+								</h:panelGrid>
+			
+								<h:outputLabel for="alumno_optativas"
+									styleClass="titleFieldRequired"
+									value="#{res['alumno.optativas']}:" escape="false" />
+								<h:panelGrid columns="2">
+									<p:selectOneButton id="alumno_optativas"
+										styleClass="fieldInputRequired"
+										value="#{alumno.optativas}"
+										converter="javax.faces.Boolean"
+										required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+										<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+									</p:selectOneButton>
+									<p:message for="alumno_optativas" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</p:panel>
+		
+						<f:facet name="footer">
+							<h:outputText
+								value="#{adminController.alumnos.size()} #{res['datos_socio.alumnos.encontrados']}"
+								escape="false" />
+						</f:facet>
+					</p:carousel>
+		    	</p:panel>
+			</p:rowExpansion>
+		</p:dataTable>
+	</h:form>
+</ui:composition>

@@ -24,6 +24,13 @@ public interface SocioDAO {
 	public List<Socio> getSociosActivos();
     
 	/**
+	 * Crear socio.
+	 * 
+	 * @param Socio
+	 */
+	public void crearSocio(Socio socio);
+	
+	/**
 	 * Almacenar socio.
 	 * 
 	 * @param Socio

@@ -1,20 +1,14 @@
 package maxaub.controlador;
 
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
@@ -24,23 +18,29 @@ import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Admin;
 import maxaub.modelo.Alumno;
 import maxaub.modelo.Socio;
+import util.Idioma;
+import util.Tema;
+import util.Utils;
+//TODO
+//String param =
+//externalContext.getInitParameter("primefaces.THEME");
 
 @ManagedBean
 @SessionScoped
-public class LoginController extends BaseInfoController implements Serializable {
+public class LoginController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = Logger.getLogger(LoginController.class.getName());
-	
+
 	@EJB
 	private SocioDAO socioDAO;
-	
+
 	@EJB
 	private AdminDAO adminDAO;
-	
+
 	@EJB
 	private AlumnoDAO alumnoDAO;
-	
+
 	private Boolean socioLogged = false;
 	private Boolean adminLogged = false;
 
@@ -50,58 +50,65 @@ public class LoginController extends BaseInfoController implements Serializable 
 
 	private boolean showErrorLogin;
 	private String usuario;
-    private String clave;
-    
-    private Locale idioma;
-    private String idiomaSelected;
-    private Map<String, String> idiomas;
-	private List<SelectItem> idiomasListItems;
-    
-	public LoginController() {
-		idioma = getLocale();
-		idiomaSelected = "es";
-		idiomas = new HashMap<String, String>();
-		idiomas.put("es", "Español");
-		idiomas.put("va", "Valenciano");
-		
-		socio = null;
-	}
+	private String contraseña;
+
+	private Locale idioma;
+	private Idioma idiomaSelected;
+	private List<Idioma> idiomas;
+
+	private Tema temaSelected;
+	private List<Tema> temas;
 	
+	private List<Alumno> alumnos;
+
+	public LoginController() {
+		socio = null;
+
+		idioma = Utils.getLocale();
+		idiomaSelected = Idioma.DEFAULT_IDIOMA;
+		idiomas = Idioma.IDIOMAS;
+
+		temaSelected = Tema.DEFAULT_TEMA;
+		temas = Tema.TEMAS;
+		
+		alumnos = null;
+	}
+
 	public Boolean getSocioLogged() {
 		return socioLogged;
 	}
 	public void setSocioLogged(Boolean socioLogged) {
 		this.socioLogged = socioLogged;
 	}
-	
+
 	public Boolean getAdminLogged() {
 		return adminLogged;
 	}
 	public void setAdminLogged(Boolean adminLogged) {
 		this.adminLogged = adminLogged;
 	}
-	
+
 	public Socio getSocio() {
 		return socio;
 	}
 	public void setSocio(Socio socio) {
 		this.socio = socio;
 	}
-	
+
 	public Admin getAdmin() {
 		return admin;
 	}
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
 	}
-    
+
 	/* Formulario de login */
-    public void setShowErrorLogin(Boolean showErrorAccesoUnico) {
-        this.showErrorLogin = showErrorAccesoUnico;
-    }
-    public boolean isShowErrorLogin() {
-        return showErrorLogin;
-    }
+	public void setShowErrorLogin(Boolean showErrorAccesoUnico) {
+		this.showErrorLogin = showErrorAccesoUnico;
+	}
+	public boolean isShowErrorLogin() {
+		return showErrorLogin;
+	}
 
 	public String getUsuario() {
 		return usuario;
@@ -110,13 +117,13 @@ public class LoginController extends BaseInfoController implements Serializable 
 		this.usuario = usuario;
 	}
 
-	public String getClave() {
-		return clave;
+	public String getContraseña() {
+		return contraseña;
 	}
-	public void setClave(String clave) {
-		this.clave = clave;
+	public void setContraseña(String contraseña) {
+		this.contraseña = contraseña;
 	}
-	
+
 	/* locale html lang */
 	public Locale getIdioma() {
 		return idioma;
@@ -124,77 +131,112 @@ public class LoginController extends BaseInfoController implements Serializable 
 	public void setIdioma(Locale idioma) {
 		this.idioma = idioma;
 	}
-	
-	public String getIdiomaSelected() {
+
+	public Idioma getIdiomaSelected() {
 		return idiomaSelected;
 	}
-	public void setIdiomaSelected(String idiomaSelected) {
+	public void setIdiomaSelected(Idioma idiomaSelected) {
 		this.idiomaSelected = idiomaSelected;
-		idioma = new Locale(idiomaSelected, idiomas.get(idiomaSelected));
+		idioma = new Locale(idiomaSelected.getCod(), idiomaSelected.getNombre());
 		FacesContext.getCurrentInstance().getViewRoot().setLocale(idioma);
 	}
 
-	public List<SelectItem> getIdiomasListItems() {
-		if (idiomasListItems == null) {
-			idiomasListItems = new ArrayList<SelectItem>();
-			try {
-				Iterator<String> it = idiomas.keySet().iterator();
-				while(it.hasNext()){
-					String key = (String) it.next();
-					idiomasListItems.add(new SelectItem(key, idiomas.get(key)));
-				}
-			} catch (Exception e) {
-				log.error(e);
-			}
-		}
-		return idiomasListItems;
+	public List<Idioma> getIdiomas() {
+		return idiomas;
 	}
-	
-	public Locale getLocale() {
-		Locale locale = null;
-		if ((FacesContext.getCurrentInstance() != null) && (FacesContext.getCurrentInstance().getViewRoot() != null)) {
-			locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-			if (locale == null) {
-				FacesContext.getCurrentInstance().getApplication().getDefaultLocale();
-			}
-		}
-		return locale;
+
+	public Tema getTemaSelected() {
+		return temaSelected;
+	}
+	public void setTemaSelected(Tema temaSelected) {
+		this.temaSelected = temaSelected;
+	}
+
+	public List<Tema> getTemas() {
+		return temas;
 	}
 
 	public String login() {
+		boolean login = true;
+		
+		if(usuario == null || usuario.trim().length() == 0) {
+			String required = 
+					Utils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
+							Utils.getResourceBundle().getString("usuario"));
+
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle().getString("javax.faces.component.UIInput.REQUIRED"),
+							required));
+			login = false;
+		}
+		if(contraseña == null || contraseña.trim().length() == 0) {
+			String required = 
+					Utils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
+							Utils.getResourceBundle().getString("contraseña"));
+
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle().getString("javax.faces.component.UIInput.REQUIRED"),
+							required));
+			login = false;
+		}
+		
+		if (!login) {
+			return null;
+		}
+
 		/* Al introducir un DNI el login es de un Socio */
 		if (usuario.matches("\\d{8}[A-Za-z]")) {
-			socio = socioDAO.comprobarSocio(usuario, clave);
+			socio = socioDAO.comprobarSocio(usuario, contraseña);
 			if (socio == null){
 				log.info("[Login {Socio} incorrecto]: Usuario y/o contraseña incorrecto/s");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login incorrecto", "Usuario y/o contraseña incorrecto/s"));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								Utils.getResourceBundle().getString("login.incorrecto"),
+								Utils.getResourceBundle().getString("login.incorrecto.detalle")));
 			}
 			else {
 				log.info("[Login {Socio} correcto]: " + socio.getNombre() + " " + socio.getApellidos());
 				socioLogged = true;
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login correcto", socio.getNombre() + " " + socio.getApellidos()));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								Utils.getResourceBundle().getString("login.correcto"),
+								socio.getNombre() + " " + socio.getApellidos()));
 				return "banco?faces-redirect=true";
 			}
 		}
 		/* Si no se introduce un DNI, se considera un administrador */
 		else {
-			admin = adminDAO.comprobarAdmin(usuario, clave);
+			admin = adminDAO.comprobarAdmin(usuario, contraseña);
 			if (admin == null){
 				log.info("[Login {Admin} incorrecto]: Usuario y/o contraseña incorrecto/s");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login incorrecto", "Usuario y/o contraseña incorrecto/s"));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								Utils.getResourceBundle().getString("login.incorrecto"),
+								Utils.getResourceBundle().getString("login.incorrecto.detalle")));
 			}
 			else {
 				log.info("[Login {Admin} correcto]: " + usuario);
 				adminLogged = true;
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Login correcto", usuario));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								Utils.getResourceBundle().getString("login.correcto"),
+								usuario));
 				return "admin?faces-redirect=true";
 			}
 		}
 		return "index"; /* vista por defecto */
 	}
-	
+
 	public String logout() {
 		if (socio != null) {
 			socioLogged = false;
@@ -205,21 +247,44 @@ public class LoginController extends BaseInfoController implements Serializable 
 			admin = null;
 		}
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sesión finalizada", "Adiós"));		
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						Utils.getResourceBundle().getString("logout"),
+						Utils.getResourceBundle().getString("logout.despedida")));		
 		return "index"; /* vista por defecto */
 	}
-	
-	public List<Alumno> getAlumnnos() {
-		return alumnoDAO.getAlumnosSocioActivo(socio);
+
+	public List<Alumno> getAlumnos() {
+		alumnos = alumnoDAO.getAlumnosSocioActivo(socio);
+		return alumnos;
 	}
-	
+	public void setAlumnos(List<Alumno> alumnos) {
+		this.alumnos = alumnos; 
+	}
+
 	public String editarDatosSocio() {
-		log.info("editar datos socio");
-		return "datos_socios"; /* vista por defecto */
+		try {
+			socioDAO.guardarSocio(socio);
+			for (Alumno alumno : alumnos) {
+				alumnoDAO.guardarAlumno(alumno);
+			}
+			//TODO res
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error", "fail"));
+		}
+		return "datos_socio"; /* vista por defecto */
 	}
-	
+
 	public String editarDatosAdmin() {
-		log.info("editar datos admin");
+		try {
+			adminDAO.guardarAdmin(admin);
+			//TODO res
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error", "fail"));
+		}
 		return "datos_admin"; /* vista por defecto */
 	}
 }

@@ -24,6 +24,13 @@ public interface PrestamoDAO {
 	public Prestamo getPrestamo(int idPrestamo);
     
 	/**
+	 * Crear préstamo.
+	 * 
+	 * @param Prestamo
+	 */
+	public void crearPrestamo(Prestamo prestamo);
+	
+	/**
 	 * Almacenar préstamo.
 	 * 
 	 * @param Prestamo

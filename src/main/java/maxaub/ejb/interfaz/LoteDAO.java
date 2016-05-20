@@ -24,6 +24,13 @@ public interface LoteDAO {
 	public Lote getLote(int idLote);
     
 	/**
+	 * Crear lote.
+	 * 
+	 * @param Lote
+	 */
+	public void crearLote(Lote lote);
+	
+	/**
 	 * Almacenar lote.
 	 * 
 	 * @param Lote

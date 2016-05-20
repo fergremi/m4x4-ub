@@ -18,14 +18,14 @@ public class Admin implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", columnDefinition="NUMBER(11)", unique=true, nullable=false, precision=19)
 	private long id;
 	
-	@Column(name="usuario", columnDefinition="VARCHAR(15)", nullable=false, length=50)
+	@Column(name="usuario", columnDefinition="VARCHAR(15)", nullable=false, length=15)
 	private String usuario;
 	
-	@Column(name="contraseña", columnDefinition="VARCHAR(15)", nullable=false, length=45)
+	@Column(name="contraseña", columnDefinition="VARCHAR(15)", nullable=false, length=15)
 	private String contraseña;
 	
 	public Admin() {
@@ -55,7 +55,7 @@ public class Admin implements Serializable {
 	public String getContraseña() {
         return this.contraseña;
     }
-	public void ontraseña(String contraseña) {
+	public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
 }

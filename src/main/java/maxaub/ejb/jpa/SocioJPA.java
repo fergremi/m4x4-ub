@@ -33,8 +33,14 @@ public class SocioJPA extends BaseJPA implements SocioDAO {
 	}
 	
 	@Override
-	public void guardarSocio(Socio socio) {
+	public void crearSocio(Socio socio) {
 		getEntityManager().persist(socio);
+		getEntityManager().flush();
+	}
+	
+	@Override
+	public void guardarSocio(Socio socio) {
+		getEntityManager().merge(socio);
 		getEntityManager().flush();
 	}
 	
@@ -55,7 +61,7 @@ public class SocioJPA extends BaseJPA implements SocioDAO {
             return null;
         }
 		
-		String sql = "SELECT s FROM Socio AS s WHERE s.dni = :usuario and s.contraseña = :contraseña"
+		String sql = "SELECT s FROM Socio AS s WHERE s.dni = :usuario AND s.contraseña = :contraseña"
 				+ " AND s.activo = '1'";
 		TypedQuery<Socio> query = getEntityManager().createQuery(sql, Socio.class);
 		query.setParameter("usuario", usuario);

@@ -15,7 +15,7 @@ import maxaub.modelo.Libro;
 
 @ManagedBean
 @SessionScoped
-public class BancoController extends BaseInfoController implements Serializable {
+public class BancoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unused")

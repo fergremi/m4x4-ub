@@ -27,8 +27,14 @@ public class LoteJPA extends BaseJPA implements LoteDAO {
 	}
 	
 	@Override
-	public void guardarLote(Lote lote) {
+	public void crearLote(Lote lote) {
         getEntityManager().persist(lote);
+        getEntityManager().flush();
+	}
+	
+	@Override
+	public void guardarLote(Lote lote) {
+        getEntityManager().merge(lote);
         getEntityManager().flush();
 	}
 	

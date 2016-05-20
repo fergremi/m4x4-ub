@@ -7,6 +7,7 @@
 	<!-- Unidad de persistencia definida en modo JPA 2.1 -->
 	<persistence-unit name="openjpa" transaction-type="JTA">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<jta-data-source>java:jboss/datasources/tfg</jta-data-source>
 		
 		<class>maxaub.modelo.Admin</class>
 		<class>maxaub.modelo.Alumno</class>
@@ -17,7 +18,6 @@
 		<class>maxaub.modelo.Socio</class>
 		
 		<exclude-unlisted-classes />
-		
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
 			<property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/tfg" />

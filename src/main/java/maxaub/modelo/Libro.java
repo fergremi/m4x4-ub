@@ -1,6 +1,7 @@
 package maxaub.modelo;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,12 +21,12 @@ public class Libro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
 	private long id;
 	
-	@Column(name="isbn", columnDefinition="INT(11)", nullable=false, precision=11)
-	private long isbn;
+	@Column(name="isbn", columnDefinition="BIGINT(13)", nullable=false, precision=11)
+	private BigInteger isbn;
 	
 	@Column(name="titulo", columnDefinition="VARCHAR(100)", nullable=false, length=100)
 	private String titulo;
@@ -69,7 +70,7 @@ public class Libro implements Serializable {
 		super();
 	}
 	
-	public Libro(long isbn, String titulo, String asignatura, String curso, String editorial,
+	public Libro(BigInteger isbn, String titulo, String asignatura, String curso, String editorial,
 			int añoEdicion, int cantidad, boolean optativo, String idioma, String imagen,
 			boolean activo) {
 		super();
@@ -93,10 +94,10 @@ public class Libro implements Serializable {
 		this.id = id;
 	}
 	
-	public long getIsbn() {
+	public BigInteger getIsbn() {
 		return this.isbn;
 	}
-	public void setIsbn(long isbn) {
+	public void setIsbn(BigInteger isbn) {
 		this.isbn = isbn;
 	}
 	

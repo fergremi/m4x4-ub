@@ -46,12 +46,15 @@
 		</p:dialog>
 
 		<h:form>
+            <h:panelGrid columns="2" style="vertical-align: middle;">
+				<h:outputLabel for="descarga" value="#{res['directiva.texto.descarga']}" escape="false" />
+				<p:commandButton id="descarga" ajax="false"
+					onclick="PrimeFaces.monitorDownload(start, stop);"
+					icon="ui-icon-arrowthick-1-s">
+					<p:fileDownload value="#{directivaController.estatutos}" />
+				</p:commandButton>
+			</h:panelGrid>
 			<h:outputLabel for="descarga" value="#{res['directiva.texto']}" escape="false" />
-			<p:commandButton id="descarga" ajax="false"
-				onclick="PrimeFaces.monitorDownload(start, stop);"
-				icon="ui-icon-arrowthick-1-s">
-				<p:fileDownload value="#{directivaController.estatutos}" />
-			</p:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>

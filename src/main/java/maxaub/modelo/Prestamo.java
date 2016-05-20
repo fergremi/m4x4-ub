@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,7 +22,7 @@ public class Prestamo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
 	private long id;
 	
@@ -31,8 +32,8 @@ public class Prestamo implements Serializable {
 	@Column(name="pagado", columnDefinition="TINYINT(1)", nullable=false, precision=1)
 	private boolean pagado;
 	
-	//bi-directional one-to-one association to Alumno
-	@OneToOne(fetch=FetchType.LAZY)
+	//uni-directional many-to-one association to Alumno
+	@ManyToOne(fetch=FetchType.LAZY)
 	@Column(name="alumno_id", columnDefinition="INT(11)", nullable=false, precision=11)
 	private Alumno alumno;
 	

@@ -11,29 +11,51 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
-	<title>
-		<h:outputText value="MAX AUB - " /><ui:insert name="title" />
-	</title>
+	<title><h:outputText value="MAX AUB - " /><ui:insert
+			name="title" /></title>
 </h:head>
 <h:body>
+	<!-- Mantiene el estilo del tema PrimeFaces seleccionado -->
+	<h:outputStylesheet
+		library="primefaces-#{loginController.temaSelected.cod}"
+		name="theme.css" />
+
 	<!-- <h:outputStylesheet name="bootstrap.min.css"
 		library="#{themeController.theme}" /> -->
-	<h:outputStylesheet name="css/bootstrap.min.css"
-		library="bootstrap" />
-	<h:outputStylesheet name="css/bootstrap-theme.min.css"
-		library="bootstrap" />
 	<!-- <h:outputStylesheet name="css/bootstrap-theme.min.css"
 		library="bootstrap"
 		rendered="#{themeController.theme == 'bootstrap/css'}" /> -->
+
+	<!-- Carga los estilos bootstrap -->		
+	<h:outputStylesheet name="css/bootstrap.min.css" library="bootstrap" />
+	<h:outputStylesheet name="css/bootstrap-theme.min.css"
+		library="bootstrap" />
+		
+	<!-- Estilos para la flecha goTop -->
 	<h:outputStylesheet name="topArrow.css" library="css" />
+	
+	<!-- Estilos base -->
 	<h:outputStylesheet name="style.css" library="css" />
-	
-	<!-- ICON NEEDS FONT AWESOME FOR CHEVRON UP ICON -->
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
-	
+
+	<!-- icono de la flecha goTop (font-awesome) -->
+	<link
+		href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+		rel="stylesheet" />
+
 	<f:view transient="false" locale="${loginController.idioma}">
 		<!-- Return to Top -->
-		<a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
+		<a href="javascript:" id="return-to-top"><i
+			class="icon-chevron-up"></i></a>
+		
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+		<!-- Popup de carga -->
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false"
+			responsive="true" appendTo="@(body)">
+			<h:graphicImage library="images" name="loading_bar.gif" />
+		</p:dialog>
+		
 		<div class="container-fluid">
 			<div class="header clearfix">
 				<ui:insert name="header">
@@ -71,10 +93,9 @@
 			</div>
 		</div>
 	</f:view>
-	
+
 	<h:outputScript name="jquery/jquery.js" library="primefaces" />
 	<h:outputScript name="js/bootstrap.min.js" library="bootstrap" />
 	<h:outputScript name="topArrow.js" library="js" />
-	<h:outputScript name="PF_dialogs.js" library="js" />
 </h:body>
 </html>

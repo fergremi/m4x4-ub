@@ -32,7 +32,7 @@ public class AdminJPA extends BaseJPA implements AdminDAO {
             return null;
         }
 		
-		String sql = "SELECT a FROM Admin AS a WHERE a.usuario = :usuario and a.contraseña = :contraseña";
+		String sql = "SELECT a FROM Admin AS a WHERE a.usuario = :usuario AND a.contraseña = :contraseña";
 		TypedQuery<Admin> query = getEntityManager().createQuery(sql, Admin.class);
 		query.setParameter("usuario", usuario);
 		query.setParameter("contraseña", contraseña);
@@ -42,5 +42,11 @@ public class AdminJPA extends BaseJPA implements AdminDAO {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	@Override
+	public void guardarAdmin(Admin admin) {
+		getEntityManager().merge(admin);
+		getEntityManager().flush();
 	}
 }

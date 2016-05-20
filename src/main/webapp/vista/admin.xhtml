@@ -6,11 +6,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	template="/vista/template/default.xhtml">
+	template="/vista/template/admin.xhtml">
 	<ui:define name="title">
 		<h:outputText value="#{res['admin.titulo']}" />
 	</ui:define>
-	<ui:define name="leftPanel">
+	<ui:define name="adminPanel">
 		<h1>
 			<h:outputText value="#{res['admin.header']}" escape="false" />
 		</h1>
@@ -19,7 +19,7 @@
 			<h:outputFormat value="#{res['admin.texto']}" escape="false" />
 		</p>
 		
-		<p:tabView dynamic="true" cache="true">
+		<p:tabView id="adminView" dynamic="true" cache="true">
 	        <p:tab title="Lotes">
 	            <h:panelGrid columns="2" cellpadding="10">
 	                <h:graphicImage library="images" name="logo.gif" />
@@ -28,31 +28,18 @@
 	            </h:panelGrid>
 	        </p:tab>
 	        <p:tab title="Socios/Alumnos">
-	            <h:panelGrid columns="2" cellpadding="10">
-	                <h:graphicImage library="images" name="logo.gif" />
-	                <h:outputText value="Francis Ford Coppola's legendary..." />
-	            </h:panelGrid>
+	            <ui:include src="/vista/admin/socios.xhtml" />
 	        </p:tab>
 	        <p:tab title="Libros">
-	            <p:tabView dynamic="true" cache="true" orientation="left">
+	            <p:tabView dynamic="true" cache="true" scrollable="true">
 			        <p:tab title="Consultar libros">
-			            <h:panelGrid columns="2" cellpadding="10">
-			                <h:graphicImage library="images" name="logo.gif" />
-			                <h:outputText value="After a break of more than 15 years..." />
-			            </h:panelGrid>
+		                <ui:include src="/vista/admin/libro/consulta.xhtml" />
 			        </p:tab>
 			        <p:tab title="Depositar libros (manualmente)">
-			            <h:panelGrid columns="2" cellpadding="10">
-			                <h:graphicImage library="images" name="logo.gif" />
-			                <h:outputText
-			                    value="The story begins as Don Vito Corleone..." />
-			            </h:panelGrid>
+		                <ui:include src="/vista/admin/libro/nuevo.xhtml" />
 			        </p:tab>
 			        <p:tab title="Depositar libros (lector de código de barras)">
-			            <h:panelGrid columns="2" cellpadding="10">
-			                <h:graphicImage library="images" name="logo.gif" />
-			                <h:outputText value="Francis Ford Coppola's legendary..." />
-			            </h:panelGrid>
+			        	<ui:include src="/vista/admin/libro/codebar.xhtml" />
 			        </p:tab>
 			    </p:tabView>
 	        </p:tab>

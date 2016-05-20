@@ -16,7 +16,7 @@ import org.primefaces.model.StreamedContent;
 
 @ManagedBean
 @SessionScoped
-public class DirectivaController extends BaseInfoController implements Serializable {
+public class DirectivaController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unused")

@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +20,7 @@ public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
 	private long id;
 	
@@ -53,14 +52,6 @@ public class Alumno implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@Column(name="socio_id", columnDefinition="INT(11)", nullable=false, precision=11)
 	private Socio socio;
-	
-	/*
-	 * bi-directional
-	 */
-	
-	//one-to-many association to Prestamo
-	@OneToOne(mappedBy="alumno", fetch=FetchType.LAZY)
-	private Prestamo prestamo = new Prestamo();
 	
 	public Alumno() {
 		super();
@@ -148,16 +139,5 @@ public class Alumno implements Serializable {
 	}
 	public void setSocio(Socio socio) {
 		this.socio = socio;
-	}
-	
-	/*
-	 * bi-directional
-	 */
-	
-	public Prestamo getPrestamo() {
-		return this.prestamo;
-	}
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
 	}
 }

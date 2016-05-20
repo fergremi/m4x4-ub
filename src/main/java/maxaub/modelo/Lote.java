@@ -21,7 +21,7 @@ public class Lote implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", columnDefinition="INT(11)", unique=true, nullable=false, precision=11)
 	private long id;
 	

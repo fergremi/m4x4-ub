@@ -1,4 +1,9 @@
-* {margin:0;padding:0}
-body {background:#590000;color:#CD7A7A;font:12px/14px Arial,Helvetica,sans-serif;margin-bottom:55px;}
-.footerContainer {text-align: center;}
-.imageFooter{display: inline;}
+*{margin:0;padding:0}
+body{background:#590000;color:#CD7A7A;font:12px/14px Arial,Helvetica,sans-serif;margin-bottom:55px;}
+.footerContainer{text-align:center;}
+.imageFooter{display:inline;}
+.form label{color:#CD7A7A;}
+.ui-inputfield.ui-password{color:black;}
+.ui-wizard-step-title.ui-state-default{cursor:text;}
+.adminTable table{font-size:small;/* width:auto; */}
+//.form label{color:black;}

@@ -32,37 +32,32 @@
 				
 				<p:outputPanel>
 					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputText value="#{res['banco.libro.isbn']}" />
+						<h:outputText value="#{res['libro.isbn']}:" />
 						<h:outputText value="#{libro.isbn}" style="font-weight: bold" />
 						
-						<h:outputText value="#{res['banco.libro.titulo']}" />
+						<h:outputText value="#{res['libro.titulo']}:" />
 						<h:outputText value="#{libro.titulo}" style="font-weight: bold" />
 						
-						<h:outputText value="#{res['banco.libro.asignatura']}" />
+						<h:outputText value="#{res['libro.asignatura']}:" />
 						<h:outputText value="#{libro.asignatura}" style="font-weight: bold" />
 						
-						<h:outputText value="#{res['banco.libro.curso']}" />
+						<h:outputText value="#{res['libro.curso']}:" />
 						<h:outputText value="#{libro.curso}" style="font-weight: bold" />
 						
-						<h:outputText value="#{res['banco.libro.editorial']}" />
+						<h:outputText value="#{res['libro.editorial']}:" />
 						<h:outputText value="#{libro.editorial}" style="font-weight: bold" />
 						
-						<h:outputText value="#{res['banco.libro.idioma']}" />
+						<h:outputText value="#{res['libro.idioma']}:" />
 						<h:outputText value="#{libro.idioma}" style="font-weight: bold" />
 
-						<h:outputText value="#{res['banco.libro.añoEdicion']}" />
+						<h:outputText value="#{res['libro.año.edicion']}:" />
 						<h:outputText value="#{libro.añoEdicion}" style="font-weight: bold" />
 						
-						<h:outputText value="#{res['banco.libro.cantidad']}" />
+						<h:outputText value="#{res['libro.cantidad']}:" />
 						<h:outputText value="#{libro.cantidad}" style="font-weight: bold" />
 						
-						<h:outputText value="#{res['banco.libro.optativo']}" />
-						<c:if test="#{libro.optativo}">
-							<h:outputText value="#{res['si']}" style="font-weight: bold" />
-						</c:if>
-						<c:if test="#{!libro.optativo}">
-							<h:outputText value="#{res['no']}" style="font-weight: bold" />
-						</c:if>
+						<h:outputText value="#{res['libro.optativo']}" />
+						<h:outputText value="#{libro.optativo ? res['si']: res['no']}" style="font-weight: bold" />
 					</h:panelGrid>
 				</p:outputPanel>
 			</h:panelGrid>

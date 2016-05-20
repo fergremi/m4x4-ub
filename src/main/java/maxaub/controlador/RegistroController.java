@@ -1,7 +1,10 @@
 package maxaub.controlador;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -11,99 +14,91 @@ import javax.faces.event.ValueChangeEvent;
 import org.apache.log4j.Logger;
 import org.primefaces.event.FlowEvent;
 
+import maxaub.ejb.interfaz.AlumnoDAO;
+import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Alumno;
 import maxaub.modelo.Socio;
+import util.Curso;
+import util.SubGrupo;
 
 @ManagedBean
 @SessionScoped
-public class RegistroController extends BaseInfoController implements Serializable {
+public class RegistroController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(RegistroController.class);
 
+	@EJB
+	private SocioDAO socioDAO;
+
+	@EJB
+	private AlumnoDAO alumnoDAO;
+	
 	private Boolean showErrorRegistro;
 	
-	/**
-	 * Cursos
-	 */
-	private String cursoActual;
-	private String cursoFuturo;
-	
-	/**
-	 * Subgrupo
-	 */
-	private String subgrupo;
+	private List<Alumno> alumnos;
+	private List<Curso> cursos;
+	private List<SubGrupo> subgrupos;
 	
 	/**
 	 * RadioButtons
 	 */
-	private Boolean optativas;
 	private Boolean participar;
 	private Boolean envioWhatsapp;
 	private Boolean colaborar;
 	
-	private Alumno alumno;
+	private Alumno alumnoActual;
 	private Socio socio;
 	
 	private Boolean saltar;
 	
+	private String contraseña2;
+	
 	public RegistroController() {
 		showErrorRegistro = false;
 		
-		cursoActual = null;
-		cursoFuturo = null;
-
-		subgrupo = null;
+		alumnos = new ArrayList<Alumno>();
+		alumnos.add(new Alumno());
 		
-		/* RadioButtons default value */
-		optativas = true;
-		participar = true;
-		envioWhatsapp = true;
-		colaborar = true;
+		cursos = Curso.CURSOS;
+		subgrupos = SubGrupo.SUBGRUPOS;
 		
-		alumno = new Alumno();
 		socio = new Socio();
 		
 		saltar = false;
+		
+		contraseña2 = null;
+	}
+	
+	public List<Alumno> getAlumnos() {
+		return alumnos;
+	}
+	public void setAlumnos(List<Alumno> alumnos) {
+		this.alumnos = alumnos;
+	}
+	
+	public void añadirAlumno() {
+		alumnos.add(new Alumno());
+	}
+	public void quitarAlumno(Alumno alumno) {
+		alumnos.remove(alumno);
 	}
 
-	public String getCursoActual() {
-		return cursoActual;
+	public List<Curso> getCursos() {
+		return cursos;
 	}
-	public void setCursoActual(String cursoActual) {
-		this.cursoActual = cursoActual;
-	}
-	
-	public String getCursoFuturo() {
-		return cursoFuturo;
-	}
-	public void setCursoFuturo(String cursoFuturo) {
-		this.cursoFuturo = cursoFuturo;
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
 	}
 
-	public String getSubgrupo() {
-		return subgrupo;
+	public List<SubGrupo> getSubgrupos() {
+		return subgrupos;
 	}
-	public void setSubgrupo(String subgrupo) {
-		this.subgrupo = subgrupo;
+	public void setSubgrupos(List<SubGrupo> subgrupos) {
+		this.subgrupos = subgrupos;
 	}
-	
-	public void subgrupoChange(ValueChangeEvent event) {
-        subgrupo = null;
-    }
-	
-	public Boolean getOptativas() {
-		return optativas;
-	}
-	public void setOptativas(Boolean optativas) {
-		this.optativas = optativas;
-	}
-	
-	public void optativasChange(ValueChangeEvent event) {
-        optativas = null;
-    }
-	
+
 	public Boolean getParticipar() {
 		return participar;
 	}
@@ -144,13 +139,6 @@ public class RegistroController extends BaseInfoController implements Serializab
 		this.showErrorRegistro = showErrorRegistro;
 	}
 	
-	public Alumno getAlumno() {
-		return alumno;
-	}
-	public void setAlumno(Alumno alumno) {
-		this.alumno = alumno;
-	}
-
 	public Socio getSocio() {
 		return socio;
 	}
@@ -158,6 +146,13 @@ public class RegistroController extends BaseInfoController implements Serializab
 		this.socio = socio;
 	}
 	
+	public Alumno getAlumnoActual() {
+		return alumnoActual;
+	}
+	public void setAlumnoActual(Alumno alumnoActual) {
+		this.alumnoActual = alumnoActual;
+	}
+
 	public Boolean isSaltar() {
         return saltar;
     }
@@ -169,14 +164,30 @@ public class RegistroController extends BaseInfoController implements Serializab
         if(saltar) {
         	saltar = false;
             return "confirm";
-        }
-        else {
+        } else {
             return event.getNewStep();
         }
     }
 	
+	public String getContraseña2() {
+		return contraseña2;
+	}
+	public void setContraseña2(String contraseña2) {
+		this.contraseña2 = contraseña2;
+	}
+	
 	public String doRegistro() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
-		return "success";
+        try {
+			socioDAO.crearSocio(socio);
+			
+			for (Alumno alumno : alumnos) {
+				alumno.setSocio(socio);
+				alumnoDAO.crearAlumno(alumno);
+			}//TODO res
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error", "fail"));
+		}
+		return "index";
 	}
 }

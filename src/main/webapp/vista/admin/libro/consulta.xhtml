@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h:form>
+		<p:dataTable widgetVar="librosConsulta" var="libro"
+			value="#{adminController.libros}" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" sortMode="multiple"
+			filteredValue="#{adminController.librosFiltrados}"
+			emptyMessage="#{res['noData']}" reflow="true" styleClass="adminTable">
+			<f:facet name="header">
+	           	Expand rows to see detailed information
+	   		</f:facet>
+			<p:column style="width:40px">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="#{res['libro.isbn']}" sortBy="#{libro.isbn}"
+				filterBy="#{libro.isbn}" filterMatchMode="contains"
+				filterMaxLength="11">
+				<h:outputText value="#{libro.isbn}" />
+			</p:column>
+			<p:column headerText="#{res['libro.titulo']}"
+				sortBy="#{libro.titulo}" filterBy="#{libro.titulo}"
+				filterMatchMode="contains" filterMaxLength="100">
+				<h:outputText value="#{libro.titulo}" />
+			</p:column>
+			<p:column headerText="#{res['libro.asignatura']}"
+				sortBy="#{libro.asignatura}" filterBy="#{libro.asignatura}"
+				filterMatchMode="in" filterMaxLength="45">
+				<f:facet name="filter">
+					<p:selectCheckboxMenu label="#{res['asignaturas']}" filter="true"
+						filterMatchMode="startsWith"
+						onchange="PF('librosConsulta').filter()">
+						<f:selectItems value="#{adminController.asignaturasListItems}" />
+					</p:selectCheckboxMenu>
+				</f:facet>
+				<h:outputText value="#{libro.asignatura}" />
+			</p:column>
+			<p:column headerText="#{res['libro.curso']}" sortBy="#{libro.curso}"
+				filterBy="#{libro.curso}" filterMatchMode="in" filterMaxLength="10">
+				<f:facet name="filter">
+					<p:selectCheckboxMenu label="#{res['cursos']}" filter="true"
+						filterMatchMode="startsWith"
+						onchange="PF('librosConsulta').filter()">
+						<f:selectItems value="#{adminController.cursosListItems}" />
+					</p:selectCheckboxMenu>
+				</f:facet>
+				<h:outputText value="#{libro.curso}" />
+			</p:column>
+			<p:column headerText="#{res['libro.editorial']}"
+				sortBy="#{libro.editorial}" filterBy="#{libro.editorial}"
+				filterMatchMode="in" filterMaxLength="45">
+				<f:facet name="filter">
+					<p:selectCheckboxMenu label="#{res['editoriales']}" filter="true"
+						filterMatchMode="startsWith"
+						onchange="PF('librosConsulta').filter()">
+						<f:selectItems value="#{adminController.editorialesListItems}" />
+					</p:selectCheckboxMenu>
+				</f:facet>
+				<h:outputText value="#{libro.editorial}" />
+			</p:column>
+			<p:column headerText="#{res['libro.idioma']}"
+				sortBy="#{libro.idioma}" filterBy="#{libro.idioma}"
+				filterMatchMode="in">
+				<f:facet name="filter">
+					<p:selectCheckboxMenu label="#{res['idiomas']}" filter="true"
+						filterMatchMode="startsWith"
+						onchange="PF('librosConsulta').filter()">
+						<f:selectItems value="#{adminController.idiomasListItems}" />
+					</p:selectCheckboxMenu>
+				</f:facet>
+				<h:outputText value="#{libro.idioma}" />
+			</p:column>
+			<p:column headerText="#{res['libro.año.edicion']}"
+				sortBy="#{libro.añoEdicion}" filterBy="#{libro.añoEdicion}"
+				filterMatchMode="contains" filterMaxLength="4">
+				<f:facet name="filter">
+					<p:spinner onchange="PF('librosConsulta').filter()"
+						styleClass="spinner" size="4" maxlength="4">
+						<f:converter converterId="javax.faces.Integer" />
+					</p:spinner>
+				</f:facet>
+				<h:outputText value="#{libro.añoEdicion}" />
+			</p:column>
+			<p:column headerText="#{res['libro.cantidad']}"
+				sortBy="#{libro.cantidad}" filterBy="#{libro.cantidad}"
+				filterMatchMode="exact" filterMaxLength="5">
+				<f:facet name="filter">
+					<p:spinner onchange="PF('librosConsulta').filter()"
+						styleClass="spinner" size="5" maxlength="5">
+						<f:converter converterId="javax.faces.Integer" />
+					</p:spinner>
+				</f:facet>
+				<h:outputText value="#{libro.cantidad}" />
+			</p:column>
+			<p:column headerText="#{res['libro.optativo']}"
+				filterBy="#{libro.optativo}" filterMatchMode="equals">
+				<f:facet name="filter">
+					<p:selectOneButton onchange="PF('librosConsulta').filter()"
+						value="#{adminController.optativoDefault}">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
+						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+						<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+					</p:selectOneButton>
+				</f:facet>
+				<h:outputText value="#{libro.optativo ? res['si']: res['no']}" />
+			</p:column>
+			<p:column headerText="#{res['libro.activo']}"
+				filterBy="#{libro.activo}" filterMatchMode="equals">
+				<f:facet name="filter">
+					<p:selectOneButton onchange="PF('librosConsulta').filter()"
+						value="#{adminController.activoDefault}">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
+						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+						<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+					</p:selectOneButton>
+				</f:facet>
+				<h:outputText value="#{libro.activo ? res['si']: res['no']}" />
+			</p:column>
+
+			<p:rowExpansion>
+				<p:panel style="width:auto;">
+					<f:facet name="header">
+						<h:outputText value="#{res['modo.edicion']}" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:outputLabel for="isbn" styleClass="titleFieldRequired"
+							value="#{res['libro.isbn']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<f:facet name="output">
+									<p:barcode value="#{adminController.codeToString(libro.isbn)}"
+										title="#{libro.isbn}" alt="#{libro.isbn}"
+										type="ean13" style="text-align:center; background: white;" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+										id="isbn" maxlength="11" value="#{libro.isbn}" required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+								</f:facet>
+							</p:inplace>
+							<p:message for="isbn" />
+						</h:panelGroup>
+
+						<h:outputLabel for="titulo" styleClass="titleFieldRequired"
+							value="#{res['libro.titulo']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="titulo" maxlength="100" value="#{libro.titulo}"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="titulo" />
+						</h:panelGroup>
+
+						<h:outputLabel for="asignatura" styleClass="titleFieldRequired"
+							value="#{res['libro.asignatura']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:selectOneMenu autocomplete="off"
+									styleClass="fieldInputRequired" id="asignatura"
+									title="#{res['asignaturas']}" syncTooltip="true" maxlength="45"
+									value="#{libro.asignatura}" effect="fold" editable="true"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+									<f:selectItems value="#{adminController.asignaturasListItems}" />
+								</p:selectOneMenu>
+							</p:inplace>
+							<p:message for="asignatura" />
+						</h:panelGroup>
+
+						<h:outputLabel for="curso" styleClass="titleFieldRequired"
+							value="#{res['libro.curso']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:selectOneMenu autocomplete="off"
+									styleClass="fieldInputRequired" id="curso"
+									title="#{res['cursos']}" syncTooltip="true" maxlength="10"
+									value="#{libro.curso}" effect="fold" editable="true"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+									<f:selectItems value="#{adminController.cursosListItems}" />
+								</p:selectOneMenu>
+							</p:inplace>
+							<p:message for="curso" />
+						</h:panelGroup>
+
+						<h:outputLabel for="editorial" styleClass="titleFieldRequired"
+							value="#{res['libro.editorial']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:selectOneMenu autocomplete="off"
+									styleClass="fieldInputRequired" id="editorial"
+									title="#{res['editoriales']}" syncTooltip="true" maxlength="45"
+									value="#{libro.editorial}" effect="fold" editable="true"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+									<f:selectItems value="#{adminController.editorialesListItems}" />
+								</p:selectOneMenu>
+							</p:inplace>
+							<p:message for="editorial" />
+						</h:panelGroup>
+
+						<h:outputLabel for="año_edicion" styleClass="titleFieldRequired"
+							value="#{res['libro.año.edicion']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:spinner autocomplete="off" styleClass="fieldInputRequired"
+									id="año_edicion" min="0" size="4" maxlength="4"
+									value="#{libro.añoEdicion}" required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+									<f:converter converterId="javax.faces.Integer" />
+								</p:spinner>
+							</p:inplace>
+							<p:message for="año_edicion" />
+						</h:panelGroup>
+
+						<h:outputLabel for="cantidad" styleClass="titleFieldRequired"
+							value="#{res['libro.cantidad']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:spinner autocomplete="off" styleClass="fieldInputRequired"
+									id="cantidad" min="0" size="5" maxlength="5"
+									value="#{libro.cantidad}" required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+									<f:converter converterId="javax.faces.Integer" />
+								</p:spinner>
+							</p:inplace>
+							<p:message for="cantidad" />
+						</h:panelGroup>
+
+						<h:outputLabel for="optativo" styleClass="titleFieldRequired"
+							value="#{res['libro.optativo']}" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<f:facet name="output">
+									<h:outputText value="#{libro.optativo ? res['si']: res['no']}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneButton id="optativo"
+										styleClass="fieldInputRequired" value="#{libro.optativo}"
+										required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:converter converterId="javax.faces.Boolean" />
+										<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+										<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+									</p:selectOneButton>
+								</f:facet>
+							</p:inplace>
+							<p:message for="optativo" />
+						</h:panelGroup>
+
+						<h:outputLabel for="idioma" styleClass="titleFieldRequired"
+							value="#{res['libro.idioma']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<p:selectOneMenu autocomplete="off"
+									styleClass="fieldInputRequired" id="idioma"
+									title="#{res['idiomas']}" syncTooltip="true" maxlength="45"
+									value="#{libro.idioma}" effect="fold" editable="true"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+									<f:selectItems value="#{adminController.idiomasListItems}" />
+								</p:selectOneMenu>
+							</p:inplace>
+							<p:message for="idioma" />
+						</h:panelGroup>
+
+						<h:outputLabel for="imagen" value="#{res['libro.imagen']}:"
+							escape="false" />
+						<h:panelGroup layout="block">
+							<h:panelGrid>
+								<p:inplace id="image" label="#{res['imagen.mostrar']}"
+									effect="slide" style="font-weight: bold">
+									<h:graphicImage library="images" name="libros/#{libro.imagen}"
+										alt="#{libro.imagen}" title="#{libro.imagen}"
+										styleClass="img-responsive" />
+								</p:inplace>
+								<p:inplace editor="true">
+									<p:inputText autocomplete="off" id="imagen" maxlength="100"
+										value="#{libro.imagen}" required="false">
+										<p:ajax update="image" />
+									</p:inputText>
+								</p:inplace>
+							</h:panelGrid>
+							<p:message for="imagen" />
+						</h:panelGroup>
+
+						<h:outputLabel for="activo" styleClass="titleFieldRequired"
+							value="#{res['libro.activo']}" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true">
+								<f:facet name="output">
+									<h:outputText value="#{libro.activo ? res['si']: res['no']}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneButton id="activo" styleClass="fieldInputRequired"
+										value="#{libro.activo}" required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:converter converterId="javax.faces.Boolean" />
+										<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+										<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+									</p:selectOneButton>
+								</f:facet>
+							</p:inplace>
+							<p:message for="activo" />
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+			</p:rowExpansion>
+		</p:dataTable>
+	</h:form>
+</ui:composition>

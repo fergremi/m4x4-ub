@@ -50,7 +50,7 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 			return null;
 		}
 		
-		String sql = "SELECT a FROM Alumno a WHERE a.id ='" + idAlumno + "'"
+		String sql = "SELECT a FROM Alumno a WHERE a.id =" + idAlumno
 				+ " AND a.activo = '1'";
         TypedQuery<Alumno> query = getEntityManager().createQuery(sql, Alumno.class);
         try {
@@ -61,8 +61,14 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 	}
 	
 	@Override
-	public void guardarAlumno(Alumno alumno) {
+	public void crearAlumno(Alumno alumno) {
         getEntityManager().persist(alumno);
+        getEntityManager().flush();
+	}
+	
+	@Override
+	public void guardarAlumno(Alumno alumno) {
+        getEntityManager().merge(alumno);
         getEntityManager().flush();
 	}
 	
@@ -73,9 +79,23 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 	}
 	
 	@Override
-	public List<Alumno> getAlumnosSocioActivo(Socio socio) {
+	public List<Alumno> getAlumnosSocio(Socio socio) {
 		if (socio == null) {
 			log.warn("No se ha completado la petición: getAlumnosSocio -> socio nulo");
+			return null;
+		}
+		
+		String sql = "SELECT a FROM Alumno AS a LEFT JOIN FETCH a.socio WHERE a.socio.id = :id";
+		TypedQuery<Alumno> query = getEntityManager().createQuery(sql, Alumno.class);
+		query.setParameter("id", socio.getId());
+		
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<Alumno> getAlumnosSocioActivo(Socio socio) {
+		if (socio == null) {
+			log.warn("No se ha completado la petición: getAlumnosSocioActivo -> socio nulo");
 			return null;
 		}
 		
