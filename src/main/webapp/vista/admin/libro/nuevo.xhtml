@@ -139,5 +139,10 @@
 				</h:panelGroup>
 			</h:panelGrid>
 		</p:panel>
+		
+		<p:commandButton value="#{res['libro.nuevo.submit']}"
+			actionListener="#{adminController.doNuevoLibro}" escape="false"
+			update="growl" style="margin-top:10px;" />
+		
 	</h:form>
 </ui:composition>

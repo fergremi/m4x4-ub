@@ -178,10 +178,18 @@
 				</h:panelGrid>
 			</p:panel>
 
-			<p:carousel numVisible="1" value="#{loginController.alumnos}"
-				var="alumno" responsive="true">
+
+			<p:dataList id="listAlumnos" widgetVar="listAlumnos"
+			 	value="#{loginController.alumnos}" var="alumno"
+			 	type="none" rows="1" styleClass="paginated"
+				paginator="true" paginatorPosition="top">
 				<f:facet name="header">
 					<h:outputText value="#{res['datos_socio.alumnos']}"
+						escape="false" />
+				</f:facet>
+				<f:facet name="footer">
+					<h:outputText
+						value="#{loginController.alumnos.size()} #{res['datos_socio.alumnos.encontrados']}"
 						escape="false" />
 				</f:facet>
 				<p:panel>
@@ -293,13 +301,7 @@
 						</h:panelGrid>
 					</h:panelGrid>
 				</p:panel>
-
-				<f:facet name="footer">
-					<h:outputText
-						value="#{loginController.alumnos.size()} #{res['datos_socio.alumnos.encontrados']}"
-						escape="false" />
-				</f:facet>
-			</p:carousel>
+			</p:dataList>
 
 			<p:commandButton value="#{res['datos_socio.submit']}"
 				actionListener="#{loginController.editarDatosSocio()}" escape="false"

@@ -9,7 +9,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
-import javax.validation.ConstraintViolationException;
 
 import org.apache.log4j.Logger;
 import org.primefaces.event.ToggleEvent;
@@ -19,6 +18,7 @@ import maxaub.ejb.interfaz.LibroDAO;
 import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Alumno;
 import maxaub.modelo.Libro;
+import maxaub.modelo.Lote;
 import maxaub.modelo.Socio;
 
 @ManagedBean
@@ -26,7 +26,6 @@ import maxaub.modelo.Socio;
 public class AdminController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
 	private static Logger log = Logger.getLogger(AdminController.class.getName());
 	
 	@EJB
@@ -79,6 +78,54 @@ public class AdminController implements Serializable {
 		libroCodebar = null;
 		code = null;
 	}
+	//TODO
+	public void newLote() {
+		Lote lote = new Lote();
+		List<Libro> librosLote = new ArrayList<Libro>();
+		int curso = 0;
+		switch (curso) {
+		case 3:
+//			7 OBLIGADAS:
+//				(Lengua, LLengua, Ingles, Matemáticas, Sociales, Naturales y Valores Cívicos)
+//			5 OPTATIVAS:
+//				(Música, Plástica, Religión, libro de lectura y el libro de actividades de Inglés)
+			break;
+		case 4:
+//			 6 OBLIGADAS:
+//				 (Lengua, LLengua, Ingles, Matemáticas, Sociales y Naturales)
+//			 3 OPTATIVAS:
+//				 (Música, Religión y el libro de actividades de Inglés)		
+			break;
+		case 5:
+//			6 OBLIGADAS:
+//			(Lengua, LLengua, Ingles, Matemáticas, Sociales y Naturales)
+//			4 OPTATIVAS:
+//				(Música, Habilidades Sociales, Dibujo y pintura y el libro de actividades de Inglés)
+			break;
+		case 6:
+//			6 OBLIGADAS:
+//				(Lengua, LLengua, Ingles, Matemáticas, Sociales y Naturales)
+//			1 OPTATIVA:
+//				(Música)
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	public void deVes() {
+		
+	}
+	
+	public void loteManual() {
+		//TODO 1 funcion ejb q recupere los ejemplares de un tipo de libro generico (lengua, mates, etc) no asignados
+		//TODO 2 q ademas mire si obligatorio o optativo
+	}
+	
+	public void a() {
+		
+	}
 
 	public List<Socio> getSocios() {
 		if (socios == null) {
@@ -129,15 +176,19 @@ public class AdminController implements Serializable {
 		this.libro = libro;
 	}
 	
-	public void crearLibroManual() {
-		try {
-			libroDAO.crearLibro(libro);
-			libro = new Libro();
-		} catch (ConstraintViolationException e) {
-			// TODO: handle exception
-	        //duplicate primary key
-			log.info("duplicated!");
-	    }
+	public void doNuevoLibro() {
+		if (libro != null) {
+			if (libroDAO.getLibro(libro.getIsbn()) != null) {
+				// TODO: handle exception
+				log.info("duplicated!");
+			} else {
+				libroDAO.crearLibro(libro);
+				libro = new Libro();
+			}
+		} else {
+			//TODO add message
+			log.info("libro null!");
+		}
 	}
 
 	public SelectItem getAsignaturaSelected() {
@@ -245,12 +296,22 @@ public class AdminController implements Serializable {
 	
 	public void searchLibroCodebar() {
 		libroCodebar = libroDAO.getLibroActivo(code);
-		if (libroCodebar == null) {
+		if (libroCodebar != null) {
+			//TODO add message
+			log.info("libro isbn " + libroCodebar.getIsbn());
+		} else {
 			//TODO add message
 			log.info("libro null ");
 		}
-		else {
-		log.info("libro isbn " + libroCodebar.getIsbn());
+	}
+	
+	public void doDepositarLibro() {
+		if (libroCodebar != null) {
+			//TODO add message			
+			log.info("libro isbn " + libroCodebar.getIsbn());
+		} else {
+			//TODO add message
+			log.info("libro null ");
 		}
 	}
 

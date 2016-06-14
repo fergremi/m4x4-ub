@@ -125,6 +125,10 @@
 					</h:panelGroup>
 				</h:panelGrid>
 			</p:panel>
+			
+			<p:commandButton value="#{res['libro.depositar.submit']}"
+				actionListener="#{adminController.doDepositarLibro}" escape="false"
+				update="growl" style="margin-top:10px;" />
 		</h:panelGroup>
 	</h:form>
 </ui:composition>
