@@ -53,11 +53,11 @@ public class SocioJPA extends BaseJPA implements SocioDAO {
 	@Override
 	public Socio comprobarSocio(String usuario, String contraseña) {
 		if ((usuario == "") || (contraseña == "")) {
-			log.warn("No se ha completado la petición: comprobarSocio -> campo/s vacío/s");
+			LOG.warn("No se ha completado la petición: comprobarSocio -> campo/s vacío/s");
 			return null;
 		}
 		if ((comprobarComentariosSQL(usuario)) || (comprobarComentariosSQL(contraseña))) {
-    		log.warn("No se ha completado la petición: comprobarSocio -> comentarios SQL bloqueados");
+    		LOG.warn("No se ha completado la petición: comprobarSocio -> comentarios SQL bloqueados");
             return null;
         }
 		

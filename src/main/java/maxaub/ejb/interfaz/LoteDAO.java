@@ -11,7 +11,7 @@ public interface LoteDAO {
 	/**
 	 * Obtener todos los lotes.
 	 * 
-	 * @return List<Lote>
+	 * @return {@link List}<{@link Lote}>
 	 */
 	public List<Lote> getLotes();
     
@@ -19,28 +19,35 @@ public interface LoteDAO {
 	 * Obtener lote.
 	 * 
 	 * @param idLote
-	 * @return Lote
+	 * @return {@link Lote}
 	 */
 	public Lote getLote(int idLote);
     
 	/**
 	 * Crear lote.
 	 * 
-	 * @param Lote
+	 * @param lote
 	 */
 	public void crearLote(Lote lote);
 	
 	/**
 	 * Almacenar lote.
 	 * 
-	 * @param Lote
+	 * @param lote
 	 */
 	public void guardarLote(Lote lote);
     
 	/**
 	 * Eliminar lote.
 	 * 
-	 * @param Lote
+	 * @param lote
 	 */
 	public void eliminarLote(Lote lote);
+
+	/**
+	 * Obtener el siguiente código disponible para un lote.
+	 * 
+	 * @return {@link Long}
+	 */
+	public Long getNextCodLote();
 }

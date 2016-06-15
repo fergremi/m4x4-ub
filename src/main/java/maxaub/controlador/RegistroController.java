@@ -27,7 +27,7 @@ public class RegistroController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(RegistroController.class);
+	private static final Logger LOG = Logger.getLogger(RegistroController.class);
 
 	@EJB
 	private SocioDAO socioDAO;

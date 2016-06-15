@@ -36,7 +36,7 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 	@Override
 	public Alumno getAlumno(int idAlumno) {
 		if (idAlumno <= 0) {
-			log.warn("No se ha completado la petición: getAlumno -> índice no válido");
+			LOG.warn("No se ha completado la petición: getAlumno -> índice no válido");
 			return null;
 		}
 		
@@ -46,7 +46,7 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 	@Override
 	public Alumno getAlumnoActivo(int idAlumno) {
 		if (idAlumno <= 0) {
-			log.warn("No se ha completado la petición: getAlumnoActivo -> índice no válido");
+			LOG.warn("No se ha completado la petición: getAlumnoActivo -> índice no válido");
 			return null;
 		}
 		
@@ -81,7 +81,7 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 	@Override
 	public List<Alumno> getAlumnosSocio(Socio socio) {
 		if (socio == null) {
-			log.warn("No se ha completado la petición: getAlumnosSocio -> socio nulo");
+			LOG.warn("No se ha completado la petición: getAlumnosSocio -> socio nulo");
 			return null;
 		}
 		
@@ -95,7 +95,7 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 	@Override
 	public List<Alumno> getAlumnosSocioActivo(Socio socio) {
 		if (socio == null) {
-			log.warn("No se ha completado la petición: getAlumnosSocioActivo -> socio nulo");
+			LOG.warn("No se ha completado la petición: getAlumnosSocioActivo -> socio nulo");
 			return null;
 		}
 		

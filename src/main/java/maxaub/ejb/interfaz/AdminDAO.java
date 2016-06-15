@@ -11,7 +11,7 @@ public interface AdminDAO {
 	/**
 	 * Obtener todos los administradores.
 	 * 
-	 * @return List<Admin>
+	 * @return {@link List}<{@link Admin}>
 	 */
 	public List<Admin> getAdmins();
     
@@ -20,14 +20,14 @@ public interface AdminDAO {
 	 * 
 	 * @param usuario
 	 * @param contraseña
-	 * @return Admin
+	 * @return {@link Admin}
 	 */
 	public Admin comprobarAdmin(String usuario, String contraseña);
 	
 	/**
 	 * Almacenar admin.
 	 * 
-	 * @param Admin
+	 * @param admin
 	 */
 	public void guardarAdmin(Admin admin);
 }

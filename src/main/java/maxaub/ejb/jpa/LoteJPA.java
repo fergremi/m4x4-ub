@@ -43,4 +43,15 @@ public class LoteJPA extends BaseJPA implements LoteDAO {
         getEntityManager().remove(lote);
         getEntityManager().flush();
 	}
+	
+	@Override
+	public Long getNextCodLote() {
+		String sql = "SELECT MAX(l.cod) FROM Lote AS l ORDER BY l.id";
+		TypedQuery<Long> query = getEntityManager().createQuery(sql, Long.class);
+		Long res = query.getSingleResult();
+		if (res == null) {
+			return (long) 1;
+		}
+		return res++;
+	}
 }

@@ -3,7 +3,9 @@ package maxaub.controlador;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -14,9 +16,12 @@ import org.apache.log4j.Logger;
 import org.primefaces.event.ToggleEvent;
 
 import maxaub.ejb.interfaz.AlumnoDAO;
+import maxaub.ejb.interfaz.EjemplarDAO;
 import maxaub.ejb.interfaz.LibroDAO;
+import maxaub.ejb.interfaz.LoteDAO;
 import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Alumno;
+import maxaub.modelo.Ejemplar;
 import maxaub.modelo.Libro;
 import maxaub.modelo.Lote;
 import maxaub.modelo.Socio;
@@ -26,105 +31,189 @@ import maxaub.modelo.Socio;
 public class AdminController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = Logger.getLogger(AdminController.class.getName());
+	private static final Logger LOG = Logger.getLogger(AdminController.class.getName());
+
+	@EJB
+	private EjemplarDAO ejemplarDAO;
 	
+	@EJB
+	private LoteDAO loteDAO;
+
 	@EJB
 	private SocioDAO socioDAO;
-	
+
 	@EJB
 	private AlumnoDAO alumnoDAO;
-	
+
 	@EJB
 	private LibroDAO libroDAO;
-	
+
 	private List<Socio> socios;
 	private List<Socio> sociosFiltrados;
 	private Socio socioSelected;
 	private List<Alumno> alumnos;
-	
+
 	private List<Libro> libros;
 	private List<Libro> librosFiltrados;
 	private Libro libro;
-	
+
 	private SelectItem asignaturaSelected;
 	private List<SelectItem> asignaturasListItems;
-	
+
 	private SelectItem cursoSelected;
 	private List<SelectItem> cursosListItems;
-	
+
 	private SelectItem editorialSelected;
 	private List<SelectItem> editorialesListItems;
-	
+
 	private SelectItem idiomaSelected;
 	private List<SelectItem> idiomasListItems;
-	
+
 	private String whatsappDefault;
 	private String optativoDefault;
 	private String activoDefault;
-	
+
 	private Libro libroCodebar;
 	private BigInteger code;
 
 	public AdminController() {
 		super();
-		
+
 		socioSelected = null;
 		libro = new Libro();
-		
+
 		whatsappDefault = "";
 		optativoDefault = "";
 		activoDefault = "";
-		
+
 		libroCodebar = null;
 		code = null;
 	}
 	//TODO
-	public void newLote() {
-		Lote lote = new Lote();
-		List<Libro> librosLote = new ArrayList<Libro>();
-		int curso = 0;
+	public void newLote(int curso, String subgrupo) {
+		List<String> asignaturas = new ArrayList<String>();
+		/* Obligatorias comunes */
+		asignaturas.add("Castellano");
+		asignaturas.add("Valenciano");
+		asignaturas.add("Inglés");
+		asignaturas.add("Matemáticas");
+		asignaturas.add("Sociales");
+		asignaturas.add("Naturales");
+		/* Optativas comunes */
+		asignaturas.add("Música");
+
 		switch (curso) {
 		case 3:
-//			7 OBLIGADAS:
-//				(Lengua, LLengua, Ingles, Matemáticas, Sociales, Naturales y Valores Cívicos)
-//			5 OPTATIVAS:
-//				(Música, Plástica, Religión, libro de lectura y el libro de actividades de Inglés)
+			/* Obligatorias */
+			asignaturas.add("Valores Cívicos");
+			/* Optativas */
+			asignaturas.add("Plástica");
+			asignaturas.add("Religión");
+			asignaturas.add("Libro lectura");
+			asignaturas.add("Libro actividades Inglés");
 			break;
 		case 4:
-//			 6 OBLIGADAS:
-//				 (Lengua, LLengua, Ingles, Matemáticas, Sociales y Naturales)
-//			 3 OPTATIVAS:
-//				 (Música, Religión y el libro de actividades de Inglés)		
+			/* Optativas */
+			asignaturas.add("Religión");
+			asignaturas.add("Libro actividades Inglés");
 			break;
 		case 5:
-//			6 OBLIGADAS:
-//			(Lengua, LLengua, Ingles, Matemáticas, Sociales y Naturales)
-//			4 OPTATIVAS:
-//				(Música, Habilidades Sociales, Dibujo y pintura y el libro de actividades de Inglés)
+			/* Optativas */
+			asignaturas.add("Habilidades Sociales");
+			asignaturas.add("Dibujo y pintura");
+			asignaturas.add("Libro actividades Inglés");
 			break;
 		case 6:
-//			6 OBLIGADAS:
-//				(Lengua, LLengua, Ingles, Matemáticas, Sociales y Naturales)
-//			1 OPTATIVA:
-//				(Música)
+			/* Sexto usa las comunes */
 			break;
 
 		default:
+			/* Si el curso no existe, limpiar asignaturas */
+			asignaturas = new ArrayList<String>();
 			break;
 		}
+
+		if (asignaturas.isEmpty()) {
+			LOG.debug("No existe el curso introducido.");
+			//XXX message?
+			return;
+		}
+
+		Map<String, Integer> porcentajesEstado = deVes(asignaturas.size());
+		if ((porcentajesEstado != null) && (!porcentajesEstado.isEmpty())) {
+			List<Ejemplar> ejemplaresLote = new ArrayList<Ejemplar>();
+			
+			int buenos = 0;
+			int malos = 0;
+			int regulares = 0;
+			for (String asignatura : asignaturas) {
+				/* Añade los ejemplares según su estado siguiendo el algoritmo deVes */
+				if (buenos < porcentajesEstado.get("BUENO")) {
+					ejemplaresLote.add(ejemplarDAO.getEjemplaresAsignatura(asignatura, 1).get(0));
+					buenos++;
+				} else if (regulares < porcentajesEstado.get("REGULAR")) {
+					ejemplaresLote.add(ejemplarDAO.getEjemplaresAsignatura(asignatura, 2).get(0));
+					regulares++;
+				}else if (malos < porcentajesEstado.get("MALO")) {
+					ejemplaresLote.add(ejemplarDAO.getEjemplaresAsignatura(asignatura, 3).get(0));
+					malos++;
+				}
+			}
+			
+			//XXX check buenos, regulares, malos?
+			
+			Lote lote = new Lote();
+			lote.setCurso(curso);
+			lote.setSubgrupo(subgrupo);
+			lote.setCod(loteDAO.getNextCodLote());
+			lote.setEjemplares(ejemplaresLote);
+		}
 	}
-	
-	public void deVes() {
-		
+
+	public Map<String, Integer> deVes(int numAsignaturas) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		List<Ejemplar> buenos = ejemplarDAO.getEjemplaresEstadoBueno();
+		List<Ejemplar> regulares = ejemplarDAO.getEjemplaresEstadoRegular();
+		List<Ejemplar> malos = ejemplarDAO.getEjemplaresEstadoMalo();
+
+		if (((malos == null) || (malos.isEmpty()))
+				|| ((regulares == null) || (regulares.isEmpty()))
+				|| ((buenos == null) || (buenos.isEmpty()))){
+			LOG.debug("Algoritmo deVes no ejecutado -> No hay ejemplares para cada tipo de estado");
+			//TODO message?
+			return null;
+		}
+
+		double total = malos.size() + regulares.size() + buenos.size();
+
+		double bueno = numAsignaturas * (buenos.size() / total);
+		double regular = numAsignaturas * (regulares.size() / total);
+		double malo = numAsignaturas * (malos.size() / total);
+
+		/* Redondear por si existe parte decimal */
+		bueno = Math.round(bueno);
+		regular = Math.round(regular);
+		malo = Math.round(malo);
+
+		/* Comprobar que se cumple la cantidad solicitada */
+		if ((bueno + regular + malo) == total) {
+			map.put("BUENO", (int) bueno);
+			map.put("REGULAR", (int) regular);
+			map.put("MALO", (int) malo);
+			return map;
+		} else {
+			return null;
+		}
 	}
-	
+
 	public void loteManual() {
 		//TODO 1 funcion ejb q recupere los ejemplares de un tipo de libro generico (lengua, mates, etc) no asignados
 		//TODO 2 q ademas mire si obligatorio o optativo
 	}
-	
+
 	public void a() {
-		
+
 	}
 
 	public List<Socio> getSocios() {
@@ -133,61 +222,61 @@ public class AdminController implements Serializable {
 		}
 		return socios;
 	}
-	
+
 	public List<Socio> getSociosFiltrados() {
 		return sociosFiltrados;
 	}
 	public void setSociosFiltrados(List<Socio> sociosFiltrados) {
 		this.sociosFiltrados = sociosFiltrados;
 	}
-	
+
 	public List<Alumno> getAlumnos() {
 		if (alumnos == null) {
 			alumnos = new ArrayList<Alumno>(alumnoDAO.getAlumnosSocio(socioSelected));
 		}
 		return alumnos;
 	}
-	
+
 	public void onRowToggle(ToggleEvent event) {
 		if (socioSelected != (Socio) event.getData()) {
 			socioSelected = (Socio) event.getData();
 			alumnos = null;
 		}
 	}
-	
+
 	public List<Libro> getLibros() {
 		if (libros == null) {
 			libros = new ArrayList<Libro>(libroDAO.getLibrosActivos());
 		}
 		return libros;
 	}
-	
+
 	public List<Libro> getLibrosFiltrados() {
 		return librosFiltrados;
 	}
 	public void setLibrosFiltrados(List<Libro> librosFiltrados) {
 		this.librosFiltrados = librosFiltrados;
 	}
-	
+
 	public Libro getLibro() {
 		return libro;
 	}
 	public void setLibro(Libro libro) {
 		this.libro = libro;
 	}
-	
+
 	public void doNuevoLibro() {
 		if (libro != null) {
 			if (libroDAO.getLibro(libro.getIsbn()) != null) {
 				// TODO: handle exception
-				log.info("duplicated!");
+				LOG.debug("duplicated!");
 			} else {
 				libroDAO.crearLibro(libro);
 				libro = new Libro();
 			}
 		} else {
 			//TODO add message
-			log.info("libro null!");
+			LOG.debug("libro null!");
 		}
 	}
 
@@ -208,7 +297,7 @@ public class AdminController implements Serializable {
 		}
 		return asignaturasListItems;
 	}
-	
+
 	public SelectItem getCursoSelected() {
 		return cursoSelected;
 	}
@@ -244,14 +333,14 @@ public class AdminController implements Serializable {
 		}
 		return editorialesListItems;
 	}
-	
+
 	public SelectItem getIdiomaSelected() {
 		return idiomaSelected;
 	}
 	public void setIdiomaSelected(SelectItem idiomaSelected) {
 		this.idiomaSelected = idiomaSelected;
 	}
-	
+
 	public List<SelectItem> getIdiomasListItems() {
 		if (idiomasListItems == null) {
 			List<String> idiomas = libroDAO.getIdiomasLibros();
@@ -293,25 +382,25 @@ public class AdminController implements Serializable {
 	public String codeToString(BigInteger code) {
 		return String.valueOf(code);
 	}
-	
+
 	public void searchLibroCodebar() {
 		libroCodebar = libroDAO.getLibroActivo(code);
 		if (libroCodebar != null) {
 			//TODO add message
-			log.info("libro isbn " + libroCodebar.getIsbn());
+			LOG.debug("libro isbn " + libroCodebar.getIsbn());
 		} else {
 			//TODO add message
-			log.info("libro null ");
+			LOG.debug("libro null ");
 		}
 	}
-	
+
 	public void doDepositarLibro() {
 		if (libroCodebar != null) {
 			//TODO add message			
-			log.info("libro isbn " + libroCodebar.getIsbn());
+			LOG.debug("libro isbn " + libroCodebar.getIsbn());
 		} else {
 			//TODO add message
-			log.info("libro null ");
+			LOG.debug("libro null ");
 		}
 	}
 

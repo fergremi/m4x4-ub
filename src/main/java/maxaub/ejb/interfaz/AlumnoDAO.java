@@ -12,14 +12,14 @@ public interface AlumnoDAO {
 	/**
 	 * Obtener todos los alumnos.
 	 * 
-	 * @return List<Alumno>
+	 * @return {@link List}<{@link Alumno}>
 	 */
 	public List<Alumno> getAlumnos();
     
 	/**
 	 * Obtener todos los alumnos activos.
 	 * 
-	 * @return List<Alumno>
+	 * @return {@link List}<{@link Alumno}>
 	 */
 	public List<Alumno> getAlumnosActivos();
     
@@ -27,36 +27,36 @@ public interface AlumnoDAO {
 	 * Obtener alumno.
 	 * 
 	 * @param idAlumno
-	 * @return Alumno
+	 * @return {@link Alumno}
 	 */
-	public Alumno getAlumno(int numAlumno);
+	public Alumno getAlumno(int idAlumno);
     
 	/**
 	 * Obtener alumno activo.
 	 * 
 	 * @param idAlumno
-	 * @return Alumno
+	 * @return {@link Alumno}
 	 */
 	public Alumno getAlumnoActivo(int idAlumno);
     
 	/**
 	 * Crear alumno.
 	 * 
-	 * @param Alumno
+	 * @param alumno
 	 */
 	public void crearAlumno(Alumno alumno);
 	
 	/**
 	 * Almacenar alumno.
 	 * 
-	 * @param Alumno
+	 * @param alumno
 	 */
 	public void guardarAlumno(Alumno alumno);
     
 	/**
 	 * Eliminar alumno.
 	 * 
-	 * @param Alumno
+	 * @param alumno
 	 */
 	public void eliminarAlumno(Alumno alumno);
 	
@@ -64,7 +64,7 @@ public interface AlumnoDAO {
 	 * Obtiene todos los alumnos relacionados con el socio. <br>
 	 * <code><strong>&ltEAGER FETCHING&gt</strong></code>
 	 * 
-	 * @param Socio
+	 * @param socio
 	 * @return {@link List}<{@link Alumno}>
 	 */
 	public List<Alumno> getAlumnosSocio(Socio socio);
@@ -73,7 +73,7 @@ public interface AlumnoDAO {
 	 * Obtiene todos los alumnos relacionados con el socio activo. <br>
 	 * <code><strong>&ltEAGER FETCHING&gt</strong></code>
 	 * 
-	 * @param Socio
+	 * @param socio
 	 * @return {@link List}<{@link Alumno}>
 	 */
 	public List<Alumno> getAlumnosSocioActivo(Socio socio);

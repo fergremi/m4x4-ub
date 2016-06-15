@@ -20,7 +20,7 @@ public class DirectivaController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unused")
-	private static Logger log = Logger.getLogger(DirectivaController.class.getName());
+	private static final Logger LOG = Logger.getLogger(DirectivaController.class.getName());
 	
 	private List<Directivo> directivos;
 	

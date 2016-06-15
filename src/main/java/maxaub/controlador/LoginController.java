@@ -30,7 +30,7 @@ import util.Utils;
 public class LoginController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = Logger.getLogger(LoginController.class.getName());
+	private static final Logger LOG = Logger.getLogger(LoginController.class.getName());
 
 	@EJB
 	private SocioDAO socioDAO;
@@ -192,7 +192,7 @@ public class LoginController implements Serializable {
 		if (usuario.matches("\\d{8}[A-Za-z]")) {
 			socio = socioDAO.comprobarSocio(usuario, contraseña);
 			if (socio == null){
-				log.info("[Login {Socio} incorrecto]: Usuario y/o contraseña incorrecto/s");
+				LOG.debug("[Login {Socio} incorrecto]: Usuario y/o contraseña incorrecto/s");
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -200,7 +200,7 @@ public class LoginController implements Serializable {
 								Utils.getResourceBundle().getString("login.incorrecto.detalle")));
 			}
 			else {
-				log.info("[Login {Socio} correcto]: " + socio.getNombre() + " " + socio.getApellidos());
+				LOG.debug("[Login {Socio} correcto]: " + socio.getNombre() + " " + socio.getApellidos());
 				socioLogged = true;
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 				FacesContext.getCurrentInstance().addMessage(
@@ -215,7 +215,7 @@ public class LoginController implements Serializable {
 		else {
 			admin = adminDAO.comprobarAdmin(usuario, contraseña);
 			if (admin == null){
-				log.info("[Login {Admin} incorrecto]: Usuario y/o contraseña incorrecto/s");
+				LOG.debug("[Login {Admin} incorrecto]: Usuario y/o contraseña incorrecto/s");
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -223,7 +223,7 @@ public class LoginController implements Serializable {
 								Utils.getResourceBundle().getString("login.incorrecto.detalle")));
 			}
 			else {
-				log.info("[Login {Admin} correcto]: " + usuario);
+				LOG.debug("[Login {Admin} correcto]: " + usuario);
 				adminLogged = true;
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 				FacesContext.getCurrentInstance().addMessage(

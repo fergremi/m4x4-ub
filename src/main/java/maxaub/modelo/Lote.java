@@ -34,22 +34,22 @@ public class Lote implements Serializable {
 	@Column(name="subgrupo", columnDefinition="VARCHAR(10)", nullable=false, length=10)
 	private String subgrupo;
 	
-	//uni-directional one-to-many association to Libro
+	//uni-directional one-to-many association to Ejemplar
 	@OneToMany(fetch=FetchType.LAZY)
 	@Column(name="libro_id", columnDefinition="INT(11)", nullable=false, precision=11)
-	private List<Libro> libros;
+	private List<Ejemplar> ejemplares;
 	
 	public Lote() {
 		super();
 	}
 	
-	public Lote(long id, long cod, int curso, String subgrupo, List<Libro> libros) {
+	public Lote(long id, long cod, int curso, String subgrupo, List<Ejemplar> ejemplares) {
 		super();
 		this.id = id;
 		this.cod = cod;
 		this.curso = curso;
 		this.subgrupo = subgrupo;
-		this.libros = libros;
+		this.ejemplares = ejemplares;
 	}
 	
 	public long getId() {
@@ -66,10 +66,24 @@ public class Lote implements Serializable {
 		this.cod = cod;
 	}
 	
-	public List<Libro> getLibros() {
-		return this.libros;
+	public int getCurso() {
+		return curso;
 	}
-	public void setLibros(List<Libro> libros) {
-		this.libros = libros;
+	public void setCurso(int curso) {
+		this.curso = curso;
+	}
+
+	public String getSubgrupo() {
+		return subgrupo;
+	}
+	public void setSubgrupo(String subgrupo) {
+		this.subgrupo = subgrupo;
+	}
+
+	public List<Ejemplar> getEjemplares() {
+		return this.ejemplares;
+	}
+	public void setEjemplares(List<Ejemplar> ejemplares) {
+		this.ejemplares = ejemplares;
 	}
 }

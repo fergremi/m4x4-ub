@@ -24,11 +24,11 @@ public class AdminJPA extends BaseJPA implements AdminDAO {
 	@Override
 	public Admin comprobarAdmin(String usuario, String contraseña) {
 		if ((usuario == "") || (contraseña == "")) {
-			log.warn("No se ha completado la petición: comprobarAdmin -> campo/s vacío/s");
+			LOG.warn("No se ha completado la petición: comprobarAdmin -> campo/s vacío/s");
 			return null;
 		}
 		if ((comprobarComentariosSQL(usuario)) || (comprobarComentariosSQL(contraseña))) {
-    		log.warn("No se ha completado la petición: comprobarAdmin -> comentarios SQL bloqueados");
+    		LOG.warn("No se ha completado la petición: comprobarAdmin -> comentarios SQL bloqueados");
             return null;
         }
 		

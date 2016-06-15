@@ -36,7 +36,7 @@ public class LibroJPA extends BaseJPA implements LibroDAO {
 	@Override
 	public Libro getLibro(BigInteger isbn) {
 		if (isbn.compareTo(BigInteger.ZERO) <= 0) {
-			log.info("No se ha completado la petición: getLibro -> ISBN de libro no válido");
+			LOG.warn("No se ha completado la petición: getLibro -> ISBN de libro no válido");
             return null;
         }
 		
@@ -53,7 +53,7 @@ public class LibroJPA extends BaseJPA implements LibroDAO {
 	@Override
 	public Libro getLibroActivo(BigInteger isbn) {
 		if (isbn.compareTo(BigInteger.ZERO) <= 0) {
-			log.warn("No se ha completado la petición: getLibroActivo -> ISBN no válido");
+			LOG.warn("No se ha completado la petición: getLibroActivo -> ISBN no válido");
 			return null;
 		}
 		

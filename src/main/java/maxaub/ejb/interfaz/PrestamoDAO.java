@@ -11,7 +11,7 @@ public interface PrestamoDAO {
 	/**
 	 * Obtener todos los préstamos.
 	 * 
-	 * @return List<Prestamo>
+	 * @return {@link List}<{@link Prestamo}>
 	 */
 	public List<Prestamo> getPrestamos();
     
@@ -19,28 +19,28 @@ public interface PrestamoDAO {
 	 * Obtener préstamo.
 	 * 
 	 * @param idPrestamo
-	 * @return Prestamo
+	 * @return {@link Prestamo}
 	 */
 	public Prestamo getPrestamo(int idPrestamo);
     
 	/**
 	 * Crear préstamo.
 	 * 
-	 * @param Prestamo
+	 * @param prestamo
 	 */
 	public void crearPrestamo(Prestamo prestamo);
 	
 	/**
 	 * Almacenar préstamo.
 	 * 
-	 * @param Prestamo
+	 * @param prestamo
 	 */
 	public void guardarPrestamo(Prestamo prestamo);
     
 	/**
 	 * Eliminar préstamo.
 	 * 
-	 * @param Prestamo
+	 * @param prestamo
 	 */
 	public void eliminarPrestamo(Prestamo prestamo);
 }

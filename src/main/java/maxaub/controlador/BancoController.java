@@ -19,7 +19,7 @@ public class BancoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unused")
-	private static Logger log = Logger.getLogger(BancoController.class.getName());
+	private static final Logger LOG = Logger.getLogger(BancoController.class.getName());
 	
 	@EJB
 	LibroDAO libroDAO;

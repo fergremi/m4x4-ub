@@ -64,7 +64,7 @@ public class Libro implements Serializable {
 	
 	//one-to-one association to Estado
 	@OneToOne(mappedBy="libro", fetch=FetchType.LAZY)
-	private Estado estado = new Estado();
+	private Ejemplar estado = new Ejemplar();
 	
 	public Libro() {
 		super();
@@ -175,10 +175,10 @@ public class Libro implements Serializable {
 	 * bi-directional
 	 */
 	
-	public Estado getEstado() {
+	public Ejemplar getEstado() {
 		return this.estado;
 	}
-	public void setEstado(Estado estado) {
+	public void setEstado(Ejemplar estado) {
 		this.estado = estado;
 	}
 }

@@ -13,11 +13,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * Estado
+ * Ejemplar
  */
 @Entity
 @Table(name="estado")
-public class Estado implements Serializable {
+public class Ejemplar implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -33,11 +33,11 @@ public class Estado implements Serializable {
     @JoinColumn(name="libro", nullable=false)
 	private Libro libro;
 	
-	public Estado() {
+	public Ejemplar() {
 		super();
 	}
 	
-	public Estado(int estado, Libro libro) {
+	public Ejemplar(int estado, Libro libro) {
 		super();
 		this.estado = estado;
 		this.libro = libro;
