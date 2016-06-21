@@ -22,7 +22,8 @@
 
 		<h:form id="formRegistro" styleClass="form"
 			style="text-align: center;">
-			<p:wizard widgetVar="wizardRegistro"
+			<p:wizard id="wizardRegistro"
+				widgetVar="wizardRegistro"
 				flowListener="#{registroController.onFlowProcess}"
 				nextLabel="#{res['registro.siguiente']}"
 				backLabel="#{res['registro.atras']}" showStepStatus="true"
@@ -579,8 +580,8 @@
 						</p:panel>
 
 						<p:commandButton value="#{res['registro.submit']}"
-							actionListener="#{registroController.doRegistro}" escape="false"
-							update="growl" style="margin-top:10px;" />
+							action="#{registroController.doRegistro}" escape="false"
+							update="growl, formRegistro:wizardRegistro" style="margin-top:10px;" />
 					</p:panel>
 				</p:tab>
 			</p:wizard>

@@ -20,13 +20,13 @@ import maxaub.modelo.Alumno;
 import maxaub.modelo.Socio;
 import util.Curso;
 import util.SubGrupo;
+import util.Utils;
 
 @ManagedBean
 @SessionScoped
 public class RegistroController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(RegistroController.class);
 
 	@EJB
@@ -179,15 +179,31 @@ public class RegistroController implements Serializable {
 	public String doRegistro() {
         try {
 			socioDAO.crearSocio(socio);
+			LOG.debug("El socio con DNI '" + socio.getDni() + "' se ha registrado correctamente.");
 			
 			for (Alumno alumno : alumnos) {
 				alumno.setSocio(socio);
 				alumnoDAO.crearAlumno(alumno);
-			}//TODO res
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
+				LOG.debug("El alumno '" + alumno.getNombre() + "' del socio con DNI '" + socio.getDni() + "' se ha registrado correctamente.");
+			}
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							Utils.getResourceBundle("registro.correcto"),
+							Utils.getResourceBundle("registro.correcto.detalle")));
+			socio = new Socio();
+			alumnos = new ArrayList<Alumno>();
+			alumnos.add(new Alumno());
+			return "index?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error", "fail"));
+			LOG.debug("Ha ocurrido un error durante el registro.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle("registro.incorrecto"),
+							Utils.getResourceBundle("registro.incorrecto.detalle")));
+			return null;
 		}
-		return "index";
 	}
 }
