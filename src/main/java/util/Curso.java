@@ -1,7 +1,9 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Curso {
 	public static final List<Curso> CURSOS;
@@ -13,6 +15,15 @@ public class Curso {
         CURSOS.add(new Curso(6, "Sexto"));
     }
     public static final Curso DEFAULT_CURSO = CURSOS.get(0);
+    
+    public static final Map<String, Integer> mapCURSOS;
+    static {
+    	mapCURSOS = new HashMap<String, Integer>();
+    	mapCURSOS.put("Tercero", 3);
+    	mapCURSOS.put("Cuarto", 4);
+    	mapCURSOS.put("Quinto", 5);
+    	mapCURSOS.put("Sexto", 6);
+    }
     
 	private int id;
 	private String nombre;

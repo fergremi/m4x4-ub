@@ -2,6 +2,8 @@ package maxaub.modelo;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,14 +11,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  * Libro
  */
 @Entity
-@Table(name="libro")
+@Table(name="librogenerico")
 public class Libro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -62,9 +64,9 @@ public class Libro implements Serializable {
 	 * bi-directional
 	 */
 	
-	//one-to-one association to Estado
-	@OneToOne(mappedBy="libro", fetch=FetchType.LAZY)
-	private Ejemplar estado = new Ejemplar();
+	//one-to-one association to Ejemplar
+	@OneToMany(mappedBy="libro", fetch=FetchType.LAZY)
+	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
 	
 	public Libro() {
 		super();
@@ -175,10 +177,10 @@ public class Libro implements Serializable {
 	 * bi-directional
 	 */
 	
-	public Ejemplar getEstado() {
-		return this.estado;
+	public List<Ejemplar> getEjemplares() {
+		return this.ejemplares;
 	}
-	public void setEstado(Ejemplar estado) {
-		this.estado = estado;
+	public void setEjemplares(List<Ejemplar> ejemplares) {
+		this.ejemplares = ejemplares;
 	}
 }

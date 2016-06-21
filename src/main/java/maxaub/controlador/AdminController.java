@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
@@ -25,6 +27,8 @@ import maxaub.modelo.Ejemplar;
 import maxaub.modelo.Libro;
 import maxaub.modelo.Lote;
 import maxaub.modelo.Socio;
+import util.Estado;
+import util.Utils;
 
 @ManagedBean
 @SessionScoped
@@ -55,6 +59,7 @@ public class AdminController implements Serializable {
 
 	private List<Libro> libros;
 	private List<Libro> librosFiltrados;
+	private Libro libroSelected;
 	private Libro libro;
 
 	private SelectItem asignaturaSelected;
@@ -72,20 +77,31 @@ public class AdminController implements Serializable {
 	private String whatsappDefault;
 	private String optativoDefault;
 	private String activoDefault;
-
+	
+	private List<Ejemplar> ejemplares;
+	private List<Ejemplar> ejemplaresFiltrados;
+	private Ejemplar ejemplar;
+	
+	private List<Estado> estados;
+	
 	private Libro libroCodebar;
 	private BigInteger code;
 
 	public AdminController() {
 		super();
-
+		
 		socioSelected = null;
 		libro = new Libro();
 
 		whatsappDefault = "";
 		optativoDefault = "";
 		activoDefault = "";
+		
+		libroSelected = null;
+		ejemplar = new Ejemplar();
 
+		estados = Estado.ESTADOS;
+		
 		libroCodebar = null;
 		code = null;
 	}
@@ -212,10 +228,6 @@ public class AdminController implements Serializable {
 		//TODO 2 q ademas mire si obligatorio o optativo
 	}
 
-	public void a() {
-
-	}
-
 	public List<Socio> getSocios() {
 		if (socios == null) {
 			socios = new ArrayList<Socio>(socioDAO.getSocios());
@@ -237,7 +249,7 @@ public class AdminController implements Serializable {
 		return alumnos;
 	}
 
-	public void onRowToggle(ToggleEvent event) {
+	public void onSocioToggle(ToggleEvent event) {
 		if (socioSelected != (Socio) event.getData()) {
 			socioSelected = (Socio) event.getData();
 			alumnos = null;
@@ -268,15 +280,32 @@ public class AdminController implements Serializable {
 	public void doNuevoLibro() {
 		if (libro != null) {
 			if (libroDAO.getLibro(libro.getIsbn()) != null) {
-				// TODO: handle exception
-				LOG.debug("duplicated!");
+				LOG.debug("El libro con ISBN '" + libro.getIsbn() + "' ya se encuentra en la BD.");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(
+								FacesMessage.SEVERITY_WARN,
+								Utils.getResourceBundle("libro.duplicated"),
+								Utils.getResourceBundle("libro.duplicated.detalle")));
 			} else {
 				libroDAO.crearLibro(libro);
+				LOG.debug("El libro con ISBN '" + libro.getIsbn() + "' se ha añadido correctament en la BD.");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(
+								FacesMessage.SEVERITY_INFO,
+								Utils.getResourceBundle("libro.added"),
+								Utils.getResourceBundle("libro.added.detalle")));
 				libro = new Libro();
 			}
 		} else {
-			//TODO add message
-			LOG.debug("libro null!");
+			LOG.debug("Error al añadir el libro en la BD.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle("libro.error.notAdded"),
+							Utils.getResourceBundle("libro.error.notAdded.detalle")));
 		}
 	}
 
@@ -373,6 +402,45 @@ public class AdminController implements Serializable {
 		this.activoDefault = activoDefault;
 	}
 
+	public void onLibroToggle(ToggleEvent event) {
+		if (libroSelected != (Libro) event.getData()) {
+			libroSelected = (Libro) event.getData();
+			ejemplares = null;
+		}
+	}
+	
+	public List<Ejemplar> getEjemplares() {
+		if (ejemplares == null) {
+			try {
+				ejemplares = new ArrayList<Ejemplar>(ejemplarDAO.getEjemplares(libroSelected));
+			} catch (Exception e) {
+				ejemplares = null;
+			}
+		}
+		return ejemplares;
+	}
+	
+	public List<Ejemplar> getEjemplaresFiltrados() {
+		return ejemplaresFiltrados;
+	}
+	public void setEjemplaresFiltrados(List<Ejemplar> ejemplaresFiltrados) {
+		this.ejemplaresFiltrados = ejemplaresFiltrados;
+	}
+	
+	public Ejemplar getEjemplar() {
+		return ejemplar;
+	}
+	public void setEjemplar(Ejemplar ejemplar) {
+		this.ejemplar = ejemplar;
+	}
+	
+	public List<Estado> getEstados() {
+		return estados;
+	}
+	public void setEstados(List<Estado> estados) {
+		this.estados = estados;
+	}
+	
 	public BigInteger getCode() {
 		return code;
 	}
@@ -386,21 +454,41 @@ public class AdminController implements Serializable {
 	public void searchLibroCodebar() {
 		libroCodebar = libroDAO.getLibroActivo(code);
 		if (libroCodebar != null) {
-			//TODO add message
-			LOG.debug("libro isbn " + libroCodebar.getIsbn());
+			LOG.debug("Libro con ISBN '" + libroCodebar.getIsbn() + "' encontrado.");
+			ejemplar = new Ejemplar();
+			ejemplar.setLibro(libroCodebar);
+			ejemplar.setEstado(Estado.DEFAULT_ESTADO.getId());
 		} else {
-			//TODO add message
-			LOG.debug("libro null ");
+			LOG.debug("Error al buscar el libro en la BD.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle("libro.error.notFound"),
+							Utils.getResourceBundle("libro.error.notFound.detalle")));
 		}
 	}
 
 	public void doDepositarLibro() {
 		if (libroCodebar != null) {
-			//TODO add message			
-			LOG.debug("libro isbn " + libroCodebar.getIsbn());
+			ejemplarDAO.crearEjemplar(ejemplar);
+			LOG.debug("El ejemplar para el libro con ISBN '" + libroCodebar.getIsbn() + "' se ha añadido correctament a la BD.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_INFO,
+							Utils.getResourceBundle("ejemplar.added"),
+							Utils.getResourceBundle("ejemplar.added.detalle")));
+			libroCodebar = null;
+			ejemplar = null;
 		} else {
-			//TODO add message
-			LOG.debug("libro null ");
+			LOG.debug("Error al añadir el ejemplar en la BD.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle("ejemplar.error.notAdded"),
+							Utils.getResourceBundle("ejemplar.error.notAdded.detalle")));
 		}
 	}
 

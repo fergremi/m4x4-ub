@@ -15,6 +15,14 @@ public interface EjemplarDAO {
 	 * @return {@link List}<{@link Ejemplar}>
 	 */
 	public List<Ejemplar> getEjemplares();
+	
+	/**
+	 * Obtener todos los ejemplares de un libro.
+	 * 
+	 * @param libro
+	 * @return {@link List}<{@link Ejemplar}>
+	 */
+	public List<Ejemplar> getEjemplares(Libro libro);
 
 	/**
 	 * Obtener los ejemplares sin lote de una asignatura,

@@ -2,6 +2,7 @@ package util;
 
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
@@ -23,6 +24,15 @@ public class Utils {
 	public static ResourceBundle getResourceBundle() {
 		return ResourceBundle.getBundle(baseName, getLocale());
 	}
+	
+	public static String getResourceBundle(String literal) {
+		try {
+			return ResourceBundle.getBundle(baseName, getLocale()).getString(literal);
+		} catch (MissingResourceException e) {
+			return "???" + literal + "???";
+		}
+	}
+
 
 	public static String paramMsg(String msgKey, String paramValue) {
 		MessageFormat messageFormat = new MessageFormat(getResourceBundle().getString(msgKey));

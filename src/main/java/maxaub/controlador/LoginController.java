@@ -151,7 +151,7 @@ public class LoginController implements Serializable {
 	public void setTemaSelected(Tema temaSelected) {
 		this.temaSelected = temaSelected;
 	}
-
+	
 	public List<Tema> getTemas() {
 		return temas;
 	}
@@ -162,24 +162,24 @@ public class LoginController implements Serializable {
 		if(usuario == null || usuario.trim().length() == 0) {
 			String required = 
 					Utils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
-							Utils.getResourceBundle().getString("usuario"));
+							Utils.getResourceBundle("usuario"));
 
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle().getString("javax.faces.component.UIInput.REQUIRED"),
+							Utils.getResourceBundle("javax.faces.component.UIInput.REQUIRED"),
 							required));
 			login = false;
 		}
 		if(contraseña == null || contraseña.trim().length() == 0) {
 			String required = 
 					Utils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
-							Utils.getResourceBundle().getString("contraseña"));
+							Utils.getResourceBundle("contraseña"));
 
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle().getString("javax.faces.component.UIInput.REQUIRED"),
+							Utils.getResourceBundle("javax.faces.component.UIInput.REQUIRED"),
 							required));
 			login = false;
 		}
@@ -208,7 +208,7 @@ public class LoginController implements Serializable {
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
 								Utils.getResourceBundle().getString("login.correcto"),
 								socio.getNombre() + " " + socio.getApellidos()));
-				return "banco?faces-redirect=true";
+				return "ejemplares?faces-redirect=true";
 			}
 		}
 		/* Si no se introduce un DNI, se considera un administrador */
@@ -219,8 +219,8 @@ public class LoginController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								Utils.getResourceBundle().getString("login.incorrecto"),
-								Utils.getResourceBundle().getString("login.incorrecto.detalle")));
+								Utils.getResourceBundle("login.incorrecto"),
+								Utils.getResourceBundle("login.incorrecto.detalle")));
 			}
 			else {
 				LOG.debug("[Login {Admin} correcto]: " + usuario);
@@ -229,7 +229,7 @@ public class LoginController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								Utils.getResourceBundle().getString("login.correcto"),
+								Utils.getResourceBundle("login.correcto"),
 								usuario));
 				return "admin?faces-redirect=true";
 			}
@@ -250,8 +250,8 @@ public class LoginController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						Utils.getResourceBundle().getString("logout"),
-						Utils.getResourceBundle().getString("logout.despedida")));		
+						Utils.getResourceBundle("logout"),
+						Utils.getResourceBundle("logout.detalle")));		
 		return "index"; /* vista por defecto */
 	}
 
@@ -269,10 +269,19 @@ public class LoginController implements Serializable {
 			for (Alumno alumno : alumnos) {
 				alumnoDAO.guardarAlumno(alumno);
 			}
-			//TODO res
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
+			LOG.debug("Los datos del socio con DNI '" + socio.getDni() + "' se han editado correctamente.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							Utils.getResourceBundle("edit.correcto"),
+							Utils.getResourceBundle("edit.correcto.detalle")));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error", "fail"));
+			LOG.debug("Ha ocurrido un error al editar los datos del socio.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle("edit.incorrecto"),
+							Utils.getResourceBundle("edit.incorrecto.detalle")));
 		}
 		return "datos_socio"; /* vista por defecto */
 	}
@@ -280,10 +289,19 @@ public class LoginController implements Serializable {
 	public String editarDatosAdmin() {
 		try {
 			adminDAO.guardarAdmin(admin);
-			//TODO res
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful", "ok"));
+			LOG.debug("Los datos del administrador '" + admin.getUsuario() + "' se han editado correctamente.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							Utils.getResourceBundle("edit.correcto"),
+							Utils.getResourceBundle("edit.correcto.detalle")));
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error", "fail"));
+			LOG.debug("Ha ocurrido un error al editar los datos del administrador.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Utils.getResourceBundle("edit.incorrecto"),
+							Utils.getResourceBundle("edit.incorrecto.detalle")));
 		}
 		return "datos_admin"; /* vista por defecto */
 	}

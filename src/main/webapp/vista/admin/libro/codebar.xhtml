@@ -7,128 +7,170 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<h:form>
-		<p:panel style="width:auto;">
-			<h:panelGrid columns="2">
-				<h:outputLabel for="code" styleClass="titleFieldRequired"
-					value="#{res['codebar']}:" escape="false" />
-				<h:panelGroup layout="block">
-					<p:inputText autocomplete="off" styleClass="fieldInputRequired"
-						id="code" maxlength="13" value="#{adminController.code}"
-						required="true"
-						requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-						<f:convertNumber integerOnly="true" groupingUsed="false" />
-					</p:inputText>
-					<p:message for="code" />
-				</h:panelGroup>
-			</h:panelGrid>
-
-			<p:commandButton value="#{res['codebar.submit']}"
-				actionListener="#{adminController.searchLibroCodebar()}"
-				escape="false" update="libro_codebar" style="margin-top:10px;" />
-		</p:panel>
-
-		<h:panelGroup layout="block" id="libro_codebar">
-			<p:panel rendered="#{not empty adminController.libroCodebar}"
-				style="width:auto;">
-
-				<h:panelGrid columns="2" columnClasses="label, value">
-					<h:outputLabel for="isbn" styleClass="titleFieldRequired"
-						value="#{res['libro.isbn']}:" escape="false" />
-					<p:barcode
-						value="#{adminController.codeToString(adminController.libroCodebar.isbn)}"
-						title="#{libro.isbn}" alt="#{libro.isbn}"
-						type="ean13" style="text-align:center; background: white;" />
-
-					<h:outputLabel for="titulo" styleClass="titleFieldRequired"
-						value="#{res['libro.titulo']}:" escape="false" />
-					<h:outputText id="titulo"
-						value="#{adminController.libroCodebar.titulo}" />
-
-					<h:outputLabel for="asignatura" styleClass="titleFieldRequired"
-						value="#{res['libro.asignatura']}:" escape="false" />
-					<h:outputText id="asignatura"
-						value="#{adminController.libroCodebar.asignatura}" />
-
-					<h:outputLabel for="curso" styleClass="titleFieldRequired"
-						value="#{res['libro.curso']}:" escape="false" />
-					<h:outputText id="curso"
-						value="#{adminController.libroCodebar.curso}" />
-
-					<h:outputLabel for="editorial" styleClass="titleFieldRequired"
-						value="#{res['libro.editorial']}:" escape="false" />
-					<h:outputText id="editorial"
-						value="#{adminController.libroCodebar.editorial}" />
-
-					<h:outputLabel for="año_edicion" styleClass="titleFieldRequired"
-						value="#{res['libro.año.edicion']}:" escape="false" />
-					<h:outputText id="año_edicion"
-						value="#{adminController.libroCodebar.añoEdicion}" />
-
-					<h:outputLabel for="cantidad" styleClass="titleFieldRequired"
-						value="#{res['libro.cantidad']}:" escape="false" />
-					<h:outputText id="cantidad"
-						value="#{adminController.libroCodebar.cantidad}" />
-
-					<h:outputLabel for="optativo" styleClass="titleFieldRequired"
-						value="#{res['libro.optativo']}" escape="false" />
+		<h:panelGroup layout="block" id="codebar">
+			<p:panel style="width:auto;">
+				<h:panelGrid columns="2">
+					<h:outputLabel for="code" styleClass="titleFieldRequired"
+						value="#{res['codebar']}:" escape="false" />
 					<h:panelGroup layout="block">
-						<p:selectOneButton id="optativo" styleClass="fieldInputRequired"
-							value="#{adminController.libroCodebar.optativo}" required="true"
-							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
-							disabled="true">
-							<f:converter converterId="javax.faces.Boolean" />
-							<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
-							<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
-						</p:selectOneButton>
-						<p:message for="optativo" />
-					</h:panelGroup>
-
-					<h:outputLabel for="idioma" styleClass="titleFieldRequired"
-						value="#{res['libro.idioma']}:" escape="false" />
-					<h:outputText id="idioma"
-						value="#{adminController.libroCodebar.idioma}" />
-
-					<h:outputLabel for="imagen" value="#{res['libro.imagen']}:"
-						escape="false" />
-					<h:panelGroup layout="block">
-						<h:panelGrid>
-							<p:inplace id="image" label="#{res['imagen.mostrar']}"
-								effect="slide" style="font-weight: bold">
-								<h:graphicImage library="images"
-									name="libros/#{adminController.libroCodebar.imagen}"
-									alt="#{adminController.libroCodebar.imagen}"
-									title="#{adminController.libroCodebar.imagen}"
-									styleClass="img-responsive" />
-							</p:inplace>
-							<p:inplace editor="true">
-								<p:inputText autocomplete="off" id="imagen" maxlength="100"
-									value="#{adminController.libroCodebar.imagen}" required="false">
-									<p:ajax update="image" />
-								</p:inputText>
-							</p:inplace>
-						</h:panelGrid>
-						<p:message for="imagen" />
-					</h:panelGroup>
-
-					<h:outputLabel for="activo" styleClass="titleFieldRequired"
-						value="#{res['libro.activo']}" escape="false" />
-					<h:panelGroup layout="block">
-						<p:selectOneButton id="activo" styleClass="fieldInputRequired"
-							value="#{adminController.libroCodebar.activo}" required="true"
-							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
-							disabled="true">
-							<f:converter converterId="javax.faces.Boolean" />
-							<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
-							<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
-						</p:selectOneButton>
-						<p:message for="activo" />
+						<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+							id="code" maxlength="13" value="#{adminController.code}"
+							required="true"
+							requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+							<f:convertNumber integerOnly="true" groupingUsed="false" />
+						</p:inputText>
+						<p:message for="code" />
 					</h:panelGroup>
 				</h:panelGrid>
+
+				<p:commandButton value="#{res['codebar.submit']}"
+					actionListener="#{adminController.searchLibroCodebar()}"
+					escape="false" update="libro_codebar" style="margin-top:10px;" />
 			</p:panel>
-			
-			<p:commandButton value="#{res['libro.depositar.submit']}"
-				actionListener="#{adminController.doDepositarLibro}" escape="false"
-				update="growl" style="margin-top:10px;" />
+
+			<h:panelGroup layout="block" id="libro_codebar">
+				<p:panel rendered="#{not empty adminController.libroCodebar}"
+					style="width:auto;">
+					<f:facet name="header">
+						<h:outputText value="#{res['libro']}" />
+					</f:facet>
+
+					<h:panelGrid columns="2" columnClasses="label, value">
+						<h:outputLabel for="isbn" styleClass="titleFieldRequired"
+							value="#{res['libro.isbn']}:" escape="false" />
+						<h:panelGroup layout="block" id="isbn">
+							<p:barcode
+								value="#{adminController.codeToString(adminController.libroCodebar.isbn)}"
+								title="#{libro.isbn}" alt="#{libro.isbn}" type="ean13"
+								style="text-align:center; background: white;"
+								rendered="#{adminController.codeToString(adminController.libroCodebar.isbn).length() eq 12
+								or adminController.codeToString(adminController.libroCodebar.isbn).length() eq 13}" />
+							<h:outputText value="#{adminController.libroCodebar.isbn}"
+								rendered="#{adminController.codeToString(adminController.libroCodebar.isbn).length() ne 12
+								and adminController.codeToString(adminController.libroCodebar.isbn).length() ne 13}" />
+						</h:panelGroup>
+
+						<h:outputLabel for="titulo" styleClass="titleFieldRequired"
+							value="#{res['libro.titulo']}:" escape="false" />
+						<h:outputText id="titulo"
+							value="#{adminController.libroCodebar.titulo}" />
+
+						<h:outputLabel for="asignatura" styleClass="titleFieldRequired"
+							value="#{res['libro.asignatura']}:" escape="false" />
+						<h:outputText id="asignatura"
+							value="#{adminController.libroCodebar.asignatura}" />
+
+						<h:outputLabel for="curso" styleClass="titleFieldRequired"
+							value="#{res['libro.curso']}:" escape="false" />
+						<h:outputText id="curso"
+							value="#{adminController.libroCodebar.curso}" />
+
+						<h:outputLabel for="editorial" styleClass="titleFieldRequired"
+							value="#{res['libro.editorial']}:" escape="false" />
+						<h:outputText id="editorial"
+							value="#{adminController.libroCodebar.editorial}" />
+
+						<h:outputLabel for="año_edicion" styleClass="titleFieldRequired"
+							value="#{res['libro.año.edicion']}:" escape="false" />
+						<h:outputText id="año_edicion"
+							value="#{adminController.libroCodebar.añoEdicion}" />
+
+						<h:outputLabel for="cantidad" styleClass="titleFieldRequired"
+							value="#{res['libro.cantidad']}:" escape="false" />
+						<h:outputText id="cantidad"
+							value="#{adminController.libroCodebar.cantidad}" />
+
+						<h:outputLabel for="optativo" styleClass="titleFieldRequired"
+							value="#{res['libro.optativo']}" escape="false" />
+						<h:panelGroup layout="block">
+							<p:selectOneButton id="optativo" styleClass="fieldInputRequired"
+								value="#{adminController.libroCodebar.optativo}" required="true"
+								requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
+								disabled="true">
+								<f:converter converterId="javax.faces.Boolean" />
+								<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+								<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+							</p:selectOneButton>
+							<p:message for="optativo" />
+						</h:panelGroup>
+
+						<h:outputLabel for="idioma" styleClass="titleFieldRequired"
+							value="#{res['libro.idioma']}:" escape="false" />
+						<h:outputText id="idioma"
+							value="#{adminController.libroCodebar.idioma}" />
+
+						<h:outputLabel for="imagen" value="#{res['libro.imagen']}:"
+							escape="false" />
+						<h:panelGroup layout="block">
+							<h:panelGrid>
+								<p:inplace id="image" label="#{res['imagen.mostrar']}"
+									effect="slide" style="font-weight: bold">
+									<h:graphicImage library="images"
+										name="libros/#{adminController.libroCodebar.imagen}"
+										alt="#{adminController.libroCodebar.imagen}"
+										title="#{adminController.libroCodebar.imagen}"
+										styleClass="img-responsive" />
+								</p:inplace>
+								<p:inplace editor="true">
+									<p:inputText autocomplete="off" id="imagen" maxlength="100"
+										value="#{adminController.libroCodebar.imagen}"
+										required="false">
+										<p:ajax update="image" />
+									</p:inputText>
+								</p:inplace>
+							</h:panelGrid>
+							<p:message for="imagen" />
+						</h:panelGroup>
+
+						<h:outputLabel for="activo" styleClass="titleFieldRequired"
+							value="#{res['libro.activo']}" escape="false" />
+						<h:panelGroup layout="block">
+							<p:selectOneButton id="activo" styleClass="fieldInputRequired"
+								value="#{adminController.libroCodebar.activo}" required="true"
+								requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
+								disabled="true">
+								<f:converter converterId="javax.faces.Boolean" />
+								<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+								<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+							</p:selectOneButton>
+							<p:message for="activo" />
+						</h:panelGroup>
+					</h:panelGrid>
+
+					<p:panel rendered="#{not empty adminController.libroCodebar}"
+						style="width:auto;">
+						<f:facet name="header">
+							<h:outputText value="#{res['ejemplar']}" />
+						</f:facet>
+
+						<h:panelGrid columns="2">
+							<h:outputLabel for="estado" value="#{res['ejemplar.estado']}:"
+								escape="false" />
+							<h:panelGroup layout="block">
+								<p:selectOneMenu autocomplete="off"
+									styleClass="fieldInputRequired" id="estado"
+									title="#{res['estados']}" syncTooltip="true" maxlength="1"
+									value="#{adminController.ejemplar.estado}" effect="fold"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+									<f:selectItems value="#{adminController.estados}" var="estado"
+										itemLabel="#{estado.nombre}" itemValue="#{estado.id}" />
+								</p:selectOneMenu>
+								<p:message for="estado" />
+							</h:panelGroup>
+						</h:panelGrid>
+
+						<p:commandButton value="#{res['libro.depositar.submit']}"
+							actionListener="#{adminController.doDepositarLibro}"
+							escape="false" update="growl, messages, codebar"
+							style="margin-top:10px;" />
+
+					</p:panel>
+				</p:panel>
+			</h:panelGroup>
 		</h:panelGroup>
+		
+		<p:messages id="messages" showDetail="true" autoUpdate="true"
+			closable="true" globalOnly="true" />
 	</h:form>
 </ui:composition>

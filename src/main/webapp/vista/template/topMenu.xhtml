@@ -9,117 +9,132 @@
 <ui:composition>
 	<h:form id="formMenu" style="text-align: center;">
 		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#menu-header-navbar-collapse"
-						aria-expanded="false">
-						<span class="sr-only">#{res['menu']}</span> <span class="icon-bar" /><span
-							class="icon-bar" /><span class="icon-bar" />
-					</button>
-					<div class="navbar-brand-logo visible-xs">
-						<a href="${request.contextPath}/vista/index.jsf">
-							<h:graphicImage alt="#{res['logo']}" title="#{res['logo']}"
-								name="logo-small.gif" library="images"
-								styleClass="img-responsive logo-header-collapsed" />
-						</a>
-					</div>
-				</div>
-	
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="menu-header-navbar-collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="${request.contextPath}/vista/index.jsf"
-							class="enlaces">#{res['menu.inicio']}</a></li>
-						<li><a href="${request.contextPath}/vista/banco.jsf"
-							class="enlaces">#{res['menu.banco']}</a></li>
-						<li><a href="${request.contextPath}/vista/directiva.jsf"
-							class="enlaces">#{res['menu.directiva']}</a></li>
-						<li><a href="${request.contextPath}/vista/calendario.jsf"
-							class="enlaces">#{res['menu.calendario']}</a></li>
-						<li><a href="${request.contextPath}/vista/libros.jsf"
-							class="enlaces">#{res['menu.libros']}</a></li>
-						<li><a href="${request.contextPath}/vista/contacto.jsf"
-							class="enlaces">#{res['menu.contacto']}</a></li>
-	
-						<c:if test="#{loginController.socioLogged}">
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false">#{loginController.socio.nombre}<span
-									class="caret" /></a>
-								<ul class="dropdown-menu">
-									<li><h:commandLink
-											action="#{loginController.editarDatosSocio}"
-											value="#{res['menu.editarDatosSocio']}"
-											title="#{res['menu.editarDatosSocio']}"
-											alt="#{res['menu.editarDatosSocio']}" immediate="true" /></li>
-									<li><h:commandLink action="#{loginController.logout}"
-											value="#{res['menu.desconectar']}"
-											title="#{res['menu.desconectar']}"
-											alt="#{res['menu.desconectar']}" immediate="true" /></li>
-								</ul></li>
-						</c:if>
-						<c:if test="#{loginController.adminLogged}">
-							<li><a href="${request.contextPath}/vista/admin.jsf"
-								class="enlaces">#{res['menu.admin']}</a></li>
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false">#{loginController.admin.usuario}<span
-									class="caret" /></a>
-								<ul class="dropdown-menu">
-									<li><h:commandLink
-											action="#{loginController.editarDatosAdmin}"
-											value="#{res['menu.editarDatosAdmin']}"
-											title="#{res['menu.editarDatosAdmin']}"
-											alt="#{res['menu.editarDatosAdmin']}" immediate="true" /></li>
-									<li><h:commandLink action="#{loginController.logout}"
-											value="#{res['menu.desconectar']}"
-											title="#{res['menu.desconectar']}"
-											alt="#{res['menu.desconectar']}" immediate="true" /></li>
-								</ul></li>
-						</c:if>
-	
-						<!-- Selección de temas -->
-						<!-- <h:panelGroup rendered="#{loginController.loggedOn}">
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle"
-										data-toggle="dropdown" role="button" aria-haspopup="true"
-										aria-expanded="false">Temas<span class="caret" /></a>
-									<ul class="dropdown-menu">
-										<ui:repeat var="theme_item"
-											value="#{themeController.themesItems}">
-											<li class="#{theme_item.value == themeController.theme ? 'disabled' : ''}">
-												<h:commandLink immediate="true"
-													action="#{themeController.setTheme(theme_item.value)}"
-													value="#{theme_item.label}" />
-											</li>
-										</ui:repeat>
-									</ul></li>
-							</h:panelGroup> -->
-					</ul>
-					<h:panelGroup layout="block" styleClass="navbar-form navbar-right">
-						<p:themeSwitcher styleClass="themeSwitcher"
-							value="#{loginController.temaSelected.cod}"
-							label="#{res['menu.tema']}">
-							<f:selectItems value="#{loginController.temas}" var="tema"
-								itemLabel="#{tema.nombre}" itemValue="#{tema.cod}" />
-						</p:themeSwitcher>
-					</h:panelGroup>
-					<h:panelGroup layout="block" styleClass="navbar-form navbar-right"
-						rendered="#{not empty loginController.idiomas}">
-						<p:selectOneMenu styleClass="langCombo"
-							converter="genericConverter"
-							value="#{loginController.idiomaSelected}"
-							label="#{res['menu.idioma']}">
-							<f:selectItems value="#{loginController.idiomas}" var="idioma"
-								itemLabel="#{idioma.nombre}" itemValue="#{idioma}" />
-							<p:ajax update="@all" />
-						</p:selectOneMenu>
-					</h:panelGroup>
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#menu-header-navbar-collapse"
+					aria-expanded="false">
+					<span class="sr-only">#{res['menu']}</span> <span class="icon-bar" /><span
+						class="icon-bar" /><span class="icon-bar" />
+				</button>
+				<div class="navbar-brand-logo visible-xs">
+					<a href="${request.contextPath}/vista/index.jsf"> <h:graphicImage
+							alt="#{res['logo']}" title="#{res['logo']}" name="logo-small.gif"
+							library="images"
+							styleClass="img-responsive logo-header-collapsed" />
+					</a>
 				</div>
 			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="menu-header-navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="${request.contextPath}/vista/index.jsf"
+						class="enlaces">#{res['menu.inicio']}</a></li>
+					<c:if test="#{loginController.socioLogged}">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle"
+								data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false">#{res['menu.banco']}<span class="caret" /></a>
+							<ul class="dropdown-menu">
+									<li><a href="${request.contextPath}/vista/banco/ejemplares.jsf"
+										class="enlaces">#{res['menu.banco.ejemplares']}</a></li>
+								<li><a href="${request.contextPath}/vista/banco/genericos.jsf"
+									class="enlaces">#{res['menu.banco.genericos']}</a></li>
+							</ul>
+						</li>
+					</c:if>
+					<c:if test="#{!loginController.socioLogged}">
+						<li><a href="${request.contextPath}/vista/banco/genericos.jsf"
+							class="enlaces">#{res['menu.banco']}</a></li>
+					</c:if>
+					<li><a href="${request.contextPath}/vista/directiva.jsf"
+						class="enlaces">#{res['menu.directiva']}</a></li>
+					<li><a href="${request.contextPath}/vista/calendario.jsf"
+						class="enlaces">#{res['menu.calendario']}</a></li>
+					<li><a href="${request.contextPath}/vista/libros.jsf"
+						class="enlaces">#{res['menu.libros']}</a></li>
+					<li><a href="${request.contextPath}/vista/contacto.jsf"
+						class="enlaces">#{res['menu.contacto']}</a></li>
+
+					<c:if test="#{loginController.socioLogged}">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">#{loginController.socio.nombre}<span
+								class="caret" /></a>
+							<ul class="dropdown-menu">
+								<li><h:commandLink
+										action="#{loginController.editarDatosSocio}"
+										value="#{res['menu.editarDatosSocio']}"
+										title="#{res['menu.editarDatosSocio']}"
+										alt="#{res['menu.editarDatosSocio']}" immediate="true" /></li>
+								<li><h:commandLink action="#{loginController.logout}"
+										value="#{res['menu.desconectar']}"
+										title="#{res['menu.desconectar']}"
+										alt="#{res['menu.desconectar']}" immediate="true" /></li>
+							</ul></li>
+					</c:if>
+					<c:if test="#{loginController.adminLogged}">
+						<li><a href="${request.contextPath}/vista/admin.jsf"
+							class="enlaces">#{res['menu.admin']}</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">#{loginController.admin.usuario}<span
+								class="caret" /></a>
+							<ul class="dropdown-menu">
+								<li><h:commandLink
+										action="#{loginController.editarDatosAdmin}"
+										value="#{res['menu.editarDatosAdmin']}"
+										title="#{res['menu.editarDatosAdmin']}"
+										alt="#{res['menu.editarDatosAdmin']}" immediate="true" /></li>
+								<li><h:commandLink action="#{loginController.logout}"
+										value="#{res['menu.desconectar']}"
+										title="#{res['menu.desconectar']}"
+										alt="#{res['menu.desconectar']}" immediate="true" /></li>
+							</ul></li>
+					</c:if>
+
+					<!-- Selección de temas -->
+					<!-- <h:panelGroup rendered="#{loginController.loggedOn}">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle"
+								data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false">Temas<span class="caret" /></a>
+							<ul class="dropdown-menu">
+								<ui:repeat var="theme_item"
+									value="#{themeController.themesItems}">
+									<li class="#{theme_item.value == themeController.theme ? 'disabled' : ''}">
+										<h:commandLink immediate="true"
+											action="#{themeController.setTheme(theme_item.value)}"
+											value="#{theme_item.label}" />
+									</li>
+								</ui:repeat>
+							</ul></li>
+					</h:panelGroup> -->
+				</ul>
+				<h:panelGroup layout="block" styleClass="navbar-form navbar-right">
+					<p:themeSwitcher styleClass="themeSwitcher"
+						value="#{loginController.temaSelected.cod}"
+						label="#{res['menu.tema']}" onchange="submit()">
+						<f:selectItems value="#{loginController.temas}" var="tema"
+							itemLabel="#{tema.nombre}" itemValue="#{tema.cod}" />
+					</p:themeSwitcher>
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="navbar-form navbar-right"
+					rendered="#{not empty loginController.idiomas}">
+					<p:selectOneMenu styleClass="langCombo"
+						converter="genericConverter"
+						value="#{loginController.idiomaSelected}"
+						label="#{res['menu.idioma']}">
+						<f:selectItems value="#{loginController.idiomas}" var="idioma"
+							itemLabel="#{idioma.nombre}" itemValue="#{idioma}" />
+						<p:ajax update="@all" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+			</div>
+		</div>
 		</nav>
 	</h:form>
 </ui:composition>

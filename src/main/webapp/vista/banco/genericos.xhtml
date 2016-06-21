@@ -8,60 +8,68 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/vista/template/default.xhtml">
 	<ui:define name="title">
-		<h:outputText value="#{res['banco.titulo']}" />
+		<h:outputText value="#{res['banco.genericos.titulo']}" />
 	</ui:define>
 	<ui:define name="leftPanel">
 		<h1>
-			<h:outputText value="#{res['banco.header']}" escape="false" />
+			<h:outputText value="#{res['banco.genericos.header']}" escape="false" />
 		</h1>
 
 		<p>
-			<h:outputFormat value="#{res['banco.texto']}" escape="false"
+			<h:outputFormat value="#{res['banco.genericos.texto']}"
+				escape="false"
 				rendered="#{!loginController.socioLogged and !loginController.adminLogged}" />
 		</p>
 
 		<p:dataScroller value="#{bancoController.libros}" var="libro"
-			chunkSize="10" rendered="#{loginController.socioLogged or loginController.adminLogged}">
-	        <f:facet name="loader">
-	            <p:commandButton type="button" value="#{res['banco.cargar.libros']}" icon="ui-icon-circle-triangle-s"/>
-	        </f:facet>
-			
+			chunkSize="10"
+			rendered="#{loginController.socioLogged or loginController.adminLogged}">
+			<f:facet name="loader">
+				<p:commandButton type="button" value="#{res['banco.cargar.libros']}"
+					icon="ui-icon-circle-triangle-s" rendered="#{bancoController.libros.size() gt 10}" />
+			</f:facet>
+
 			<h:panelGrid columns="2" style="width:100%"
 				columnClasses="logo,detail">
-				<h:graphicImage library="libro" name="#{libro.imagen}" />
-				
+				<h:graphicImage library="images" name="libros/#{bancoController.cursoToInt(libro.curso)}/#{libro.imagen}"
+					alt="#{libro.imagen}" title="#{libro.imagen}"
+					styleClass="img-responsive imagenLibro" />
+
 				<p:outputPanel>
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputText value="#{res['libro.isbn']}:" />
 						<h:outputText value="#{libro.isbn}" style="font-weight: bold" />
-						
+
 						<h:outputText value="#{res['libro.titulo']}:" />
 						<h:outputText value="#{libro.titulo}" style="font-weight: bold" />
-						
+
 						<h:outputText value="#{res['libro.asignatura']}:" />
-						<h:outputText value="#{libro.asignatura}" style="font-weight: bold" />
-						
+						<h:outputText value="#{libro.asignatura}"
+							style="font-weight: bold" />
+
 						<h:outputText value="#{res['libro.curso']}:" />
 						<h:outputText value="#{libro.curso}" style="font-weight: bold" />
-						
+
 						<h:outputText value="#{res['libro.editorial']}:" />
 						<h:outputText value="#{libro.editorial}" style="font-weight: bold" />
-						
+
 						<h:outputText value="#{res['libro.idioma']}:" />
 						<h:outputText value="#{libro.idioma}" style="font-weight: bold" />
 
 						<h:outputText value="#{res['libro.año.edicion']}:" />
-						<h:outputText value="#{libro.añoEdicion}" style="font-weight: bold" />
-						
+						<h:outputText value="#{libro.añoEdicion}"
+							style="font-weight: bold" />
+
 						<h:outputText value="#{res['libro.cantidad']}:" />
 						<h:outputText value="#{libro.cantidad}" style="font-weight: bold" />
-						
+
 						<h:outputText value="#{res['libro.optativo']}" />
-						<h:outputText value="#{libro.optativo ? res['si']: res['no']}" style="font-weight: bold" />
+						<h:outputText value="#{libro.optativo ? res['si']: res['no']}"
+							style="font-weight: bold" />
 					</h:panelGrid>
 				</p:outputPanel>
 			</h:panelGrid>
-			
+
 			<p:separator />
 		</p:dataScroller>
 	</ui:define>

@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,8 +35,8 @@ public class Lote implements Serializable {
 	private String subgrupo;
 	
 	//uni-directional one-to-many association to Ejemplar
-	@OneToMany(fetch=FetchType.LAZY)
-	@Column(name="libro_id", columnDefinition="INT(11)", nullable=false, precision=11)
+	@OneToMany
+	@JoinColumn(name="id")
 	private List<Ejemplar> ejemplares;
 	
 	public Lote() {

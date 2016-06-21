@@ -13,11 +13,7 @@
 			rowsPerPageTemplate="5,10,15" sortMode="multiple"
 			filteredValue="#{adminController.sociosFiltrados}"
 			emptyMessage="#{res['noData']}" reflow="true" styleClass="adminTable">
-			<p:ajax event="rowToggle" listener="#{adminController.onRowToggle}" />
-			
-			<f:facet name="header">
-	           	Expand rows to see detailed information
-	   		</f:facet>
+			<p:ajax event="rowToggle" listener="#{adminController.onSocioToggle}" />
 			
 			<p:column style="width:40px">
 				<p:rowToggler />

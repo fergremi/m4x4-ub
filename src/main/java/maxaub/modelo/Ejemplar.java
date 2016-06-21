@@ -9,14 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  * Ejemplar
  */
 @Entity
-@Table(name="estado")
+@Table(name="libroejemplar")
 public class Ejemplar implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -29,8 +29,8 @@ public class Ejemplar implements Serializable {
 	private int estado;
 	
 	//bi-directional one-to-one association to Libro
-	@OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="libro", nullable=false)
+	@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="librogenerico_id", referencedColumnName="id")
 	private Libro libro;
 	
 	public Ejemplar() {

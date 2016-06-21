@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import maxaub.modelo.Lote;
+import maxaub.modelo.Socio;
 
 @Local
 public interface LoteDAO {
@@ -15,6 +16,14 @@ public interface LoteDAO {
 	 */
 	public List<Lote> getLotes();
     
+	/**
+	 * Obtener todos los lotes de los alumnos de un socio.
+	 * 
+	 * @param socio
+	 * @return {@link List}<{@link Lote}>
+	 */
+	public List<Lote> getLotes(Socio socio);
+	
 	/**
 	 * Obtener lote.
 	 * 

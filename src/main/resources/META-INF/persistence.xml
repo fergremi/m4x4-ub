@@ -12,6 +12,7 @@
 		<class>maxaub.modelo.Admin</class>
 		<class>maxaub.modelo.Alumno</class>
 		<class>maxaub.modelo.Ejemplar</class>
+		<class>maxaub.modelo.Historico</class>
 		<class>maxaub.modelo.Libro</class>
 		<class>maxaub.modelo.Lote</class>
 		<class>maxaub.modelo.Prestamo</class>

@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<h:form>
-		<p:panel style="width:auto;">
+		<p:panel id="nuevoLibro" widgetVar="nuevoLibro" style="width:auto;">
 			<h:panelGrid columns="2">
 				<h:outputLabel for="isbn" styleClass="titleFieldRequired"
 					value="#{res['libro.isbn']}:" escape="false" />
@@ -142,7 +142,8 @@
 		
 		<p:commandButton value="#{res['libro.nuevo.submit']}"
 			actionListener="#{adminController.doNuevoLibro}" escape="false"
-			update="growl" style="margin-top:10px;" />
-		
+			update="growl, nuevoLibro" style="margin-top:10px;" />
+			
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" />
 	</h:form>
 </ui:composition>

@@ -20,25 +20,22 @@
 		</p>
 		
 		<p:tabView id="adminView" dynamic="true" cache="true">
-	        <p:tab title="Lotes">
-	            <h:panelGrid columns="2" cellpadding="10">
-	                <h:graphicImage library="images" name="logo.gif" />
-	                <h:outputText
-	                    value="The story begins as Don Vito Corleone..." />
-	            </h:panelGrid>
+	        <p:tab title="#{res['admin.tab.lotes']}">
+                <h:outputText
+                    value="WIP . . ." />
 	        </p:tab>
-	        <p:tab title="Socios/Alumnos">
+	        <p:tab title="#{res['admin.tab.socios']}">
 	            <ui:include src="/vista/admin/socios.xhtml" />
 	        </p:tab>
-	        <p:tab title="Libros">
+	        <p:tab title="#{res['admin.tab.libros']}">
 	            <p:tabView dynamic="true" cache="true" scrollable="true">
-			        <p:tab title="Consultar libros">
+			        <p:tab title="#{res['admin.tab.libros.consultar']}">
 		                <ui:include src="/vista/admin/libro/consulta.xhtml" />
 			        </p:tab>
-			        <p:tab title="Depositar libros (manualmente)">
+			        <p:tab title="#{res['admin.tab.libros.crear']}">
 		                <ui:include src="/vista/admin/libro/nuevo.xhtml" />
 			        </p:tab>
-			        <p:tab title="Depositar libros (lector de código de barras)">
+			        <p:tab title="#{res['admin.tab.libros.codebar']}">
 			        	<ui:include src="/vista/admin/libro/codebar.xhtml" />
 			        </p:tab>
 			    </p:tabView>

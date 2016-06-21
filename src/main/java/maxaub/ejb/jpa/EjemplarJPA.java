@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import maxaub.ejb.interfaz.EjemplarDAO;
 import maxaub.modelo.Ejemplar;
+import maxaub.modelo.Libro;
 
 @Stateless
 public class EjemplarJPA extends BaseJPA implements EjemplarDAO {
@@ -14,6 +15,18 @@ public class EjemplarJPA extends BaseJPA implements EjemplarDAO {
 	public List<Ejemplar> getEjemplares() {
 		String sql = "SELECT e FROM Ejemplar AS e ORDER BY e.id";
 		TypedQuery<Ejemplar> query = getEntityManager().createQuery(sql, Ejemplar.class);
+		List<Ejemplar> list = query.getResultList();
+		if (!list.isEmpty()) {
+			return list;
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Ejemplar> getEjemplares(Libro libro) {
+		String sql = "SELECT e FROM Ejemplar AS e LEFT JOIN FETCH e.libro WHERE e.libro.id = :id ORDER BY e.id";
+		TypedQuery<Ejemplar> query = getEntityManager().createQuery(sql, Ejemplar.class);
+		query.setParameter("id", libro.getId());
 		List<Ejemplar> list = query.getResultList();
 		if (!list.isEmpty()) {
 			return list;
