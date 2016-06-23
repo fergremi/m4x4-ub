@@ -6,24 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Curso {
-	public static final List<Curso> CURSOS;
-    static {
-        CURSOS = new ArrayList<Curso>();
-        CURSOS.add(new Curso(3, "Tercero"));
-        CURSOS.add(new Curso(4, "Cuarto"));
-        CURSOS.add(new Curso(5, "Quinto"));
-        CURSOS.add(new Curso(6, "Sexto"));
-    }
+	public static final Map<Integer, Curso> mapCURSOS;
+	static {
+		mapCURSOS = new HashMap<Integer, Curso>();
+		mapCURSOS.put(3, new Curso(3, "Tercero"));
+		mapCURSOS.put(4, new Curso(4, "Cuarto"));
+		mapCURSOS.put(5, new Curso(5, "Quinto"));
+		mapCURSOS.put(6, new Curso(6, "Sexto"));
+	}
+	public static final List<Curso> CURSOS = new ArrayList<Curso>(mapCURSOS.values());
     public static final Curso DEFAULT_CURSO = CURSOS.get(0);
-    
-    public static final Map<String, Integer> mapCURSOS;
-    static {
-    	mapCURSOS = new HashMap<String, Integer>();
-    	mapCURSOS.put("Tercero", 3);
-    	mapCURSOS.put("Cuarto", 4);
-    	mapCURSOS.put("Quinto", 5);
-    	mapCURSOS.put("Sexto", 6);
-    }
     
 	private int id;
 	private String nombre;

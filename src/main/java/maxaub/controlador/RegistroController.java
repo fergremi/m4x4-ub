@@ -18,16 +18,14 @@ import maxaub.ejb.interfaz.AlumnoDAO;
 import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Alumno;
 import maxaub.modelo.Socio;
-import util.Curso;
-import util.SubGrupo;
-import util.Utils;
+import util.ResourceBundleUtils;
 
 @ManagedBean
 @SessionScoped
 public class RegistroController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = Logger.getLogger(RegistroController.class);
+	private static final Logger LOG = Logger.getLogger(RegistroController.class.getName());
 
 	@EJB
 	private SocioDAO socioDAO;
@@ -38,8 +36,6 @@ public class RegistroController implements Serializable {
 	private Boolean showErrorRegistro;
 	
 	private List<Alumno> alumnos;
-	private List<Curso> cursos;
-	private List<SubGrupo> subgrupos;
 	
 	/**
 	 * RadioButtons
@@ -61,9 +57,6 @@ public class RegistroController implements Serializable {
 		alumnos = new ArrayList<Alumno>();
 		alumnos.add(new Alumno());
 		
-		cursos = Curso.CURSOS;
-		subgrupos = SubGrupo.SUBGRUPOS;
-		
 		socio = new Socio();
 		
 		saltar = false;
@@ -83,20 +76,6 @@ public class RegistroController implements Serializable {
 	}
 	public void quitarAlumno(Alumno alumno) {
 		alumnos.remove(alumno);
-	}
-
-	public List<Curso> getCursos() {
-		return cursos;
-	}
-	public void setCursos(List<Curso> cursos) {
-		this.cursos = cursos;
-	}
-
-	public List<SubGrupo> getSubgrupos() {
-		return subgrupos;
-	}
-	public void setSubgrupos(List<SubGrupo> subgrupos) {
-		this.subgrupos = subgrupos;
 	}
 
 	public Boolean getParticipar() {
@@ -178,10 +157,12 @@ public class RegistroController implements Serializable {
 	
 	public String doRegistro() {
         try {
+        	socio.setActivo(true);
 			socioDAO.crearSocio(socio);
 			LOG.debug("El socio con DNI '" + socio.getDni() + "' se ha registrado correctamente.");
 			
 			for (Alumno alumno : alumnos) {
+				alumno.setActivo(true);
 				alumno.setSocio(socio);
 				alumnoDAO.crearAlumno(alumno);
 				LOG.debug("El alumno '" + alumno.getNombre() + "' del socio con DNI '" + socio.getDni() + "' se ha registrado correctamente.");
@@ -190,8 +171,8 @@ public class RegistroController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							Utils.getResourceBundle("registro.correcto"),
-							Utils.getResourceBundle("registro.correcto.detalle")));
+							ResourceBundleUtils.getResourceBundle("registro.correcto"),
+							ResourceBundleUtils.getResourceBundle("registro.correcto.detalle")));
 			socio = new Socio();
 			alumnos = new ArrayList<Alumno>();
 			alumnos.add(new Alumno());
@@ -201,8 +182,8 @@ public class RegistroController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("registro.incorrecto"),
-							Utils.getResourceBundle("registro.incorrecto.detalle")));
+							ResourceBundleUtils.getResourceBundle("registro.incorrecto"),
+							ResourceBundleUtils.getResourceBundle("registro.incorrecto.detalle")));
 			return null;
 		}
 	}

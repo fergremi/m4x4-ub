@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  *  Clase base que obtiene el entityManager
  */
 public class BaseJPA {
-	protected static final Logger LOG = Logger.getLogger(BaseJPA.class);
+	protected static final Logger LOG = Logger.getLogger(BaseJPA.class.getName());
 
 	public static final String PERSISTENCE_UNIT_NAME = "openjpa";
 	

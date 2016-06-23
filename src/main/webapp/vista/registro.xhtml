@@ -25,8 +25,8 @@
 			<p:wizard id="wizardRegistro"
 				widgetVar="wizardRegistro"
 				flowListener="#{registroController.onFlowProcess}"
-				nextLabel="#{res['registro.siguiente']}"
-				backLabel="#{res['registro.atras']}" showStepStatus="true"
+				nextLabel="#{res['siguiente']}"
+				backLabel="#{res['atras']}" showStepStatus="true"
 				showNavBar="true">
 				<p:tab id="alumnoTab" title="#{res['registro.tab.alumno']}">
 					<p:dataList id="listAlumnos" widgetVar="listAlumnos"
@@ -94,7 +94,7 @@
 										styleClass="fieldInputRequired" value="#{alumno.cursoActual}"
 										converter="genericConverter" required="true"
 										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-										<f:selectItems value="#{registroController.cursos}"
+										<f:selectItems value="#{utilController.cursos}"
 											var="cursoActual" itemLabel="#{cursoActual.nombre}"
 											itemValue="#{cursoActual.id}" />
 									</p:selectOneMenu>
@@ -109,7 +109,7 @@
 										styleClass="fieldInputRequired" value="#{alumno.cursoFuturo}"
 										converter="genericConverter" required="true"
 										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-										<f:selectItems value="#{registroController.cursos}"
+										<f:selectItems value="#{utilController.cursos}"
 											var="cursoFuturo" itemLabel="#{cursoFuturo.nombre}"
 											itemValue="#{cursoFuturo.id}" />
 									</p:selectOneMenu>
@@ -124,7 +124,7 @@
 										styleClass="fieldInputRequired" value="#{alumno.subgrupo}"
 										converter="genericConverter" required="true"
 										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-										<f:selectItems value="#{registroController.subgrupos}"
+										<f:selectItems value="#{utilController.subgrupos}"
 											var="subgrupo" itemLabel="#{subgrupo.nombre}"
 											itemValue="#{subgrupo.cod}" />
 									</p:selectOneButton>
@@ -374,7 +374,7 @@
 											converter="genericConverter" required="true"
 											requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
 											disabled="true">
-											<f:selectItems value="#{registroController.cursos}"
+											<f:selectItems value="#{utilController.cursos}"
 												var="cursoActual" itemLabel="#{cursoActual.nombre}"
 												itemValue="#{cursoActual.id}" />
 										</p:selectOneMenu>
@@ -390,7 +390,7 @@
 											converter="genericConverter" required="true"
 											requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
 											disabled="true">
-											<f:selectItems value="#{registroController.cursos}"
+											<f:selectItems value="#{utilController.cursos}"
 												var="cursoFuturo" itemLabel="#{cursoFuturo.nombre}"
 												itemValue="#{cursoFuturo.id}" />
 										</p:selectOneMenu>
@@ -406,7 +406,7 @@
 											converter="genericConverter" required="true"
 											requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}"
 											disabled="true">
-											<f:selectItems value="#{registroController.subgrupos}"
+											<f:selectItems value="#{utilController.subgrupos}"
 												var="subgrupo" itemLabel="#{subgrupo.nombre}"
 												itemValue="#{subgrupo.cod}" />
 										</p:selectOneButton>

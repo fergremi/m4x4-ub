@@ -20,10 +20,7 @@ import maxaub.modelo.Alumno;
 import maxaub.modelo.Socio;
 import util.Idioma;
 import util.Tema;
-import util.Utils;
-//TODO
-//String param =
-//externalContext.getInitParameter("primefaces.THEME");
+import util.ResourceBundleUtils;
 
 @ManagedBean
 @SessionScoped
@@ -54,22 +51,18 @@ public class LoginController implements Serializable {
 
 	private Locale idioma;
 	private Idioma idiomaSelected;
-	private List<Idioma> idiomas;
 
 	private Tema temaSelected;
-	private List<Tema> temas;
 	
 	private List<Alumno> alumnos;
 
 	public LoginController() {
 		socio = null;
 
-		idioma = Utils.getLocale();
+		idioma = ResourceBundleUtils.getLocale();
 		idiomaSelected = Idioma.DEFAULT_IDIOMA;
-		idiomas = Idioma.IDIOMAS;
 
 		temaSelected = Tema.DEFAULT_TEMA;
-		temas = Tema.TEMAS;
 		
 		alumnos = null;
 	}
@@ -141,10 +134,6 @@ public class LoginController implements Serializable {
 		FacesContext.getCurrentInstance().getViewRoot().setLocale(idioma);
 	}
 
-	public List<Idioma> getIdiomas() {
-		return idiomas;
-	}
-
 	public Tema getTemaSelected() {
 		return temaSelected;
 	}
@@ -152,34 +141,30 @@ public class LoginController implements Serializable {
 		this.temaSelected = temaSelected;
 	}
 	
-	public List<Tema> getTemas() {
-		return temas;
-	}
-
 	public String login() {
 		boolean login = true;
 		
 		if(usuario == null || usuario.trim().length() == 0) {
 			String required = 
-					Utils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
-							Utils.getResourceBundle("usuario"));
+					ResourceBundleUtils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
+							ResourceBundleUtils.getResourceBundle("usuario"));
 
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("javax.faces.component.UIInput.REQUIRED"),
+							ResourceBundleUtils.getResourceBundle("javax.faces.component.UIInput.REQUIRED"),
 							required));
 			login = false;
 		}
 		if(contraseña == null || contraseña.trim().length() == 0) {
 			String required = 
-					Utils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
-							Utils.getResourceBundle("contraseña"));
+					ResourceBundleUtils.paramMsg("javax.faces.component.UIInput.REQUIRED_detail", 
+							ResourceBundleUtils.getResourceBundle("contraseña"));
 
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("javax.faces.component.UIInput.REQUIRED"),
+							ResourceBundleUtils.getResourceBundle("javax.faces.component.UIInput.REQUIRED"),
 							required));
 			login = false;
 		}
@@ -196,8 +181,8 @@ public class LoginController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								Utils.getResourceBundle().getString("login.incorrecto"),
-								Utils.getResourceBundle().getString("login.incorrecto.detalle")));
+								ResourceBundleUtils.getResourceBundle().getString("login.incorrecto"),
+								ResourceBundleUtils.getResourceBundle().getString("login.incorrecto.detalle")));
 			}
 			else {
 				LOG.debug("[Login {Socio} correcto]: " + socio.getNombre() + " " + socio.getApellidos());
@@ -206,9 +191,9 @@ public class LoginController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								Utils.getResourceBundle().getString("login.correcto"),
+								ResourceBundleUtils.getResourceBundle().getString("login.correcto"),
 								socio.getNombre() + " " + socio.getApellidos()));
-				return "ejemplares?faces-redirect=true";
+				return "banco/ejemplares?faces-redirect=true";
 			}
 		}
 		/* Si no se introduce un DNI, se considera un administrador */
@@ -219,8 +204,8 @@ public class LoginController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								Utils.getResourceBundle("login.incorrecto"),
-								Utils.getResourceBundle("login.incorrecto.detalle")));
+								ResourceBundleUtils.getResourceBundle("login.incorrecto"),
+								ResourceBundleUtils.getResourceBundle("login.incorrecto.detalle")));
 			}
 			else {
 				LOG.debug("[Login {Admin} correcto]: " + usuario);
@@ -229,7 +214,7 @@ public class LoginController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								Utils.getResourceBundle("login.correcto"),
+								ResourceBundleUtils.getResourceBundle("login.correcto"),
 								usuario));
 				return "admin?faces-redirect=true";
 			}
@@ -250,13 +235,13 @@ public class LoginController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						Utils.getResourceBundle("logout"),
-						Utils.getResourceBundle("logout.detalle")));		
+						ResourceBundleUtils.getResourceBundle("logout"),
+						ResourceBundleUtils.getResourceBundle("logout.detalle")));		
 		return "index"; /* vista por defecto */
 	}
 
 	public List<Alumno> getAlumnos() {
-		alumnos = alumnoDAO.getAlumnosSocioActivo(socio);
+		alumnos = alumnoDAO.getAlumnosActivo(socio);
 		return alumnos;
 	}
 	public void setAlumnos(List<Alumno> alumnos) {
@@ -273,15 +258,15 @@ public class LoginController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							Utils.getResourceBundle("edit.correcto"),
-							Utils.getResourceBundle("edit.correcto.detalle")));
+							ResourceBundleUtils.getResourceBundle("edit.correcto"),
+							ResourceBundleUtils.getResourceBundle("edit.correcto.detalle")));
 		} catch (Exception e) {
 			LOG.debug("Ha ocurrido un error al editar los datos del socio.");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("edit.incorrecto"),
-							Utils.getResourceBundle("edit.incorrecto.detalle")));
+							ResourceBundleUtils.getResourceBundle("edit.incorrecto"),
+							ResourceBundleUtils.getResourceBundle("edit.incorrecto.detalle")));
 		}
 		return "datos_socio"; /* vista por defecto */
 	}
@@ -293,15 +278,15 @@ public class LoginController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							Utils.getResourceBundle("edit.correcto"),
-							Utils.getResourceBundle("edit.correcto.detalle")));
+							ResourceBundleUtils.getResourceBundle("edit.correcto"),
+							ResourceBundleUtils.getResourceBundle("edit.correcto.detalle")));
 		} catch (Exception e) {
 			LOG.debug("Ha ocurrido un error al editar los datos del administrador.");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("edit.incorrecto"),
-							Utils.getResourceBundle("edit.incorrecto.detalle")));
+							ResourceBundleUtils.getResourceBundle("edit.incorrecto"),
+							ResourceBundleUtils.getResourceBundle("edit.incorrecto.detalle")));
 		}
 		return "datos_admin"; /* vista por defecto */
 	}

@@ -41,7 +41,7 @@
 						<h:panelGroup layout="block" id="isbn">
 							<p:barcode
 								value="#{adminController.codeToString(adminController.libroCodebar.isbn)}"
-								title="#{libro.isbn}" alt="#{libro.isbn}" type="ean13"
+								title="#{adminController.libroCodebar.isbn}" alt="#{adminController.libroCodebar.isbn}" type="ean13"
 								style="text-align:center; background: white;"
 								rendered="#{adminController.codeToString(adminController.libroCodebar.isbn).length() eq 12
 								or adminController.codeToString(adminController.libroCodebar.isbn).length() eq 13}" />
@@ -104,14 +104,18 @@
 						<h:panelGroup layout="block">
 							<h:panelGrid>
 								<p:inplace id="image" label="#{res['imagen.mostrar']}"
-									effect="slide" style="font-weight: bold">
+									effect="slide" style="font-weight: bold"
+									saveLabel="#{res['guardar']}" cancelLabel="#{res['cancelar']}"
+									emptyLabel="#{res['sinValor']}">
 									<h:graphicImage library="images"
-										name="libros/#{adminController.libroCodebar.imagen}"
+										name="libros/#{adminController.libroCodebar.curso}/#{adminController.libroCodebar.imagen}"
 										alt="#{adminController.libroCodebar.imagen}"
 										title="#{adminController.libroCodebar.imagen}"
 										styleClass="img-responsive" />
 								</p:inplace>
-								<p:inplace editor="true">
+								<p:inplace editor="true" saveLabel="#{res['guardar']}"
+									cancelLabel="#{res['cancelar']}"
+									emptyLabel="#{res['sinValor']}">
 									<p:inputText autocomplete="off" id="imagen" maxlength="100"
 										value="#{adminController.libroCodebar.imagen}"
 										required="false">
@@ -153,7 +157,7 @@
 									value="#{adminController.ejemplar.estado}" effect="fold"
 									required="true"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-									<f:selectItems value="#{adminController.estados}" var="estado"
+									<f:selectItems value="#{utilController.estados}" var="estado"
 										itemLabel="#{estado.nombre}" itemValue="#{estado.id}" />
 								</p:selectOneMenu>
 								<p:message for="estado" />
@@ -169,7 +173,7 @@
 				</p:panel>
 			</h:panelGroup>
 		</h:panelGroup>
-		
+
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
 			closable="true" globalOnly="true" />
 	</h:form>

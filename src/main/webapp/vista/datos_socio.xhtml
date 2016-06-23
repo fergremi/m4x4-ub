@@ -244,7 +244,7 @@
 								required="true"
 								requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
 								<f:selectItems
-									value="#{registroController.cursos}" var="cursoActual"
+									value="#{utilController.cursos}" var="cursoActual"
 									itemLabel="#{cursoActual.nombre}" itemValue="#{cursoActual.id}" />
 							</p:selectOneMenu>
 							<p:message for="alumno_curso_actual" />
@@ -262,7 +262,7 @@
 								required="true"
 								requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
 								<f:selectItems
-									value="#{registroController.cursos}" var="cursoActual"
+									value="#{utilController.cursos}" var="cursoActual"
 									itemLabel="#{cursoActual.nombre}" itemValue="#{cursoActual.id}" />
 							</p:selectOneMenu>
 							<p:message for="alumno_curso_futuro" />

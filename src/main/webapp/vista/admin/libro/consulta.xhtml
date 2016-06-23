@@ -9,7 +9,7 @@
 	<h:form>
 		<p:dataTable widgetVar="librosConsulta" var="libro"
 			value="#{adminController.libros}" rows="10" paginator="true"
-			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" sortMode="multiple"
 			filteredValue="#{adminController.librosFiltrados}"
 			emptyMessage="#{res['noData']}" reflow="true" styleClass="adminTable">
@@ -46,7 +46,8 @@
 					<p:selectCheckboxMenu label="#{res['cursos']}" filter="true"
 						filterMatchMode="startsWith"
 						onchange="PF('librosConsulta').filter()">
-						<f:selectItems value="#{adminController.cursosListItems}" />
+						<f:selectItems value="#{utilController.cursos}" var="curso"
+							itemLabel="#{curso.nombre}" itemValue="#{curso.nombre}" />
 					</p:selectCheckboxMenu>
 				</f:facet>
 				<h:outputText value="#{libro.curso}" />
@@ -101,7 +102,7 @@
 				filterBy="#{libro.optativo}" filterMatchMode="equals">
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('librosConsulta').filter()"
-						value="#{adminController.optativoDefault}">
+						value="#{adminController.optativo}">
 						<f:converter converterId="javax.faces.Boolean" />
 						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
 						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
@@ -114,7 +115,7 @@
 				filterBy="#{libro.activo}" filterMatchMode="equals">
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('librosConsulta').filter()"
-						value="#{adminController.activoDefault}">
+						value="#{adminController.activo}">
 						<f:converter converterId="javax.faces.Boolean" />
 						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
 						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
@@ -132,16 +133,25 @@
 					<h:panelGrid columns="2">
 						<h:outputLabel for="isbn" styleClass="titleFieldRequired"
 							value="#{res['libro.isbn']}:" escape="false" />
-						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+						<h:panelGroup layout="block" id="isbn">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<f:facet name="output">
-									<p:barcode value="#{adminController.codeToString(libro.isbn)}"
+									<p:barcode
+										value="#{adminController.codeToString(libro.isbn)}"
 										title="#{libro.isbn}" alt="#{libro.isbn}" type="ean13"
-										style="text-align:center; background: white;" />
+										style="text-align:center; background: white;"
+										rendered="#{adminController.codeToString(libro.isbn).length() eq 12
+										or adminController.codeToString(libro.isbn).length() eq 13}" />
+									<h:outputText value="#{libro.isbn}"
+										rendered="#{adminController.codeToString(libro.isbn).length() ne 12
+										and adminController.codeToString(libro.isbn).length() ne 13}" />
 								</f:facet>
 								<f:facet name="input">
 									<p:inputText autocomplete="off" styleClass="fieldInputRequired"
-										id="isbn" maxlength="11" value="#{libro.isbn}" required="true"
+										maxlength="11" value="#{libro.isbn}" required="true"
 										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
 								</f:facet>
 							</p:inplace>
@@ -151,7 +161,10 @@
 						<h:outputLabel for="titulo" styleClass="titleFieldRequired"
 							value="#{res['libro.titulo']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
 									id="titulo" maxlength="100" value="#{libro.titulo}"
 									required="true"
@@ -163,7 +176,10 @@
 						<h:outputLabel for="asignatura" styleClass="titleFieldRequired"
 							value="#{res['libro.asignatura']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<p:selectOneMenu autocomplete="off"
 									styleClass="fieldInputRequired" id="asignatura"
 									title="#{res['asignaturas']}" syncTooltip="true" maxlength="45"
@@ -179,15 +195,24 @@
 						<h:outputLabel for="curso" styleClass="titleFieldRequired"
 							value="#{res['libro.curso']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
-								<p:selectOneMenu autocomplete="off"
-									styleClass="fieldInputRequired" id="curso"
-									title="#{res['cursos']}" syncTooltip="true" maxlength="10"
-									value="#{libro.curso}" effect="fold" editable="true"
-									required="true"
-									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-									<f:selectItems value="#{adminController.cursosListItems}" />
-								</p:selectOneMenu>
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
+								<f:facet name="output">
+									<h:outputText value="#{libro.curso}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu autocomplete="off"
+										styleClass="fieldInputRequired" id="curso"
+										title="#{res['cursos']}" syncTooltip="true" maxlength="10"
+										value="#{libro.curso}" effect="fold"
+										required="true"
+										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+										<f:selectItems value="#{utilController.cursos}" var="curso"
+											itemLabel="#{curso.nombre}" itemValue="#{curso.id}" />
+									</p:selectOneMenu>
+								</f:facet>
 							</p:inplace>
 							<p:message for="curso" />
 						</h:panelGroup>
@@ -195,7 +220,10 @@
 						<h:outputLabel for="editorial" styleClass="titleFieldRequired"
 							value="#{res['libro.editorial']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<p:selectOneMenu autocomplete="off"
 									styleClass="fieldInputRequired" id="editorial"
 									title="#{res['editoriales']}" syncTooltip="true" maxlength="45"
@@ -211,7 +239,10 @@
 						<h:outputLabel for="año_edicion" styleClass="titleFieldRequired"
 							value="#{res['libro.año.edicion']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<p:spinner autocomplete="off" styleClass="fieldInputRequired"
 									id="año_edicion" min="0" size="4" maxlength="4"
 									value="#{libro.añoEdicion}" required="true"
@@ -225,7 +256,10 @@
 						<h:outputLabel for="cantidad" styleClass="titleFieldRequired"
 							value="#{res['libro.cantidad']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<p:spinner autocomplete="off" styleClass="fieldInputRequired"
 									id="cantidad" min="0" size="5" maxlength="5"
 									value="#{libro.cantidad}" required="true"
@@ -239,7 +273,10 @@
 						<h:outputLabel for="optativo" styleClass="titleFieldRequired"
 							value="#{res['libro.optativo']}" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<f:facet name="output">
 									<h:outputText value="#{libro.optativo ? res['si']: res['no']}" />
 								</f:facet>
@@ -260,7 +297,10 @@
 						<h:outputLabel for="idioma" styleClass="titleFieldRequired"
 							value="#{res['libro.idioma']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<p:selectOneMenu autocomplete="off"
 									styleClass="fieldInputRequired" id="idioma"
 									title="#{res['idiomas']}" syncTooltip="true" maxlength="45"
@@ -279,11 +319,16 @@
 							<h:panelGrid>
 								<p:inplace id="image" label="#{res['imagen.mostrar']}"
 									effect="slide" style="font-weight: bold">
-									<h:graphicImage library="images" name="libros/#{bancoController.cursoToInt(libro.curso)}/#{libro.imagen}"
+									<h:graphicImage library="images"
+										name="libros/#{libro.curso}/#{libro.imagen}"
 										alt="#{libro.imagen}" title="#{libro.imagen}"
 										styleClass="img-responsive imagenLibro" />
 								</p:inplace>
-								<p:inplace editor="true">
+								<p:inplace editor="true" saveLabel="#{res['guardar']}"
+									cancelLabel="#{res['cancelar']}"
+									emptyLabel="#{res['sinValor']}">
+									<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+										update="@this" />
 									<p:inputText autocomplete="off" id="imagen" maxlength="100"
 										value="#{libro.imagen}" required="false">
 										<p:ajax update="image" />
@@ -296,7 +341,10 @@
 						<h:outputLabel for="activo" styleClass="titleFieldRequired"
 							value="#{res['libro.activo']}" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save" listener="#{adminController.guardarLibro()}"
+									update="@this" />
 								<f:facet name="output">
 									<h:outputText value="#{libro.activo ? res['si']: res['no']}" />
 								</f:facet>
@@ -322,11 +370,14 @@
 					</f:facet>
 					<p:dataTable widgetVar="ejemplaresConsulta" var="ejemplar"
 						value="#{adminController.ejemplares}" rows="10" paginator="true"
-						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15" sortMode="multiple"
 						filteredValue="#{adminController.ejemplaresFiltrados}"
 						emptyMessage="#{res['noData']}" reflow="true"
 						styleClass="adminTable">
+						<p:ajax event="rowToggle"
+							listener="#{adminController.onEjemplarToggle}" />
+
 						<p:column style="width:40px">
 							<p:rowToggler />
 						</p:column>
@@ -342,16 +393,11 @@
 								<p:selectCheckboxMenu label="#{res['estados']}" filter="true"
 									filterMatchMode="startsWith"
 									onchange="PF('ejemplaresConsulta').filter()">
-									<f:selectItems value="#{adminController.estados}" var="estado"
+									<f:selectItems value="#{utilController.estados}" var="estado"
 										itemLabel="#{estado.nombre}" itemValue="#{estado.id}" />
 								</p:selectCheckboxMenu>
 							</f:facet>
-							<h:outputText value="#{res['estado.bueno']}"
-								rendered="#{ejemplar.estado eq 1}" />
-							<h:outputText value="#{res['estado.regular']}"
-								rendered="#{ejemplar.estado eq 2}" />
-							<h:outputText value="#{res['estado.malo']}"
-								rendered="#{ejemplar.estado eq 3}" />
+							<h:outputText value="#{utilController.estadoToString(ejemplar.estado)}" />
 						</p:column>
 
 						<p:rowExpansion>
@@ -363,7 +409,11 @@
 									<h:outputLabel for="id" styleClass="titleFieldRequired"
 										value="#{res['ejemplar.id']}:" escape="false" />
 									<h:panelGroup layout="block">
-										<p:inplace editor="true">
+										<p:inplace editor="true" saveLabel="#{res['guardar']}"
+											cancelLabel="#{res['cancelar']}"
+											emptyLabel="#{res['sinValor']}">
+											<p:ajax event="save"
+												listener="#{adminController.guardarEjemplar()}" update="@this" />
 											<p:inputText autocomplete="off"
 												styleClass="fieldInputRequired" id="id" maxlength="11"
 												value="#{ejemplar.id}" required="true"
@@ -375,28 +425,21 @@
 									<h:outputLabel for="estado" styleClass="titleFieldRequired"
 										value="#{res['ejemplar.estado']}:" escape="false" />
 									<h:panelGroup layout="block">
-										<p:inplace editor="true">
+										<p:inplace editor="true" saveLabel="#{res['guardar']}"
+											cancelLabel="#{res['cancelar']}"
+											emptyLabel="#{res['sinValor']}">
+											<p:ajax event="save"
+												listener="#{adminController.guardarEjemplar()}" update="@this" />
 											<f:facet name="output">
-												<h:outputText value="#{res['estado.bueno']}"
-													rendered="#{ejemplar.estado eq 1}" />
-												<h:outputText value="#{res['estado.regular']}"
-													rendered="#{ejemplar.estado eq 2}" />
-												<h:outputText value="#{res['estado.malo']}"
-													rendered="#{ejemplar.estado eq 3}" />
+												<h:outputText value="#{utilController.estadoToString(ejemplar.estado)}" />
 											</f:facet>
 											<f:facet name="input">
 												<p:selectOneMenu autocomplete="off"
 													styleClass="fieldInputRequired" id="estado"
 													title="#{res['estados']}" syncTooltip="true" maxlength="1"
-													value="#{ejemplar.estado eq 1 ? res['estado.bueno'] : 
-														ejemplar.estado eq 2 ? res['estado.regular'] : 
-														ejemplar.estado eq 3 ? res['estado.malo'] : 
-														ejemplar.estado}"
-													effect="fold" editable="true" converter="genericConverter"
-													required="true"
+													value="#{ejemplar.estado}" effect="fold" required="true"
 													requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-													<f:converter converterId="javax.faces.Integer" />
-													<f:selectItems value="#{adminController.estados}"
+													<f:selectItems value="#{utilController.estados}"
 														var="estado" itemLabel="#{estado.nombre}"
 														itemValue="#{estado.id}" />
 												</p:selectOneMenu>

@@ -1,6 +1,5 @@
 package maxaub.controlador;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import maxaub.ejb.interfaz.LoteDAO;
 import maxaub.modelo.Ejemplar;
 import maxaub.modelo.Libro;
 import maxaub.modelo.Lote;
-import util.Curso;
 
 @ManagedBean
 @SessionScoped
@@ -60,13 +58,5 @@ public class BancoController implements Serializable {
 			}
 		}
 		return ejemplares;
-	}
-	
-	public Integer cursoToInt(String curso) {
-		if (Curso.mapCURSOS.containsKey(curso)) {
-			return Curso.mapCURSOS.get(curso);
-		} else {
-			return null;
-		}
 	}
 }

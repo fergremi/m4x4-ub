@@ -21,9 +21,28 @@
 		
 		<p:tabView id="adminView" dynamic="true" cache="true">
 	        <p:tab title="#{res['admin.tab.lotes']}">
-                <h:outputText
-                    value="WIP . . ." />
+	        	<p:tabView dynamic="true" cache="true" scrollable="true">
+			        <p:tab title="#{res['admin.tab.lotes.consultar']}">
+		                <!-- <ui:include src="/vista/admin/lote/consulta.xhtml" /> -->
+		                <h:outputText value="WIP . . ." />
+			        </p:tab>
+			        <p:tab title="#{res['admin.tab.lotes.crear']}">
+			        	<!-- <ui:include src="/vista/admin/lote/nuevo.xhtml" /> -->
+		                <h:outputText value="WIP . . ." />
+			        </p:tab>
+			    </p:tabView>
 	        </p:tab>
+			<p:tab title="#{res['admin.tab.prestamos']}">
+	        	<p:tabView dynamic="true" cache="true" scrollable="true">
+			        <p:tab title="#{res['admin.tab.prestamos.consultar']}">
+		                <h:outputText value="WIP . . ." />
+			        </p:tab>
+			        <p:tab title="#{res['admin.tab.prestamos.crear']}">
+		                <h:outputText value="WIP . . ." />
+			        </p:tab>
+			    </p:tabView>
+	        </p:tab>
+	        
 	        <p:tab title="#{res['admin.tab.socios']}">
 	            <ui:include src="/vista/admin/socios.xhtml" />
 	        </p:tab>

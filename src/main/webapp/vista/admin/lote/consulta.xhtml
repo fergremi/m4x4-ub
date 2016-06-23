@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h:form>
+		<p:dataTable widgetVar="lotesConsulta" var="loteWrapper"
+			value="#{adminController.lotesWrapper}" rows="10" paginator="true"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" sortMode="multiple"
+			filteredValue="#{adminController.lotesWrapperFiltrados}"
+			emptyMessage="#{res['noData']}" reflow="true" styleClass="adminTable">
+			<p:ajax event="rowToggle" listener="#{adminController.onLoteToggle}" />
+
+			<p:column style="width:40px">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="#{res['lote.cod']}"
+				sortBy="#{loteWrapper.lote.cod}" filterBy="#{loteWrapper.lote.cod}"
+				filterMatchMode="contains" filterMaxLength="11">
+				<h:outputText value="#{loteWrapper.lote.cod}" />
+			</p:column>
+			<p:column headerText="#{res['lote.curso']}"
+				sortBy="#{loteWrapper.lote.curso}"
+				filterBy="#{loteWrapper.lote.curso}" filterMatchMode="in"
+				filterMaxLength="10">
+				<f:facet name="filter">
+					<p:selectCheckboxMenu label="#{res['cursos']}" filter="true"
+						filterMatchMode="startsWith"
+						onchange="PF('lotesConsulta').filter()"
+						converter="genericConverter">
+						<f:selectItems value="#{utilController.cursos}" var="curso"
+							itemLabel="#{curso.nombre}" itemValue="#{curso.id}" />
+					</p:selectCheckboxMenu>
+				</f:facet>
+				<h:outputText value="#{utilController.cursoToString(loteWrapper.lote.curso)}" />
+			</p:column>
+			<p:column headerText="#{res['lote.subgrupo']}"
+				sortBy="#{loteWrapper.lote.subgrupo}"
+				filterBy="#{loteWrapper.lote.subgrupo}" filterMatchMode="in"
+				filterMaxLength="45">
+				<f:facet name="filter">
+					<p:selectCheckboxMenu label="#{res['subgrupos']}" filter="true"
+						filterMatchMode="startsWith"
+						onchange="PF('lotesConsulta').filter()"
+						converter="genericConverter">
+						<f:selectItems value="#{utilController.subgrupos}" var="subgrupo"
+							itemLabel="#{subgrupo.nombre}" itemValue="#{subgrupo.cod}" />
+					</p:selectCheckboxMenu>
+				</f:facet>
+				<h:outputText value="#{utilController.subgrupoToString(loteWrapper.lote.subgrupo)}" />
+			</p:column>
+			<p:column headerText="#{res['lote.prestado']}"
+				filterBy="#{loteWrapper.prestado}" filterMatchMode="equals">
+				<f:facet name="filter">
+					<p:selectOneButton onchange="PF('librosConsulta').filter()"
+						value="#{loteWrapper.prestado}">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
+						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+						<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+					</p:selectOneButton>
+				</f:facet>
+				<h:outputText value="#{loteWrapper.prestado ? res['si']: res['no']}" />
+			</p:column>
+			<p:column headerText="#{res['ejemplares']}">
+				<h:outputText value="img" />
+			</p:column>
+
+			<p:rowExpansion>
+				<p:panel style="width:auto;" toggleable="true">
+					<f:facet name="header">
+						<h:outputText value="#{res['modo.edicion']}" />
+					</f:facet>
+					<h:panelGrid columns="2">
+						<h:outputLabel for="cod" styleClass="titleFieldRequired"
+							value="#{res['lote.cod']}:" escape="false" />
+						<h:panelGroup layout="block">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
+									id="cod" maxlength="11" value="#{loteWrapper.lote.cod}"
+									required="true"
+									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+							</p:inplace>
+							<p:message for="cod" />
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+			</p:rowExpansion>
+		</p:dataTable>
+	</h:form>
+</ui:composition>

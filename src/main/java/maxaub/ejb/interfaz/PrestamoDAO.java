@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import maxaub.modelo.Lote;
 import maxaub.modelo.Prestamo;
 
 @Local
@@ -43,4 +44,12 @@ public interface PrestamoDAO {
 	 * @param prestamo
 	 */
 	public void eliminarPrestamo(Prestamo prestamo);
+	
+	/**
+	 * Indica si un lote tiene asignado algún préstamo.
+	 * 
+	 * @param lote
+	 * @return {@link Boolean}
+	 */
+	public Boolean isPrestado(Lote lote);
 }

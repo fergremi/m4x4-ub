@@ -21,6 +21,7 @@ import maxaub.ejb.interfaz.AlumnoDAO;
 import maxaub.ejb.interfaz.EjemplarDAO;
 import maxaub.ejb.interfaz.LibroDAO;
 import maxaub.ejb.interfaz.LoteDAO;
+import maxaub.ejb.interfaz.PrestamoDAO;
 import maxaub.ejb.interfaz.SocioDAO;
 import maxaub.modelo.Alumno;
 import maxaub.modelo.Ejemplar;
@@ -28,7 +29,8 @@ import maxaub.modelo.Libro;
 import maxaub.modelo.Lote;
 import maxaub.modelo.Socio;
 import util.Estado;
-import util.Utils;
+import util.LoteWrapper;
+import util.ResourceBundleUtils;
 
 @ManagedBean
 @SessionScoped
@@ -38,10 +40,10 @@ public class AdminController implements Serializable {
 	private static final Logger LOG = Logger.getLogger(AdminController.class.getName());
 
 	@EJB
-	private EjemplarDAO ejemplarDAO;
+	private LoteDAO loteDAO;
 	
 	@EJB
-	private LoteDAO loteDAO;
+	private PrestamoDAO prestamoDAO;
 
 	@EJB
 	private SocioDAO socioDAO;
@@ -52,6 +54,13 @@ public class AdminController implements Serializable {
 	@EJB
 	private LibroDAO libroDAO;
 
+	@EJB
+	private EjemplarDAO ejemplarDAO;
+
+	private List<LoteWrapper> lotesWrapper;
+	private List<LoteWrapper> lotesWrapperFiltrados;
+	private LoteWrapper loteWrapperSelected;
+	
 	private List<Socio> socios;
 	private List<Socio> sociosFiltrados;
 	private Socio socioSelected;
@@ -61,12 +70,19 @@ public class AdminController implements Serializable {
 	private List<Libro> librosFiltrados;
 	private Libro libroSelected;
 	private Libro libro;
+	private Libro libroCodebar;
+	private BigInteger code;
+	private Ejemplar ejemplarSelected;
 
+	private List<Ejemplar> ejemplares;
+	private List<Ejemplar> ejemplaresFiltrados;
+	private Ejemplar ejemplar;
+	
+	/* Variables para el filtrado */
 	private SelectItem asignaturaSelected;
 	private List<SelectItem> asignaturasListItems;
 
 	private SelectItem cursoSelected;
-	private List<SelectItem> cursosListItems;
 
 	private SelectItem editorialSelected;
 	private List<SelectItem> editorialesListItems;
@@ -74,38 +90,53 @@ public class AdminController implements Serializable {
 	private SelectItem idiomaSelected;
 	private List<SelectItem> idiomasListItems;
 
-	private String whatsappDefault;
-	private String optativoDefault;
-	private String activoDefault;
-	
-	private List<Ejemplar> ejemplares;
-	private List<Ejemplar> ejemplaresFiltrados;
-	private Ejemplar ejemplar;
-	
-	private List<Estado> estados;
-	
-	private Libro libroCodebar;
-	private BigInteger code;
+	private String whatsapp;
+	private String optativo;
+	private String activo;
 
 	public AdminController() {
 		super();
 		
-		socioSelected = null;
-		libro = new Libro();
-
-		whatsappDefault = "";
-		optativoDefault = "";
-		activoDefault = "";
+		loteWrapperSelected = null;
 		
+		socioSelected = null;
+		whatsapp = "";
+		optativo = "";
+		activo = "";
+		
+		libro = new Libro();
 		libroSelected = null;
 		ejemplar = new Ejemplar();
-
-		estados = Estado.ESTADOS;
-		
 		libroCodebar = null;
 		code = null;
+		ejemplarSelected = null;
 	}
-	//TODO
+	
+	public List<LoteWrapper> getLotesWrapper() {
+		if (lotesWrapper == null) {
+			lotesWrapper = new ArrayList<LoteWrapper>();
+			List<Lote> lotes = new ArrayList<Lote>(loteDAO.getLotes());
+			for (Lote lote : lotes) {
+				lotesWrapper.add(new LoteWrapper(lote, prestamoDAO.isPrestado(lote)));
+			}
+		}
+		return lotesWrapper;
+	}
+	
+	public List<LoteWrapper> getLotesWrapperFiltrados() {
+		return lotesWrapperFiltrados;
+	}
+	public void setLotesWrapperFiltrados(List<LoteWrapper> lotesWrapperFiltrados) {
+		this.lotesWrapperFiltrados = lotesWrapperFiltrados;
+	}
+	
+	public void onLoteToggle(ToggleEvent event) {
+		if (loteWrapperSelected != (LoteWrapper) event.getData()) {
+			loteWrapperSelected = (LoteWrapper) event.getData();
+		}
+	}
+
+	//TODO subgrupo
 	public void newLote(int curso, String subgrupo) {
 		List<String> asignaturas = new ArrayList<String>();
 		/* Obligatorias comunes */
@@ -179,7 +210,6 @@ public class AdminController implements Serializable {
 			//XXX check buenos, regulares, malos?
 			
 			Lote lote = new Lote();
-			lote.setCurso(curso);
 			lote.setSubgrupo(subgrupo);
 			lote.setCod(loteDAO.getNextCodLote());
 			lote.setEjemplares(ejemplaresLote);
@@ -242,20 +272,27 @@ public class AdminController implements Serializable {
 		this.sociosFiltrados = sociosFiltrados;
 	}
 
-	public List<Alumno> getAlumnos() {
-		if (alumnos == null) {
-			alumnos = new ArrayList<Alumno>(alumnoDAO.getAlumnosSocio(socioSelected));
-		}
-		return alumnos;
-	}
-
 	public void onSocioToggle(ToggleEvent event) {
 		if (socioSelected != (Socio) event.getData()) {
 			socioSelected = (Socio) event.getData();
 			alumnos = null;
 		}
 	}
+	public List<Alumno> getAlumnos() {
+		if ((alumnos == null) && (socioSelected != null)) {
+			alumnos = new ArrayList<Alumno>(alumnoDAO.getAlumnos(socioSelected));
+		}
+		return alumnos;
+	}
 
+	public void guardarSocio() {
+		socioDAO.guardarSocio(socioSelected);
+	}
+	public void guardarAlumno() {
+		//XXX
+		//alumnoDAO.guardarAlumno(alumno);
+	}
+	
 	public List<Libro> getLibros() {
 		if (libros == null) {
 			libros = new ArrayList<Libro>(libroDAO.getLibrosActivos());
@@ -276,7 +313,7 @@ public class AdminController implements Serializable {
 	public void setLibro(Libro libro) {
 		this.libro = libro;
 	}
-
+	
 	public void doNuevoLibro() {
 		if (libro != null) {
 			if (libroDAO.getLibro(libro.getIsbn()) != null) {
@@ -285,8 +322,8 @@ public class AdminController implements Serializable {
 						null,
 						new FacesMessage(
 								FacesMessage.SEVERITY_WARN,
-								Utils.getResourceBundle("libro.duplicated"),
-								Utils.getResourceBundle("libro.duplicated.detalle")));
+								ResourceBundleUtils.getResourceBundle("libro.duplicated"),
+								ResourceBundleUtils.getResourceBundle("libro.duplicated.detalle")));
 			} else {
 				libroDAO.crearLibro(libro);
 				LOG.debug("El libro con ISBN '" + libro.getIsbn() + "' se ha añadido correctament en la BD.");
@@ -294,8 +331,8 @@ public class AdminController implements Serializable {
 						null,
 						new FacesMessage(
 								FacesMessage.SEVERITY_INFO,
-								Utils.getResourceBundle("libro.added"),
-								Utils.getResourceBundle("libro.added.detalle")));
+								ResourceBundleUtils.getResourceBundle("libro.added"),
+								ResourceBundleUtils.getResourceBundle("libro.added.detalle")));
 				libro = new Libro();
 			}
 		} else {
@@ -304,11 +341,111 @@ public class AdminController implements Serializable {
 					null,
 					new FacesMessage(
 							FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("libro.error.notAdded"),
-							Utils.getResourceBundle("libro.error.notAdded.detalle")));
+							ResourceBundleUtils.getResourceBundle("libro.error.notAdded"),
+							ResourceBundleUtils.getResourceBundle("libro.error.notAdded.detalle")));
 		}
 	}
 
+	public void onLibroToggle(ToggleEvent event) {
+		if (libroSelected != (Libro) event.getData()) {
+			libroSelected = (Libro) event.getData();
+			ejemplares = null;
+		}
+	}
+	public List<Ejemplar> getEjemplares() {
+		if ((ejemplares == null) && (libroSelected != null)) {
+			try {
+				ejemplares = new ArrayList<Ejemplar>(ejemplarDAO.getEjemplares(libroSelected));
+			} catch (Exception e) {
+				ejemplares = null;
+			}
+		}
+		return ejemplares;
+	}
+	public void onEjemplarToggle(ToggleEvent event) {
+		if (ejemplarSelected != (Ejemplar) event.getData()) {
+			ejemplarSelected = (Ejemplar) event.getData();
+		}
+	}
+	
+	public void guardarLibro() {
+		libroDAO.guardarLibro(libroSelected);
+	}
+	public void guardarEjemplar() {
+		ejemplarDAO.guardarEjemplar(ejemplarSelected);
+	}
+	
+	public List<Ejemplar> getEjemplaresFiltrados() {
+		return ejemplaresFiltrados;
+	}
+	public void setEjemplaresFiltrados(List<Ejemplar> ejemplaresFiltrados) {
+		this.ejemplaresFiltrados = ejemplaresFiltrados;
+	}
+	
+	public Ejemplar getEjemplar() {
+		return ejemplar;
+	}
+	public void setEjemplar(Ejemplar ejemplar) {
+		this.ejemplar = ejemplar;
+	}
+	
+	public BigInteger getCode() {
+		return code;
+	}
+	public void setCode(BigInteger code) {
+		this.code = code;
+	}
+	public String codeToString(BigInteger code) {
+		return String.valueOf(code);
+	}
+
+	public void searchLibroCodebar() {
+		libroCodebar = libroDAO.getLibroActivo(code);
+		if (libroCodebar != null) {
+			LOG.debug("Libro con ISBN '" + libroCodebar.getIsbn() + "' encontrado.");
+			ejemplar = new Ejemplar();
+			ejemplar.setLibro(libroCodebar);
+			ejemplar.setEstado(Estado.DEFAULT_ESTADO.getId());
+		} else {
+			LOG.debug("Error al buscar el libro en la BD.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							ResourceBundleUtils.getResourceBundle("libro.error.notFound"),
+							ResourceBundleUtils.getResourceBundle("libro.error.notFound.detalle")));
+		}
+	}
+	public void doDepositarLibro() {
+		if (libroCodebar != null) {
+			ejemplarDAO.crearEjemplar(ejemplar);
+			LOG.debug("El ejemplar para el libro con ISBN '" + libroCodebar.getIsbn() + "' se ha añadido correctament a la BD.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_INFO,
+							ResourceBundleUtils.getResourceBundle("ejemplar.added"),
+							ResourceBundleUtils.getResourceBundle("ejemplar.added.detalle")));
+			libroCodebar = null;
+			ejemplar = null;
+		} else {
+			LOG.debug("Error al añadir el ejemplar en la BD.");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							ResourceBundleUtils.getResourceBundle("ejemplar.error.notAdded"),
+							ResourceBundleUtils.getResourceBundle("ejemplar.error.notAdded.detalle")));
+		}
+	}
+
+	public Libro getLibroCodebar() {
+		return libroCodebar;
+	}
+	public void setLibroCodebar(Libro libroCodebar) {
+		this.libroCodebar = libroCodebar;
+	}
+	
 	public SelectItem getAsignaturaSelected() {
 		return asignaturaSelected;
 	}
@@ -332,17 +469,6 @@ public class AdminController implements Serializable {
 	}
 	public void setCursoSelected(SelectItem cursoSelected) {
 		this.cursoSelected = cursoSelected;
-	}
-
-	public List<SelectItem> getCursosListItems() {
-		if (cursosListItems == null) {
-			List<String> cursos = libroDAO.getCursosLibros();
-			cursosListItems = new ArrayList<SelectItem>();
-			for (String curso : cursos) {
-				cursosListItems.add(new SelectItem(curso, curso));
-			}
-		}
-		return cursosListItems;
 	}
 
 	public SelectItem getEditorialSelected() {
@@ -381,121 +507,24 @@ public class AdminController implements Serializable {
 		return idiomasListItems;
 	}
 
-	public String getWhatsappDefault() {
-		return whatsappDefault;
+	public String getWhatsapp() {
+		return whatsapp;
 	}
-	public void setWhatsappDefault(String whatsappDefault) {
-		this.whatsappDefault = whatsappDefault;
-	}
-
-	public String getOptativoDefault() {
-		return optativoDefault;
-	}
-	public void setOptativoDefault(String optativoDefault) {
-		this.optativoDefault = optativoDefault;
+	public void setWhatsapp(String whatsapp) {
+		this.whatsapp = whatsapp;
 	}
 
-	public String getActivoDefault() {
-		return activoDefault;
+	public String getOptativo() {
+		return optativo;
 	}
-	public void setActivoDefault(String activoDefault) {
-		this.activoDefault = activoDefault;
-	}
-
-	public void onLibroToggle(ToggleEvent event) {
-		if (libroSelected != (Libro) event.getData()) {
-			libroSelected = (Libro) event.getData();
-			ejemplares = null;
-		}
-	}
-	
-	public List<Ejemplar> getEjemplares() {
-		if (ejemplares == null) {
-			try {
-				ejemplares = new ArrayList<Ejemplar>(ejemplarDAO.getEjemplares(libroSelected));
-			} catch (Exception e) {
-				ejemplares = null;
-			}
-		}
-		return ejemplares;
-	}
-	
-	public List<Ejemplar> getEjemplaresFiltrados() {
-		return ejemplaresFiltrados;
-	}
-	public void setEjemplaresFiltrados(List<Ejemplar> ejemplaresFiltrados) {
-		this.ejemplaresFiltrados = ejemplaresFiltrados;
-	}
-	
-	public Ejemplar getEjemplar() {
-		return ejemplar;
-	}
-	public void setEjemplar(Ejemplar ejemplar) {
-		this.ejemplar = ejemplar;
-	}
-	
-	public List<Estado> getEstados() {
-		return estados;
-	}
-	public void setEstados(List<Estado> estados) {
-		this.estados = estados;
-	}
-	
-	public BigInteger getCode() {
-		return code;
-	}
-	public void setCode(BigInteger code) {
-		this.code = code;
-	}
-	public String codeToString(BigInteger code) {
-		return String.valueOf(code);
+	public void setOptativo(String optativo) {
+		this.optativo = optativo;
 	}
 
-	public void searchLibroCodebar() {
-		libroCodebar = libroDAO.getLibroActivo(code);
-		if (libroCodebar != null) {
-			LOG.debug("Libro con ISBN '" + libroCodebar.getIsbn() + "' encontrado.");
-			ejemplar = new Ejemplar();
-			ejemplar.setLibro(libroCodebar);
-			ejemplar.setEstado(Estado.DEFAULT_ESTADO.getId());
-		} else {
-			LOG.debug("Error al buscar el libro en la BD.");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(
-							FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("libro.error.notFound"),
-							Utils.getResourceBundle("libro.error.notFound.detalle")));
-		}
+	public String getActivo() {
+		return activo;
 	}
-
-	public void doDepositarLibro() {
-		if (libroCodebar != null) {
-			ejemplarDAO.crearEjemplar(ejemplar);
-			LOG.debug("El ejemplar para el libro con ISBN '" + libroCodebar.getIsbn() + "' se ha añadido correctament a la BD.");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(
-							FacesMessage.SEVERITY_INFO,
-							Utils.getResourceBundle("ejemplar.added"),
-							Utils.getResourceBundle("ejemplar.added.detalle")));
-			libroCodebar = null;
-			ejemplar = null;
-		} else {
-			LOG.debug("Error al añadir el ejemplar en la BD.");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(
-							FacesMessage.SEVERITY_ERROR,
-							Utils.getResourceBundle("ejemplar.error.notAdded"),
-							Utils.getResourceBundle("ejemplar.error.notAdded.detalle")));
-		}
-	}
-
-	public Libro getLibroCodebar() {
-		return libroCodebar;
-	}
-	public void setLibroCodebar(Libro libroCodebar) {
-		this.libroCodebar = libroCodebar;
+	public void setActivo(String activo) {
+		this.activo = activo;
 	}
 }

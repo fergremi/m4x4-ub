@@ -9,12 +9,12 @@
 	<h:form id="formSocios">
 		<p:dataTable id="sociosTable" widgetVar="sociosConsulta" var="socio"
 			value="#{adminController.socios}" rows="10" paginator="true"
-			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15" sortMode="multiple"
 			filteredValue="#{adminController.sociosFiltrados}"
 			emptyMessage="#{res['noData']}" reflow="true" styleClass="adminTable">
 			<p:ajax event="rowToggle" listener="#{adminController.onSocioToggle}" />
-			
+
 			<p:column style="width:40px">
 				<p:rowToggler />
 			</p:column>
@@ -33,9 +33,9 @@
 				filterMatchMode="contains" filterMaxLength="25">
 				<h:outputText value="#{socio.apellidos}" />
 			</p:column>
-			<p:column headerText="#{res['socio.email']}"
-				sortBy="#{socio.email}" filterBy="#{socio.email}"
-				filterMatchMode="contains" filterMaxLength="50">
+			<p:column headerText="#{res['socio.email']}" sortBy="#{socio.email}"
+				filterBy="#{socio.email}" filterMatchMode="contains"
+				filterMaxLength="50">
 				<h:outputText value="#{socio.email}" />
 			</p:column>
 			<p:column headerText="#{res['socio.telefono']}"
@@ -61,7 +61,7 @@
 				filterBy="#{socio.whatsapp}" filterMatchMode="equals">
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('sociosConsulta').filter()"
-						value="#{adminController.whatsappDefault}">
+						value="#{adminController.whatsapp}">
 						<f:converter converterId="javax.faces.Boolean" />
 						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
 						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
@@ -74,7 +74,7 @@
 				filterBy="#{socio.activo}" filterMatchMode="equals">
 				<f:facet name="filter">
 					<p:selectOneButton onchange="PF('sociosConsulta').filter()"
-						value="#{adminController.activoDefault}">
+						value="#{adminController.activo}">
 						<f:converter converterId="javax.faces.Boolean" />
 						<f:selectItem itemLabel="#{res['todo']}" itemValue="" />
 						<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
@@ -83,7 +83,7 @@
 				</f:facet>
 				<h:outputText value="#{socio.activo ? res['si']: res['no']}" />
 			</p:column>
-			
+
 			<p:rowExpansion>
 				<p:panel toggleable="true" collapsed="true">
 					<f:facet name="header">
@@ -93,7 +93,10 @@
 						<h:outputLabel for="dni" styleClass="titleFieldRequired"
 							value="#{res['socio.dni']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
 									id="dni" maxlength="9" value="#{socio.dni}" required="true"
 									requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
@@ -104,7 +107,10 @@
 						<h:outputLabel for="nombre" styleClass="titleFieldRequired"
 							value="#{res['socio.nombre']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
 									id="nombre" maxlength="16" value="#{socio.nombre}"
 									required="true"
@@ -116,7 +122,10 @@
 						<h:outputLabel for="apellidos" styleClass="titleFieldRequired"
 							value="#{res['socio.apellidos']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
 									id="apellidos" maxlength="25" value="#{socio.apellidos}"
 									required="true"
@@ -128,7 +137,10 @@
 						<h:outputLabel for="email" styleClass="titleFieldRequired"
 							value="#{res['socio.email']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
 									id="email" maxlength="50" value="#{socio.email}"
 									required="true"
@@ -140,7 +152,10 @@
 						<h:outputLabel for="telefono" styleClass="titleFieldRequired"
 							value="#{res['socio.telefono']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
 									id="telefono" maxlength="12" value="#{socio.telefono}"
 									required="true"
@@ -152,7 +167,10 @@
 						<h:outputLabel for="direccion" styleClass="titleFieldRequired"
 							value="#{res['socio.direccion']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<p:inputText autocomplete="off" styleClass="fieldInputRequired"
 									id="direccion" maxlength="50" value="#{socio.direccion}"
 									required="true"
@@ -160,11 +178,14 @@
 							</p:inplace>
 							<p:message for="direccion" />
 						</h:panelGroup>
-						
+
 						<h:outputLabel for="contraseña" styleClass="titleFieldRequired"
 							value="#{res['socio.contraseña']}:" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<p:password autocomplete="off" styleClass="fieldInputRequired"
 									id="contraseña" maxlength="11" feedback="true"
 									value="#{socio.contraseña}" required="true"
@@ -174,20 +195,24 @@
 									weakLabel="#{res['contraseña.debil']}"
 									goodLabel="#{res['contraseña.buena']}"
 									strongLabel="#{res['contraseña.fuerte']}" redisplay="true" />
-								</p:inplace>
-								<p:message for="contraseña" />
+							</p:inplace>
+							<p:message for="contraseña" />
 						</h:panelGroup>
 
 						<h:outputLabel for="whatsapp" styleClass="titleFieldRequired"
 							value="#{res['socio.whatsapp']}" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<f:facet name="output">
 									<h:outputText value="#{socio.whatsapp ? res['si']: res['no']}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:selectOneButton id="whatsapp" styleClass="fieldInputRequired"
-										value="#{socio.whatsapp}" required="true"
+									<p:selectOneButton id="whatsapp"
+										styleClass="fieldInputRequired" value="#{socio.whatsapp}"
+										required="true"
 										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
 										<f:converter converterId="javax.faces.Boolean" />
 										<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
@@ -201,7 +226,10 @@
 						<h:outputLabel for="activo" styleClass="titleFieldRequired"
 							value="#{res['socio.activo']}" escape="false" />
 						<h:panelGroup layout="block">
-							<p:inplace editor="true">
+							<p:inplace editor="true" saveLabel="#{res['guardar']}"
+								cancelLabel="#{res['cancelar']}" emptyLabel="#{res['sinValor']}">
+								<p:ajax event="save"
+									listener="#{adminController.guardarSocio()}" update="@this" />
 								<f:facet name="output">
 									<h:outputText value="#{socio.activo ? res['si']: res['no']}" />
 								</f:facet>
@@ -219,17 +247,19 @@
 						</h:panelGroup>
 					</h:panelGrid>
 				</p:panel>
-			
+
 				<p:panel toggleable="true" collapsed="true"
 					rendered="#{not empty adminController.alumnos}">
 					<f:facet name="header">
-						<h:outputText value="#{res['alumnos']}"
-							escape="false" />
+						<h:outputText value="#{res['alumnos']}" escape="false" />
 					</f:facet>
-					<p:carousel id="carouselAlumnos" numVisible="1" responsive="true"
-						value="#{adminController.alumnos}" var="alumno">
-						<f:facet name="header">
-							<h:outputText value="#{res['datos_socio.alumnos']}"
+					<p:dataList id="listAlumnos" widgetVar="listAlumnos"
+						value="#{adminController.alumnos}" var="alumno" type="none"
+						rows="1" styleClass="paginated" paginator="true"
+						paginatorPosition="top">
+						<f:facet name="footer">
+							<h:outputText
+								value="#{adminController.alumnos.size()} #{res['datos_socio.alumnos.encontrados']}"
 								escape="false" />
 						</f:facet>
 						<p:panel>
@@ -238,117 +268,167 @@
 									value="#{res['alumno.actual']} #{adminController.alumnos.indexOf(alumno)+1}"
 									escape="false" style="font-weight: bold" />
 							</f:facet>
-							<h:panelGrid columns="2" >
-								<h:outputLabel for="alumno_nombre" styleClass="titleFieldRequired"
+							<h:panelGrid columns="2">
+								<h:outputLabel for="alumno_nombre"
+									styleClass="titleFieldRequired"
 									value="#{res['alumno.nombre']}:" escape="false" />
 								<h:panelGroup layout="block">
-									<p:inputText autocomplete="off"
-										styleClass="fieldInputRequired" id="alumno_nombre"
-										maxlength="16" value="#{alumno.nombre}"
-										required="true"
-										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									<p:inplace editor="true" saveLabel="#{res['guardar']}"
+										cancelLabel="#{res['cancelar']}"
+										emptyLabel="#{res['sinValor']}">
+										<p:ajax event="save"
+											listener="#{adminController.guardarAlumno()}" update="@this" />
+										<p:inputText autocomplete="off"
+											styleClass="fieldInputRequired" id="alumno_nombre"
+											maxlength="16" value="#{alumno.nombre}" required="true"
+											requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									</p:inplace>
 									<p:message for="alumno_nombre" />
 								</h:panelGroup>
-			
+
 								<h:outputLabel for="alumno_apellidos"
 									styleClass="titleFieldRequired"
 									value="#{res['alumno.apellidos']}:" escape="false" />
 								<h:panelGroup layout="block">
-									<p:inputText autocomplete="off"
-										styleClass="fieldInputRequired"
-										id="alumno_apellidos" maxlength="25"
-										value="#{alumno.apellidos}" required="true"
-										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									<p:inplace editor="true" saveLabel="#{res['guardar']}"
+										cancelLabel="#{res['cancelar']}"
+										emptyLabel="#{res['sinValor']}">
+										<p:ajax event="save"
+											listener="#{adminController.guardarAlumno()}" update="@this" />
+										<p:inputText autocomplete="off"
+											styleClass="fieldInputRequired" id="alumno_apellidos"
+											maxlength="25" value="#{alumno.apellidos}" required="true"
+											requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									</p:inplace>
 									<p:message for="alumno_apellidos" />
 								</h:panelGroup>
-			
+
 								<h:outputLabel for="alumno_edad" styleClass="titleFieldRequired"
 									value="#{res['alumno.edad']}:" escape="false" />
 								<h:panelGroup layout="block">
-									<p:inputText autocomplete="off"
-										styleClass="fieldInputRequired" id="alumno_edad"
-										maxlength="11" value="#{alumno.edad}" required="true"
-										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									<p:inplace editor="true" saveLabel="#{res['guardar']}"
+										cancelLabel="#{res['cancelar']}"
+										emptyLabel="#{res['sinValor']}">
+										<p:ajax event="save"
+											listener="#{adminController.guardarAlumno()}" update="@this" />
+										<p:inputText autocomplete="off"
+											styleClass="fieldInputRequired" id="alumno_edad"
+											maxlength="11" value="#{alumno.edad}" required="true"
+											requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}" />
+									</p:inplace>
 									<p:message for="alumno_edad" />
 								</h:panelGroup>
-			
+
 								<h:outputLabel for="alumno_curso_actual"
 									styleClass="titleFieldRequired"
-									value="#{res['alumno.curso.actual']}:"
-									escape="false" />
+									value="#{res['alumno.curso.actual']}:" escape="false" />
 								<h:panelGroup layout="block">
-									<p:selectOneMenu id="alumno_curso_actual"
-										styleClass="fieldInputRequired"
-										value="#{alumno.cursoActual}"
-										converter="genericConverter"
-										required="true"
-										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-										<f:selectItems
-											value="#{registroController.cursos}" var="cursoActual"
-											itemLabel="#{cursoActual.nombre}" itemValue="#{cursoActual.id}" />
-									</p:selectOneMenu>
+									<p:inplace editor="true" saveLabel="#{res['guardar']}"
+										cancelLabel="#{res['cancelar']}"
+										emptyLabel="#{res['sinValor']}">
+										<p:ajax event="save"
+											listener="#{adminController.guardarAlumno()}" update="@this" />
+										<f:facet name="output">
+											<h:outputText
+												value="#{utilController.cursoToString(alumno.cursoActual)}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu id="alumno_curso_actual"
+												styleClass="fieldInputRequired"
+												value="#{alumno.cursoActual}" required="true"
+												requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+												<f:selectItems value="#{utilController.cursos}"
+													var="cursoActual" itemLabel="#{cursoActual.nombre}"
+													itemValue="#{cursoActual.id}" />
+											</p:selectOneMenu>
+										</f:facet>
+									</p:inplace>
 									<p:message for="alumno_curso_actual" />
 								</h:panelGroup>
-			
+
 								<h:outputLabel for="alumno_curso_futuro"
 									styleClass="titleFieldRequired"
-									value="#{res['alumno.curso.futuro']}:"
-									escape="false" />
+									value="#{res['alumno.curso.futuro']}:" escape="false" />
 								<h:panelGroup layout="block">
-									<p:selectOneMenu id="alumno_curso_futuro"
-										styleClass="fieldInputRequired"
-										value="#{alumno.cursoFuturo}"
-										converter="genericConverter"
-										required="true"
-										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-										<f:selectItems
-											value="#{registroController.cursos}" var="cursoActual"
-											itemLabel="#{cursoActual.nombre}" itemValue="#{cursoActual.id}" />
-									</p:selectOneMenu>
+									<p:inplace editor="true" saveLabel="#{res['guardar']}"
+										cancelLabel="#{res['cancelar']}"
+										emptyLabel="#{res['sinValor']}">
+										<p:ajax event="save"
+											listener="#{adminController.guardarAlumno()}" update="@this" />
+										<f:facet name="output">
+											<h:outputText
+												value="#{utilController.cursoToString(alumno.cursoFuturo)}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu id="alumno_curso_futuro"
+												styleClass="fieldInputRequired"
+												value="#{alumno.cursoFuturo}" required="true"
+												requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+												<f:selectItems value="#{utilController.cursos}"
+													var="cursoActual" itemLabel="#{cursoActual.nombre}"
+													itemValue="#{cursoActual.id}" />
+											</p:selectOneMenu>
+										</f:facet>
+									</p:inplace>
 									<p:message for="alumno_curso_futuro" />
 								</h:panelGroup>
-			
+
 								<h:outputLabel for="alumno_subgrupo"
 									styleClass="titleFieldRequired"
 									value="#{res['alumno.subgrupo']}:" escape="false" />
-								<h:panelGrid columns="2">
-									<p:selectOneButton id="alumno_subgrupo"
-										styleClass="fieldInputRequired"
-										value="#{alumno.subgrupo}"
-										converter="genericConverter"
-										required="true"
-										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-										<f:selectItems value="#{registroController.subgrupos}" var="subgrupo"
-											itemLabel="#{subgrupo.nombre}" itemValue="#{subgrupo.cod}" />
-									</p:selectOneButton>
+								<h:panelGroup layout="block">
+									<p:inplace editor="true" saveLabel="#{res['guardar']}"
+										cancelLabel="#{res['cancelar']}"
+										emptyLabel="#{res['sinValor']}">
+										<p:ajax event="save"
+											listener="#{adminController.guardarAlumno()}" update="@this" />
+										<f:facet name="output">
+											<h:outputText
+												value="#{utilController.subgrupoToString(alumno.subgrupo)}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneButton id="alumno_subgrupo"
+												styleClass="fieldInputRequired" value="#{alumno.subgrupo}"
+												converter="genericConverter" required="true"
+												requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+												<f:selectItems value="#{utilController.subgrupos}"
+													var="subgrupo" itemLabel="#{subgrupo.nombre}"
+													itemValue="#{subgrupo.cod}" />
+											</p:selectOneButton>
+										</f:facet>
+									</p:inplace>
 									<p:message for="alumno_subgrupo" />
-								</h:panelGrid>
-			
+								</h:panelGroup>
+
 								<h:outputLabel for="alumno_optativas"
 									styleClass="titleFieldRequired"
 									value="#{res['alumno.optativas']}:" escape="false" />
-								<h:panelGrid columns="2">
-									<p:selectOneButton id="alumno_optativas"
-										styleClass="fieldInputRequired"
-										value="#{alumno.optativas}"
-										converter="javax.faces.Boolean"
-										required="true"
-										requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
-										<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
-										<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
-									</p:selectOneButton>
+								<h:panelGroup layout="block">
+									<p:inplace editor="true" saveLabel="#{res['guardar']}"
+										cancelLabel="#{res['cancelar']}"
+										emptyLabel="#{res['sinValor']}">
+										<p:ajax event="save"
+											listener="#{adminController.guardarAlumno()}" update="@this" />
+										<f:facet name="output">
+											<h:outputText
+												value="#{alumno.optativas ? res['si']: res['no']}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneButton id="alumno_optativas"
+												styleClass="fieldInputRequired" value="#{alumno.optativas}"
+												converter="javax.faces.Boolean" required="true"
+												requiredMessage="#{res['javax.faces.component.UIInput.REQUIRED']}">
+												<f:selectItem itemLabel="#{res['si']}" itemValue="true" />
+												<f:selectItem itemLabel="#{res['no']}" itemValue="false" />
+											</p:selectOneButton>
+										</f:facet>
+									</p:inplace>
 									<p:message for="alumno_optativas" />
-								</h:panelGrid>
+								</h:panelGroup>
 							</h:panelGrid>
 						</p:panel>
-		
-						<f:facet name="footer">
-							<h:outputText
-								value="#{adminController.alumnos.size()} #{res['datos_socio.alumnos.encontrados']}"
-								escape="false" />
-						</f:facet>
-					</p:carousel>
-		    	</p:panel>
+					</p:dataList>
+				</p:panel>
 			</p:rowExpansion>
 		</p:dataTable>
 	</h:form>

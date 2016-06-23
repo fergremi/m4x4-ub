@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 
-public class Utils {
+public class ResourceBundleUtils {
 	private static final String baseName = "traduccion.maxaub";
 
 	public static Locale getLocale() {
@@ -32,7 +32,6 @@ public class Utils {
 			return "???" + literal + "???";
 		}
 	}
-
 
 	public static String paramMsg(String msgKey, String paramValue) {
 		MessageFormat messageFormat = new MessageFormat(getResourceBundle().getString(msgKey));

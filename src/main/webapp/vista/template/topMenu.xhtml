@@ -118,17 +118,17 @@
 					<p:themeSwitcher styleClass="themeSwitcher"
 						value="#{loginController.temaSelected.cod}"
 						label="#{res['menu.tema']}" onchange="submit()">
-						<f:selectItems value="#{loginController.temas}" var="tema"
+						<f:selectItems value="#{utilController.temas}" var="tema"
 							itemLabel="#{tema.nombre}" itemValue="#{tema.cod}" />
 					</p:themeSwitcher>
 				</h:panelGroup>
 				<h:panelGroup layout="block" styleClass="navbar-form navbar-right"
-					rendered="#{not empty loginController.idiomas}">
+					rendered="#{not empty utilController.idiomas}">
 					<p:selectOneMenu styleClass="langCombo"
 						converter="genericConverter"
 						value="#{loginController.idiomaSelected}"
 						label="#{res['menu.idioma']}">
-						<f:selectItems value="#{loginController.idiomas}" var="idioma"
+						<f:selectItems value="#{utilController.idiomas}" var="idioma"
 							itemLabel="#{idioma.nombre}" itemValue="#{idioma}" />
 						<p:ajax update="@all" />
 					</p:selectOneMenu>

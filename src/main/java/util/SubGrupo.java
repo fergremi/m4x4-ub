@@ -1,15 +1,18 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SubGrupo {
-	public static final List<SubGrupo> SUBGRUPOS;
-    static {
-        SUBGRUPOS = new ArrayList<SubGrupo>();
-        SUBGRUPOS.add(new SubGrupo("es", "Castellano"));
-        SUBGRUPOS.add(new SubGrupo("va", "Valenciano"));
-    }
+	public static final Map<String, SubGrupo> mapSUBGRUPOS;
+	static {
+		mapSUBGRUPOS = new HashMap<String, SubGrupo>();
+		mapSUBGRUPOS.put("es", new SubGrupo("es", "Castellano"));
+		mapSUBGRUPOS.put("va", new SubGrupo("va", "Valenciano"));
+	}
+	public static final List<SubGrupo> SUBGRUPOS = new ArrayList<SubGrupo>(mapSUBGRUPOS.values());
     public static final SubGrupo DEFAULT_SUBGRUPO = SUBGRUPOS.get(0);
     
 	private String cod;

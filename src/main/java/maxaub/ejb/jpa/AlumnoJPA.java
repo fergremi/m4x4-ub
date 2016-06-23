@@ -32,6 +32,35 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Alumno> getAlumnos(Socio socio) {
+		if (socio == null) {
+			LOG.warn("No se ha completado la petición: getAlumnos -> socio nulo");
+			return null;
+		}
+		
+		String sql = "SELECT a FROM Alumno AS a LEFT JOIN FETCH a.socio WHERE a.socio.id = :id";
+		TypedQuery<Alumno> query = getEntityManager().createQuery(sql, Alumno.class);
+		query.setParameter("id", socio.getId());
+		
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<Alumno> getAlumnosActivo(Socio socio) {
+		if (socio == null) {
+			LOG.warn("No se ha completado la petición: getAlumnosActivo -> socio nulo");
+			return null;
+		}
+		
+		String sql = "SELECT a FROM Alumno AS a LEFT JOIN FETCH a.socio WHERE a.socio.id = :id"
+				+ " AND a.activo = '1'";
+		TypedQuery<Alumno> query = getEntityManager().createQuery(sql, Alumno.class);
+		query.setParameter("id", socio.getId());
+		
+		return query.getResultList();
+	}
 
 	@Override
 	public Alumno getAlumno(int idAlumno) {
@@ -76,34 +105,5 @@ public class AlumnoJPA extends BaseJPA implements AlumnoDAO {
 	public void eliminarAlumno(Alumno alumno) {
 		getEntityManager().remove(alumno);
 		getEntityManager().flush();
-	}
-	
-	@Override
-	public List<Alumno> getAlumnosSocio(Socio socio) {
-		if (socio == null) {
-			LOG.warn("No se ha completado la petición: getAlumnosSocio -> socio nulo");
-			return null;
-		}
-		
-		String sql = "SELECT a FROM Alumno AS a LEFT JOIN FETCH a.socio WHERE a.socio.id = :id";
-		TypedQuery<Alumno> query = getEntityManager().createQuery(sql, Alumno.class);
-		query.setParameter("id", socio.getId());
-		
-		return query.getResultList();
-	}
-	
-	@Override
-	public List<Alumno> getAlumnosSocioActivo(Socio socio) {
-		if (socio == null) {
-			LOG.warn("No se ha completado la petición: getAlumnosSocioActivo -> socio nulo");
-			return null;
-		}
-		
-		String sql = "SELECT a FROM Alumno AS a LEFT JOIN FETCH a.socio WHERE a.socio.id = :id"
-				+ " AND a.activo = '1'";
-		TypedQuery<Alumno> query = getEntityManager().createQuery(sql, Alumno.class);
-		query.setParameter("id", socio.getId());
-		
-		return query.getResultList();
 	}
 }
